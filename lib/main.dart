@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 // ahoooosaf
 //sina okey hast
 //new comment
+// asdsafasrtfqwrt
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
