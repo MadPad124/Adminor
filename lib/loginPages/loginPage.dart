@@ -12,6 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+
   bool showLoading = false;
 
   void submitPhoneNumber(){
@@ -70,24 +71,49 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
+                  Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                   Container(
+                     height: 180,
+                       width: MediaQuery.of(context).size.width,
+                       decoration: BoxDecoration(
+                         color: Colors.blueGrey.withOpacity(0.1),
+                         borderRadius: const BorderRadius.only(topRight: Radius.circular(50),topLeft: Radius.circular(50),bottomLeft: Radius.circular(50),bottomRight: Radius.circular(50)),
+                       ),
+                       child: const Center(child: Text('AdminorLogin',style: TextStyle(fontSize: 36,color: Colors.black),))
+                   ),
+                 ],
+                  ),
+
+                Positioned(
+                  top: 150,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(50),bottomRight: Radius.circular(50)),
+                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2),blurRadius: 100)]),
+                    width: MediaQuery.of(context).size.width,height: 30,),
+                ),
                 Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
+                    child:
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          color: Colors.transparent,
                           borderRadius: BorderRadius.all(Radius.circular(35))),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          //ردیف ورود و شماره موبایل
                           Container(
                             height: 75,
                             padding: const EdgeInsets.all(13.0),
                             alignment: Alignment.centerRight,
                             decoration: BoxDecoration(
                               color: Colors.green,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     color: Colors.white,
                                     spreadRadius: 0.2,
@@ -117,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                                         }
 
                                       },
-                                      style: TextStyle(color: Colors.white,fontFamily: 'vazir'),
+                                      style: const TextStyle(color: Colors.white,fontFamily: 'vazir'),
                                       cursorColor: Colors.black87,
                                       cursorWidth: 0,
                                       maxLength: 11,
@@ -154,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                                         splashFactory: InkSparkle.splashFactory,
                                         backgroundColor: Colors.white,
                                         primary: Colors.black87,
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                           borderRadius:
                                           BorderRadius.all(Radius.circular(15)),
                                         ),
@@ -168,14 +194,14 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ) : TextButton(
                                     style: TextButton.styleFrom(
-                                      padding: EdgeInsets.all(6),
+                                      padding: const EdgeInsets.all(6),
                                       animationDuration:
-                                      Duration(milliseconds: 1),
+                                      const Duration(milliseconds: 1),
                                       elevation: 2,
                                       splashFactory: InkSparkle.splashFactory,
                                       backgroundColor: Colors.white,
                                       primary: Colors.black87,
-                                      shape: RoundedRectangleBorder(
+                                      shape: const RoundedRectangleBorder(
                                         borderRadius:
                                         BorderRadius.all(Radius.circular(15)),
                                       ),
@@ -190,6 +216,8 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ))
+
+
               ]),
             ),
           ),
