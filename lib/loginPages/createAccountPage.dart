@@ -24,9 +24,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           child: Container(
             color: Colors.white,
             child: Center(
-
-
-
               child: PageView(
                 controller: pageViewController,
                 onPageChanged: (index) {
