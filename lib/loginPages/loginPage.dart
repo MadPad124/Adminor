@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:adminor/loginPages/createAccountPage.dart';
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:async';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -12,24 +14,35 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  TextEditingController mobileController=TextEditingController();
 
   bool showLoading = false;
 
-  void submitPhoneNumber(){
-
+  void submitPhoneNumber (){
+  if(mobileController.text.length>=11){
     setState(() {
       showLoading = true;
     });
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CreateAccountPage(),
-        ));
-    setState(() {
+    Future.delayed(const Duration(seconds: 4), () => setState(() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CreateAccountPage(),
+          ));
       showLoading = false;
-    });
-
+    })
+    );
+  }
+  else if (mobileController.text.length<11){
+    ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+            content: const Text('لطفا شماره خود را درست وارد کنید',style: TextStyle(fontFamily: 'vazir'),),
+          backgroundColor: Colors.red.withOpacity(0.7),
+           showCloseIcon: true,
+           closeIconColor: Colors.white,
+        )
+    );
+  }
   }
 
   @override
@@ -128,6 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                 showLoading ? Container() : Expanded(
                                     flex: 5,
                                     child: TextFormField(
+                                      controller: mobileController,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(
                                             RegExp('[0-9]'))
@@ -139,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
                                         if(text.length >= 11){
 
                                           submitPhoneNumber();
-
                                         }
 
                                       },
