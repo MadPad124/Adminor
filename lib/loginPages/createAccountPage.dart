@@ -21,21 +21,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         },
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: Container(
-            color: Colors.white,
-            child: Center(
-              child: PageView(
-                controller: pageViewController,
-                onPageChanged: (index) {
-                  print(index);
-                },
-                children: [
-                  mainBackContainer(),
-                  mainBackContainer(),
-                  mainBackContainer(),
-                  mainBackContainer(),
-                ],
-              ),
+          child: Center(
+            child: PageView(
+              controller: pageViewController,
+              onPageChanged: (index) {
+                print(index);
+              },
+              children: [
+                mainBackContainer(),
+                mainBackContainer(),
+                mainBackContainer(),
+                mainBackContainer(),
+              ],
             ),
           ),
         ),
@@ -92,7 +89,7 @@ Widget mainBackContainer(){
       child: Container(
           padding:const EdgeInsets.all(10),
           decoration:const BoxDecoration(
-              color: Colors.white,
+              color: Colors.transparent,
               borderRadius:
               BorderRadius.all(Radius.circular(35))),
           child:
@@ -101,7 +98,9 @@ Widget mainBackContainer(){
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               nameBox(),
+              const SizedBox(height: 10),
               lastnameBox(),
+              const SizedBox(height: 10),
               ageBox(),
             ],
           ),
