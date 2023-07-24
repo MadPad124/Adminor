@@ -66,7 +66,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Container(
             color: Colors.white,
             child: Center(
-              child: Stack(children: [
+              child:
+              Stack(children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -240,6 +241,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 }
+/*
 
 class LoginCodePage extends StatefulWidget {
   const LoginCodePage({Key? key}) : super(key: key);
@@ -416,3 +418,4 @@ class _LoginCodePageState extends State<LoginCodePage> {
   }
 }
 
+*/

@@ -11,22 +11,57 @@ class CreateAccountPage extends StatefulWidget {
   State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 class _CreateAccountPageState extends State<CreateAccountPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
-          pageViewController.animateToPage(2, duration: const Duration(milliseconds:400), curve: Curves.decelerate);
         },
-        child: Column(
-          children: [
-            topSlider(context),
-           // const SizedBox(height: 100,),
-            mainBackContainer(context)
-          ],
-        ),
+        child:
+            Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height:MediaQuery.of(context).size.height/2,
+                  child: PageView(
+                    controller: pageViewController,
+                    onPageChanged: (index) {
+                      print(index);
+                    },
+                    children: [
+                      sliderComponent('امنیت بالا ', 'assets/images/Data-security.jpg',"امنیت بالا در پیدا کردن ادمین مورد نظر", context),
+                      //                   sliderComponent('test', 'assets/images/chronometer.png',"sliderText", context),
+                      sliderComponent('ارتباط سریع و دوستانه', 'assets/images/group-young-people.jpg',"با پیشنهاد کردن ادمین های مدنظر شما و فیلتر های جستجو", context),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Stack(children:[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Image.asset('assets/images/splash-bottom-page-image.png'),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Image.asset(
+                          'assets/images/splash-bottom-page-image-sun.png',
+                          opacity: const AlwaysStoppedAnimation(.3),
+                        ),
+                      ],
+                    ),
+                    mainBackContainer(context),
+
+
+                  ] ),
+                ),
+              ],
+            ),
 
 
 
@@ -85,7 +120,6 @@ Widget mainBackContainer(context){
         height: MediaQuery.of(context).size.height/2,
           padding:const EdgeInsets.all(10),
           decoration:const BoxDecoration(
-
               borderRadius:
               BorderRadius.all(Radius.circular(35))),
           child:
@@ -98,7 +132,7 @@ Widget mainBackContainer(context){
               lastnameBox(),
               const SizedBox(height: 10),
               ageBox(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
 
             ],
           ),
@@ -112,7 +146,7 @@ Widget nameBox(){
     padding: const EdgeInsets.all(13.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
-      color: Colors.green,
+      color: Colors.green.withOpacity(0.9),
       boxShadow: const [
         BoxShadow(
             color: Colors.white,
@@ -175,7 +209,7 @@ Widget lastnameBox(){
     padding: const EdgeInsets.all(13.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
-      color: Colors.green,
+      color: Colors.green.withOpacity(0.9),
       boxShadow: const [
         BoxShadow(
             color: Colors.white,
@@ -235,7 +269,7 @@ Widget ageBox(){
     padding: const EdgeInsets.all(13.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
-      color: Colors.green,
+      color: Colors.green.withOpacity(0.9),
       boxShadow: const [
         BoxShadow(
             color: Colors.white,
@@ -288,25 +322,25 @@ Widget ageBox(){
     ),
   );
 }
-Widget topSlider(context){
-  return SizedBox(
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height/2,
-    child: Directionality(
-      textDirection: TextDirection.rtl,
-      child: Center(
-        child: PageView(
-          controller: pageViewController,
-          onPageChanged: (index) {
-            print(index);
-          },
-          children: [
-            Container(color: Colors.red,width: 500,height: 500,),
-            Container(color: Colors.blue,width: 500,height: 500,),
-            Container(color: Colors.green,width: 500,height: 500,)
-          ],
+Widget sliderComponent(String sliderTitle,String sliderImgUrl,String sliderText,context){
+  return Column(
+    children: [
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height/3,
+        child: Image.asset(sliderImgUrl,fit: BoxFit.fill),
+      ),
+      const SizedBox(height: 20,),
+      SizedBox(
+        width:MediaQuery.of(context).size.width,
+        child: Center(child:
+        Text(sliderTitle,style: const TextStyle(fontSize: 24,fontFamily: 'vazir'),),
         ),
       ),
-    ),
+      SizedBox(child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Text(sliderText,style: TextStyle(fontSize: 16,fontFamily: 'vazir',color: Colors.grey[500])),
+      ),)
+    ],
   );
 }
