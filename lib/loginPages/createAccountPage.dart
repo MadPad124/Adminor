@@ -11,6 +11,22 @@ class CreateAccountPage extends StatefulWidget {
   State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 class _CreateAccountPageState extends State<CreateAccountPage> {
+/*  @override
+  void initState() {
+    print(1);
+    for(int i=1;;--i){
+      Future.delayed(const Duration(seconds: 2), () => setState(() {
+        pageViewController.animateToPage(i, duration: const Duration(milliseconds: 200), curve: Curves.decelerate);
+        print(i);
+      }));
+      Future.delayed(const Duration(seconds: 2), () => setState(() {
+        pageViewController.animateToPage(i-1, duration: const Duration(milliseconds: 200), curve: Curves.decelerate);
+        i+=1;
+        print(i);
+      }));
+    }
+    super.initState();
+  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,9 +47,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     },
                     children: [
                       sliderComponent('امنیت بالا ', 'assets/images/Data-security.jpg',"امنیت بالا در پیدا کردن ادمین مورد نظر", context),
-                      //                   sliderComponent('test', 'assets/images/chronometer.png',"sliderText", context),
+                      //sliderComponent('test', 'assets/images/chronometer.png',"sliderText", context),
                       sliderComponent('ارتباط سریع و دوستانه', 'assets/images/group-young-people.jpg',"با پیشنهاد کردن ادمین های مدنظر شما و فیلتر های جستجو", context),
                     ],
+                  ),
+                ),
+                SmoothPageIndicator(
+                  controller: pageViewController,
+                  count: 2,
+                  effect: const ExpandingDotsEffect(
+                    dotHeight: 16,
+                    dotWidth: 16,
                   ),
                 ),
                 Expanded(
