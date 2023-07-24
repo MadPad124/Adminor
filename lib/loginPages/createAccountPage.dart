@@ -4,38 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+final pageViewController = PageController();
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
   @override
   State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 class _CreateAccountPageState extends State<CreateAccountPage> {
-  final pageViewController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
+          pageViewController.animateToPage(2, duration: const Duration(milliseconds:400), curve: Curves.decelerate);
         },
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Center(
-            child: PageView(
-              controller: pageViewController,
-              onPageChanged: (index) {
-                print(index);
-              },
-              children: [
-                mainBackContainer(),
-                mainBackContainer(),
-                mainBackContainer(),
-                mainBackContainer(),
-              ],
-            ),
-          ),
+        child: Column(
+          children: [
+            topSlider(context),
+           // const SizedBox(height: 100,),
+            mainBackContainer(context)
+          ],
         ),
+
+
+
+
       ),
     );
   }
@@ -83,13 +78,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }*/
 }
 //main back container---------->
-Widget mainBackContainer(){
+Widget mainBackContainer(context){
   return Padding(
       padding:const EdgeInsets.all(0.0),
       child: Container(
+        height: MediaQuery.of(context).size.height/2,
           padding:const EdgeInsets.all(10),
           decoration:const BoxDecoration(
-              color: Colors.transparent,
+
               borderRadius:
               BorderRadius.all(Radius.circular(35))),
           child:
@@ -102,6 +98,8 @@ Widget mainBackContainer(){
               lastnameBox(),
               const SizedBox(height: 10),
               ageBox(),
+              const SizedBox(height: 30),
+
             ],
           ),
       ));
@@ -287,6 +285,28 @@ Widget ageBox(){
           ),
         ),
       ],
+    ),
+  );
+}
+Widget topSlider(context){
+  return SizedBox(
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height/2,
+    child: Directionality(
+      textDirection: TextDirection.rtl,
+      child: Center(
+        child: PageView(
+          controller: pageViewController,
+          onPageChanged: (index) {
+            print(index);
+          },
+          children: [
+            Container(color: Colors.red,width: 500,height: 500,),
+            Container(color: Colors.blue,width: 500,height: 500,),
+            Container(color: Colors.green,width: 500,height: 500,)
+          ],
+        ),
+      ),
     ),
   );
 }
