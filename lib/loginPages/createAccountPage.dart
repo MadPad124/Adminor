@@ -3,6 +3,7 @@ import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'dart:async';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 final pageViewController = PageController();
 class CreateAccountPage extends StatefulWidget {
@@ -11,22 +12,6 @@ class CreateAccountPage extends StatefulWidget {
   State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 class _CreateAccountPageState extends State<CreateAccountPage> {
-/*  @override
-  void initState() {
-    print(1);
-    for(int i=1;;--i){
-      Future.delayed(const Duration(seconds: 2), () => setState(() {
-        pageViewController.animateToPage(i, duration: const Duration(milliseconds: 200), curve: Curves.decelerate);
-        print(i);
-      }));
-      Future.delayed(const Duration(seconds: 2), () => setState(() {
-        pageViewController.animateToPage(i-1, duration: const Duration(milliseconds: 200), curve: Curves.decelerate);
-        i+=1;
-        print(i);
-      }));
-    }
-    super.initState();
-  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
