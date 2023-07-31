@@ -133,7 +133,7 @@ Widget mainBackContainer(context){
           BorderRadius.all(Radius.circular(35))),
       child:
       Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           nameBox(context),
