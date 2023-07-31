@@ -2,10 +2,13 @@ import 'dart:math';
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:adminor/homePages/home.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'dart:async';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-final pageViewController = PageController();
+TextEditingController nameBoxController=TextEditingController();
+TextEditingController lastNameBoxController=TextEditingController();
+TextEditingController ageBoxController=TextEditingController();
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
   @override
@@ -22,7 +25,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         child:
             Column(
               children: [
-                SizedBox(
+             /*   SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height:MediaQuery.of(context).size.height/2,
                   child: PageView(
@@ -36,15 +39,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       sliderComponent('ارتباط سریع و دوستانه', 'assets/images/group-young-people.jpg',"با پیشنهاد کردن ادمین های مدنظر شما و فیلتر های جستجو", context),
                     ],
                   ),
-                ),
-                SmoothPageIndicator(
+                ),*/
+                /*SmoothPageIndicator(
                   controller: pageViewController,
                   count: 2,
                   effect: const ExpandingDotsEffect(
                     dotHeight: 16,
                     dotWidth: 16,
                   ),
-                ),
+                ),*/
                 Expanded(
                   child: Stack(children:[
                     Column(
@@ -59,7 +62,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Image.asset(
-                          'assets/images/splash-bottom-page-image-sun.png',
+                          'assets/images/splash-bottom-page-image-sun.png',height: MediaQuery.of(context).size.height/3,
                           opacity: const AlwaysStoppedAnimation(.3),
                         ),
                       ],
@@ -123,35 +126,33 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 }
 //main back container---------->
 Widget mainBackContainer(context){
-  return Padding(
-      padding:const EdgeInsets.all(0.0),
-      child: Container(
-        height: MediaQuery.of(context).size.height/2,
-          padding:const EdgeInsets.all(10),
-          decoration:const BoxDecoration(
-              borderRadius:
-              BorderRadius.all(Radius.circular(35))),
-          child:
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              nameBox(),
-              const SizedBox(height: 10),
-              lastnameBox(),
-              const SizedBox(height: 10),
-              ageBox(),
-              const SizedBox(height: 10),
+  return Container(
+      padding:const EdgeInsets.all(10),
+      decoration:const BoxDecoration(
+          borderRadius:
+          BorderRadius.all(Radius.circular(35))),
+      child:
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          nameBox(context),
+          const SizedBox(height: 10),
+          lastnameBox(context),
+          const SizedBox(height: 10),
+          ageBox(context),
+          const SizedBox(height: 10),
 
-            ],
-          ),
-      ));
+
+        ],
+      ),
+  );
 }
 //text boxes------------>
 //text box name
-Widget nameBox(){
+Widget nameBox(context){
   return Container(
-    height: 75,
+    height: MediaQuery.of(context).size.height/10,
     padding: const EdgeInsets.all(13.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
@@ -171,6 +172,7 @@ Widget nameBox(){
         Expanded(
           flex: 2,
           child: TextFormField(
+            controller: nameBoxController,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
                   RegExp('[A-z]')
@@ -181,6 +183,7 @@ Widget nameBox(){
             onChanged: (text) {
 
             },
+
             style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'vazir'),
@@ -198,8 +201,8 @@ Widget nameBox(){
                   color: Colors.white,
                 ),
               ),
-              labelText: "نام",
-              labelStyle: TextStyle(
+              hintText: "نام",
+              hintStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.bold),
@@ -212,9 +215,9 @@ Widget nameBox(){
   );
 }
 //text box lName
-Widget lastnameBox(){
+Widget lastnameBox(context){
   return Container(
-    height: 75,
+    height: MediaQuery.of(context).size.height/10,
     padding: const EdgeInsets.all(13.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
@@ -234,6 +237,7 @@ Widget lastnameBox(){
         Expanded(
           flex: 2,
           child: TextFormField(
+            controller: lastNameBoxController,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
                   RegExp('[A-z]'))
@@ -258,8 +262,8 @@ Widget lastnameBox(){
                   color: Colors.white,
                 ),
               ),
-              labelText: "نام خانوادگی",
-              labelStyle: TextStyle(
+              hintText: "نام خانوادگی",
+              hintStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.bold),
@@ -272,9 +276,9 @@ Widget lastnameBox(){
   );
 }
 //text box age
-Widget ageBox(){
+Widget ageBox(context){
   return Container(
-    height: 75,
+    height: MediaQuery.of(context).size.height/10,
     padding: const EdgeInsets.all(13.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
@@ -294,13 +298,19 @@ Widget ageBox(){
         Expanded(
           flex: 2,
           child: TextFormField(
+            controller: ageBoxController,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
                   RegExp('[0-9]'))
             ],
             keyboardType: TextInputType.number,
             autofocus: false,
-            onChanged: (text) {},
+            onChanged: (text) {
+              if(text.length>=2&&nameBoxController.text.isNotEmpty&&lastNameBoxController.text.isNotEmpty){
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>HomePage() ,));
+              }
+              else{}
+            },
             style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'vazir'),
@@ -318,8 +328,8 @@ Widget ageBox(){
                   color: Colors.white,
                 ),
               ),
-              labelText: "سن",
-              labelStyle: TextStyle(
+              hintText: "سن",
+              hintStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.bold),
@@ -343,12 +353,12 @@ Widget sliderComponent(String sliderTitle,String sliderImgUrl,String sliderText,
       SizedBox(
         width:MediaQuery.of(context).size.width,
         child: Center(child:
-        Text(sliderTitle,style: const TextStyle(fontSize: 24,fontFamily: 'vazir'),),
+        Text(sliderTitle,style: const TextStyle(fontSize: 18,fontFamily: 'vazir'),),
         ),
       ),
       SizedBox(child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Text(sliderText,style: TextStyle(fontSize: 16,fontFamily: 'vazir',color: Colors.grey[500])),
+        padding: const EdgeInsets.all(0.0),
+        child: Text(sliderText,style: TextStyle(fontSize: 12,fontFamily: 'vazir',color: Colors.grey[500])),
       ),)
     ],
   );
