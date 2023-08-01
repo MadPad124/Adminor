@@ -18,6 +18,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(onPressed: (){
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return HomePage();
+      },));
+      },
+        label: const Row(children: [Icon(Icons.done),Text('SUBMIT',style: TextStyle(fontWeight: FontWeight.w900,fontFamily: 'Vazir'),)]),),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -141,9 +149,7 @@ Widget mainBackContainer(context){
           lastnameBox(context),
           const SizedBox(height: 10),
           ageBox(context),
-          const SizedBox(height: 10),
-
-
+          const SizedBox(height: 70),
         ],
       ),
   );
@@ -180,10 +186,6 @@ Widget nameBox(context){
             ],
             keyboardType: TextInputType.name,
             autofocus: false,
-            onChanged: (text) {
-
-            },
-
             style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'vazir'),
@@ -244,13 +246,12 @@ Widget lastnameBox(context){
             ],
             keyboardType: TextInputType.name,
             autofocus: false,
-            onChanged: (text) {},
             style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'vazir'),
             cursorColor: Colors.black87,
             cursorWidth: 0,
-            maxLength: 11,
+            maxLength: 20,
             minLines: 1,
             decoration: const InputDecoration(
               fillColor: Colors.white,
@@ -305,12 +306,6 @@ Widget ageBox(context){
             ],
             keyboardType: TextInputType.number,
             autofocus: false,
-            onChanged: (text) {
-              if(text.length>=2&&nameBoxController.text.isNotEmpty&&lastNameBoxController.text.isNotEmpty){
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>HomePage() ,));
-              }
-              else{}
-            },
             style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'vazir'),
@@ -341,6 +336,7 @@ Widget ageBox(context){
     ),
   );
 }
+/*
 Widget sliderComponent(String sliderTitle,String sliderImgUrl,String sliderText,context){
   return Column(
     children: [
@@ -362,4 +358,5 @@ Widget sliderComponent(String sliderTitle,String sliderImgUrl,String sliderText,
       ),)
     ],
   );
-}
+}*/
+

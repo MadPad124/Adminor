@@ -67,29 +67,21 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.white,
             child: Center(
               child:
-              Stack(children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+              Stack(
                   children: [
-                    Image.asset('assets/images/splash-bottom-page-image.png'),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Image.asset(
-                      'assets/images/splash-bottom-page-image-sun.png',
-                      opacity: const AlwaysStoppedAnimation(.3),
+                    Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        'assets/images/splash-bottom-page-image-sun.png',
+                        opacity: const AlwaysStoppedAnimation(.3),
+                      ),
                     ),
-                  ],
-                ),
                   Row(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
                    Container(
-                     height: 180,
+                     height: 160,
                        width: MediaQuery.of(context).size.width,
                        decoration: BoxDecoration(
                          color: Colors.blueGrey.withOpacity(0.1),
