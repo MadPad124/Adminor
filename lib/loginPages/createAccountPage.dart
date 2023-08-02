@@ -19,10 +19,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(onPressed: (){
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return HomePage();
-      },));
+      if(nameBoxController.text.isNotEmpty&&ageBoxController.text.isNotEmpty&&lastNameBoxController.text.isNotEmpty){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+          return const HomePage();
+        },));
+      }
+      else if (nameBoxController.text.isEmpty){
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('لطفا نام را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+      }
+      else if (lastNameBoxController.text.isEmpty){
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('لطفا نام خانوادگی را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+      }
+      else if (ageBoxController.text.isEmpty){
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('لطفا سن را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+      }
       },
         label: const Row(children: [Icon(Icons.done),Text('SUBMIT',style: TextStyle(fontWeight: FontWeight.w900,fontFamily: 'Vazir'),)]),),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

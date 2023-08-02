@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       showLoading = true;
     });
     Future.delayed(const Duration(seconds: 4), () => setState(() {
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const CreateAccountPage(),
@@ -141,14 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                                       ],
                                       keyboardType: TextInputType.number,
                                       autofocus: true,
-                                      onChanged: (text) {
-
-                                        if(text.length >= 11){
-
-                                          submitPhoneNumber();
-                                        }
-
-                                      },
                                       style: const TextStyle(color: Colors.white,fontFamily: 'vazir'),
                                       cursorColor: Colors.black87,
                                       cursorWidth: 0,
