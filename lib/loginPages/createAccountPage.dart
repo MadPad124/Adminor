@@ -1,11 +1,11 @@
-import 'dart:math';
-import 'package:adminor/widgets/widgets.dart';
+/*import 'dart:math';
+import 'package:adminor/widgets/widgets.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:adminor/homePages/home.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
+/*import 'package:liquid_swipe/liquid_swipe.dart';
 import 'dart:async';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';*/
 TextEditingController nameBoxController=TextEditingController();
 TextEditingController lastNameBoxController=TextEditingController();
 TextEditingController ageBoxController=TextEditingController();
@@ -25,13 +25,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         },));
       }
       else if (nameBoxController.text.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('لطفا نام را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(behavior: SnackBarBehavior.floating,margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height-140),content: Center(child: Text('لطفا نام را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
       }
       else if (lastNameBoxController.text.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('لطفا نام خانوادگی را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(behavior: SnackBarBehavior.floating,margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height-140),content: Center(child: Text('لطفا نام خانوادگی را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
       }
       else if (ageBoxController.text.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('لطفا سن را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(behavior:SnackBarBehavior.floating,margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height-140),content: Center(child: Text('لطفا سن را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
       }
       },
         label: const Row(children: [Icon(Icons.done),Text('SUBMIT',style: TextStyle(fontWeight: FontWeight.w900,fontFamily: 'Vazir'),)]),),
