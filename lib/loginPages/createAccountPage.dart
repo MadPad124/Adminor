@@ -1,11 +1,9 @@
-/*import 'dart:math';
-import 'package:adminor/widgets/widgets.dart';*/
+
+import 'package:adminor/AdeversitingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:adminor/homePages/home.dart';
 /*import 'package:liquid_swipe/liquid_swipe.dart';
-import 'dart:async';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';*/
+*/
 TextEditingController nameBoxController=TextEditingController();
 TextEditingController lastNameBoxController=TextEditingController();
 TextEditingController ageBoxController=TextEditingController();
@@ -21,7 +19,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       floatingActionButton: FloatingActionButton.extended(onPressed: (){
       if(nameBoxController.text.isNotEmpty&&ageBoxController.text.isNotEmpty&&lastNameBoxController.text.isNotEmpty){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-          return const HomePage();
+          return const AdvertisingPage();
         },));
       }
       else if (nameBoxController.text.isEmpty){
@@ -43,29 +41,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         child:
             Column(
               children: [
-             /*   SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height:MediaQuery.of(context).size.height/2,
-                  child: PageView(
-                    controller: pageViewController,
-                    onPageChanged: (index) {
-                      print(index);
-                    },
-                    children: [
-                      sliderComponent('امنیت بالا ', 'assets/images/Data-security.jpg',"امنیت بالا در پیدا کردن ادمین مورد نظر", context),
-                      //sliderComponent('test', 'assets/images/chronometer.png',"sliderText", context),
-                      sliderComponent('ارتباط سریع و دوستانه', 'assets/images/group-young-people.jpg',"با پیشنهاد کردن ادمین های مدنظر شما و فیلتر های جستجو", context),
-                    ],
-                  ),
-                ),*/
-                /*SmoothPageIndicator(
-                  controller: pageViewController,
-                  count: 2,
-                  effect: const ExpandingDotsEffect(
-                    dotHeight: 16,
-                    dotWidth: 16,
-                  ),
-                ),*/
                 Expanded(
                   child: Stack(children:[
                     Column(
@@ -86,61 +61,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       ],
                     ),
                     mainBackContainer(context),
-
-
                   ] ),
                 ),
               ],
             ),
-
-
-
-
       ),
     );
   }
-/*  Widget bottomSheets() {
-    return AnimatedContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      height: 60,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerRight,
-          end: Alignment.centerLeft,
-          colors: <Color>[
-            Colors.green.shade600,
-            Colors.green.shade600,
-          ],
-        ),
-      ),
-      duration: const Duration(milliseconds: 350),
-      curve: Curves.fastOutSlowIn,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Center(
-            child: SmoothPageIndicator(
-              controller: pageViewController,
-              count: 3,
-              effect: WormEffect(
-                spacing: 9,
-                dotColor: Colors.green.shade300,
-                activeDotColor: Colors.white,
-              ),
-              onDotClicked: (index) => pageViewController.animateToPage(index,
-                  duration: const Duration(milliseconds: 500), curve: Curves.linear),
-            ),
-          ),
-          TextButton(
-              onPressed: () {},
-              child: const Text(
-                'sad',
-                style: TextStyle(color: Colors.white, fontSize: 12),
-              )),
-        ],
-      ),
-    );
-  }*/
 }
 //main back container---------->
 Widget mainBackContainer(context){
@@ -169,7 +96,7 @@ Widget mainBackContainer(context){
 Widget nameBox(context){
   return Container(
     height: MediaQuery.of(context).size.height/10,
-    padding: const EdgeInsets.all(13.0),
+    padding: const EdgeInsets.all(8.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
       color: Colors.green.withOpacity(0.9),
@@ -230,7 +157,8 @@ Widget nameBox(context){
 Widget lastnameBox(context){
   return Container(
     height: MediaQuery.of(context).size.height/10,
-    padding: const EdgeInsets.all(13.0),
+    padding: const EdgeInsets.all(8.0),
+
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
       color: Colors.green.withOpacity(0.9),
@@ -290,7 +218,7 @@ Widget lastnameBox(context){
 Widget ageBox(context){
   return Container(
     height: MediaQuery.of(context).size.height/10,
-    padding: const EdgeInsets.all(13.0),
+    padding: const EdgeInsets.all(8.0),
     alignment: Alignment.centerRight,
     decoration: BoxDecoration(
       color: Colors.green.withOpacity(0.9),
@@ -346,27 +274,3 @@ Widget ageBox(context){
     ),
   );
 }
-/*
-Widget sliderComponent(String sliderTitle,String sliderImgUrl,String sliderText,context){
-  return Column(
-    children: [
-      SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height/3,
-        child: Image.asset(sliderImgUrl,fit: BoxFit.fill),
-      ),
-      const SizedBox(height: 20,),
-      SizedBox(
-        width:MediaQuery.of(context).size.width,
-        child: Center(child:
-        Text(sliderTitle,style: const TextStyle(fontSize: 18,fontFamily: 'vazir'),),
-        ),
-      ),
-      SizedBox(child: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Text(sliderText,style: TextStyle(fontSize: 12,fontFamily: 'vazir',color: Colors.grey[500])),
-      ),)
-    ],
-  );
-}*/
-
