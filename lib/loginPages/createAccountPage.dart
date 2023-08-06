@@ -23,16 +23,16 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         },));
       }
       else if (nameBoxController.text.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar( SnackBar(behavior: SnackBarBehavior.floating,margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height-140),content: Center(child: Text('لطفا نام را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(width:200,behavior: SnackBarBehavior.floating,content: Center(child: Text('لطفا نام را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
       }
       else if (lastNameBoxController.text.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar( SnackBar(behavior: SnackBarBehavior.floating,margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height-140),content: Center(child: Text('لطفا نام خانوادگی را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+        ScaffoldMessenger.of(context).showSnackBar( const SnackBar(behavior: SnackBarBehavior.floating,width: 200,content: Center(child: Text('لطفا نام خانوادگی را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
       }
       else if (ageBoxController.text.isEmpty){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(behavior:SnackBarBehavior.floating,margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height-140),content: Center(child: Text('لطفا سن را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(behavior:SnackBarBehavior.floating,width: 200,content: Center(child: Text('لطفا سن را وارد کنید',style: TextStyle(fontFamily: 'Vazir'),)),backgroundColor: Colors.red,));
       }
       },
-        label: const Row(children: [Icon(Icons.done),Text('SUBMIT',style: TextStyle(fontWeight: FontWeight.w900,fontFamily: 'Vazir'),)]),),
+        label: const Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,textDirection:TextDirection.ltr,children: [Icon(Icons.login),SizedBox(width: 10,),Text('ورود',style: TextStyle(fontWeight: FontWeight.w900,fontFamily: 'Vazir'),)]),),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: GestureDetector(
         onTap: () {
@@ -78,7 +78,7 @@ Widget mainBackContainer(context){
           BorderRadius.all(Radius.circular(35))),
       child:
       Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           nameBox(context),
