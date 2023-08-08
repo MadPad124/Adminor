@@ -14,6 +14,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
     return Scaffold(
       appBar:
       AppBar(
+        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.menu)),
         backgroundColor: Colors.green,
         toolbarHeight: 130,
         flexibleSpace:Row(
@@ -78,13 +79,16 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
           opacity: const AlwaysStoppedAnimation(.3),
         ),
       ),
-      GridView.builder(
-        itemCount: 12,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemBuilder:(context, index) {
-          return cart(context);
-        },
+      Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: GridView.count(
+          physics: const BouncingScrollPhysics(),
+          crossAxisCount: 2,
+          childAspectRatio:(3/4),
+          padding: const EdgeInsets.all(10),
+          children:List.generate(6, (index) => cart(context))
 
+        ),
       ),
       ]),),
     );
@@ -125,11 +129,9 @@ Widget cart(context){
     child: Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        height: 250,
-        width: 200,
         decoration: BoxDecoration(color: Colors.white,
             boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
         child: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.end,
@@ -138,17 +140,19 @@ Widget cart(context){
             padding: const EdgeInsets.all(8.0),
             child: IconButton(onPressed: (){}, icon:  Icon(Icons.favorite_border,color: Colors.black.withOpacity(0.5),size: 25,)),
           )],),
-          Expanded(child: Image.asset('assets/images/splash-bottom-page-image.png',height: 150,width: 150,)),
+          Image.asset('assets/images/splash-bottom-page-image.png',),
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             Padding(
-              padding: EdgeInsets.only(right: 20.0,top: 5,),
+              padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
               child: Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [Text('گلستان'),Text('دقایقی پیش'),],)
+            Padding(
+              padding: EdgeInsets.only(bottom: 5.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [Text('گلستان'),Text('دقایقی پیش'),],),
+            )
           ],),
-          const SizedBox(height: 20,),
 
         ],),
       ),
