@@ -42,23 +42,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             Column(
               children: [
                 Expanded(
-                  child: Stack(children:[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Image.asset('assets/images/splash-bottom-page-image.png'),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Image.asset(
-                          'assets/images/splash-bottom-page-image-sun.png',height: MediaQuery.of(context).size.height/3,
-                          opacity: const AlwaysStoppedAnimation(.3),
-                        ),
-                      ],
+                  child:
+                  Stack(children:[
+                    Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        'assets/images/splash-bottom-page-image-sun.png',
+                        opacity: const AlwaysStoppedAnimation(.3),
+                      ),
                     ),
                     mainBackContainer(context),
                   ] ),
