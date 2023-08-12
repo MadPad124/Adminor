@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+//import 'package:flutter/scheduler.dart';
 class AdvertisingPage extends StatefulWidget {
   const AdvertisingPage({Key? key}) : super(key: key);
 
@@ -12,28 +14,30 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
     TextEditingController searchBoxController=TextEditingController();
 
     return Scaffold(
-      appBar:
-      AppBar(
-        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.menu)),
+
+      appBar: AppBar(
         backgroundColor: Colors.green,
-        toolbarHeight: 130,
+        toolbarHeight: 120,
         flexibleSpace:Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(width: 30,),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 30,),
-                const Text('Adminor',style: TextStyle(fontFamily: 'Vazir',fontWeight: FontWeight.w300,fontSize: 24,color: Colors.white),),
-                const SizedBox(height: 10,),
-                Container(width:300,height:50,
+
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Adminor',style: TextStyle(fontFamily: 'Vazir',fontWeight: FontWeight.w300,fontSize: 24,color: Colors.white),),
+                ),
+                Container(width:MediaQuery.of(context).size.width-50,height:50,
                     decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(25)),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        IconButton(onPressed: (){}, icon:const Icon(Icons.menu)),
                         SizedBox(
                           width: MediaQuery.of(context).size.width-200,
                             child:
@@ -44,17 +48,82 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                           decoration: const InputDecoration(
                             hintText: 'جستجو...',
                               border: UnderlineInputBorder(borderSide: BorderSide.none),
-                              prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey),)),
+                              /*prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey*/),)),
                                InkWell(
                                 onTap: (){
+                                  showDialog(context: context, builder: (context) => AlertDialog(title:const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
+                                  content: SingleChildScrollView(
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                height: 60,
+                                                  //decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(10),border: Border.all(color: Colors.grey,width: 1)),
+                                                  width: MediaQuery.of(context).size.width-130,
+                                                  child:
+                                                  TextField(
+                                                    onChanged: (value) => searchBoxController.text = value,
+                                                    style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
+                                                    textDirection: TextDirection.rtl,
+                                                    decoration:  InputDecoration(
+                                                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey,width: 1),borderRadius: BorderRadius.circular(8)),
+                                                      hintText: 'استان را وارد کنید',
+                                                      hintStyle: const TextStyle(fontSize: 16),
+                                                      suffixIcon: const Icon(Icons.search),
+                                                      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width:1,color: Colors.teal)),
+                                                      border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                                                    ),)),
+
+
+                                            ],
+                                          ),
+                                          Center(
+                                            child: SizedBox(
+                                              height: 240,
+                                              width: MediaQuery.of(context).size.width-130,
+                                              child: ListView.builder(itemCount: 12,itemBuilder: (context, index) {
+                                                return Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                      child: SizedBox(
+                                                        height:60,
+                                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [const Expanded(child: Padding(
+                                                            padding: EdgeInsets.only(right: 8.0),
+                                                            child: Text('تهران',style: TextStyle(fontSize: 16,fontFamily: 'Vazir'),),
+                                                          )),IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios_new,size: 18,)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(height: 1,width: MediaQuery.of(context).size.width-140,decoration:  BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4),width: 1,))),)
+                                                  ],
+                                                );
+                                              },),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),);
                                 },
                                 child:Row(
                                   textDirection: TextDirection.ltr,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.location_on,color: Colors.grey[350],),
-                                     Text('تهران',style: TextStyle(fontFamily: 'Vazir',fontSize: 14,color: Colors.grey[600]),)],),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Icon(Icons.location_on,color: Colors.grey[350],),
+                                    ),
+                                     Container(padding: const EdgeInsets.only(right: 8),decoration:const BoxDecoration(border: Border(right: BorderSide(color: Colors.grey,width: 2))),child: Text('تهران',style: TextStyle(fontFamily: 'Vazir',fontSize: 14,color: Colors.grey[600]),))],),
                               )
 
                       ],
@@ -146,11 +215,20 @@ Widget cart(context){
             children: [
             Padding(
               padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
-              child: Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Icon(Icons.message_rounded,color: Colors.blue,),
+                  ),
+                ],
+              ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 5.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [Text('گلستان'),Text('دقایقی پیش'),],),
+              padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
             )
           ],),
 
