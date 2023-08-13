@@ -12,10 +12,60 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchBoxController=TextEditingController();
-
+    GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldState,
+      drawer: Drawer(
+        
+        child:
+        ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+             DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.green,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    const Icon(Icons.account_circle_rounded,size: 80,color: Colors.white,),
+                    SizedBox(width: 150,child:
+                    ListTile(
+                      title: const Text('حسین کریمیان',style: TextStyle(fontFamily: 'vazir',fontSize: 16,color: Colors.white),),
+                      subtitle: const Text('تهران',style: TextStyle(fontFamily: 'vazir',color: Colors.white),),
+                      onTap: (){},
+                    )
+                    ),
+                  ],
+                  ),
+                  const SizedBox(height: 7,),
+                  Container(width:300,decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white,width: 2))),),
+                  TextButton(onPressed: (){}, child:const Text('خروج',style: TextStyle(fontFamily: 'vazir',color: Colors.red,fontSize: 15) ), )
+                ],
+              ),
 
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.green,
         toolbarHeight: 120,
         flexibleSpace:Row(
@@ -37,7 +87,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(onPressed: (){}, icon:const Icon(Icons.menu)),
+                        IconButton(onPressed: (){_scaffoldState.currentState!.openDrawer();}, icon:const Icon(Icons.menu)),
                         SizedBox(
                           width: MediaQuery.of(context).size.width-200,
                             child:
