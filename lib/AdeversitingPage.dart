@@ -16,7 +16,6 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
     return Scaffold(
       key: _scaffoldState,
       drawer: Drawer(
-        
         child:
         ListView(
           padding: EdgeInsets.zero,
@@ -92,6 +91,8 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                           width: MediaQuery.of(context).size.width-200,
                             child:
                         TextField(
+                          onTap: (){},
+
                           onChanged: (value) => searchBoxController.text = value,
                           style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
                           textDirection: TextDirection.rtl,
@@ -101,65 +102,75 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                               /*prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey*/),)),
                                InkWell(
                                 onTap: (){
-                                  showDialog(context: context, builder: (context) => AlertDialog(title:const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
+                                  showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title:const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
                                   content: SingleChildScrollView(
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                height: 60,
-                                                  //decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(10),border: Border.all(color: Colors.grey,width: 1)),
-                                                  width: MediaQuery.of(context).size.width-130,
-                                                  child:
-                                                  TextField(
-                                                    onChanged: (value) => searchBoxController.text = value,
-                                                    style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
-                                                    textDirection: TextDirection.rtl,
-                                                    decoration:  InputDecoration(
-                                                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey,width: 1),borderRadius: BorderRadius.circular(8)),
-                                                      hintText: 'استان را وارد کنید',
-                                                      hintStyle: const TextStyle(fontSize: 16),
-                                                      suffixIcon: const Icon(Icons.search),
-                                                      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width:1,color: Colors.teal)),
-                                                      border: const UnderlineInputBorder(borderSide: BorderSide.none),
-                                                    ),)),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width,
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(bottom: 15.0,right: 25),
+                                                child: Text('حداقل یک شهر را انتخاب کنید',style: TextStyle(fontFamily: 'vazir',fontSize: 16),),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  height: 60,
+                                                    //decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(10),border: Border.all(color: Colors.grey,width: 1)),
+                                                    width: MediaQuery.of(context).size.width-130,
+                                                    child:
+                                                    TextField(
+                                                      onChanged: (value) => searchBoxController.text = value,
+                                                      style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
+                                                      textDirection: TextDirection.rtl,
+                                                      decoration:  InputDecoration(
+                                                        enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey,width: 1),borderRadius: BorderRadius.circular(8)),
+                                                        hintText: 'استان را وارد کنید',
+                                                        hintStyle: const TextStyle(fontSize: 16),
+                                                        suffixIcon: const Icon(Icons.search),
+                                                        focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width:1,color: Colors.teal)),
+                                                        border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                                                      ),)),
 
 
-                                            ],
-                                          ),
-                                          Center(
-                                            child: SizedBox(
-                                              height: 240,
-                                              width: MediaQuery.of(context).size.width-130,
-                                              child: ListView.builder(itemCount: 12,itemBuilder: (context, index) {
-                                                return Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top: 8.0),
-                                                      child: SizedBox(
-                                                        height:60,
-                                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [const Expanded(child: Padding(
-                                                            padding: EdgeInsets.only(right: 8.0),
-                                                            child: Text('تهران',style: TextStyle(fontSize: 16,fontFamily: 'Vazir'),),
-                                                          )),IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios_new,size: 18,)),
-                                                          ],
+                                              ],
+                                            ),
+                                            Center(
+                                              child: SizedBox(
+                                                height: 240,
+                                                width: MediaQuery.of(context).size.width-130,
+                                                child: ListView.builder(itemCount: 12,itemBuilder: (context, index) {
+                                                  return Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top: 8.0),
+                                                        child: SizedBox(
+                                                          height:60,
+                                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              const Expanded(child: Padding(
+                                                              padding: EdgeInsets.only(right: 8.0),
+                                                              child: Text('تهران',style: TextStyle(fontSize: 16,fontFamily: 'Vazir'),),
+                                                            )),IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios_new,size: 18,)),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Container(height: 1,width: MediaQuery.of(context).size.width-140,decoration:  BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4),width: 1,))),)
-                                                  ],
-                                                );
-                                              },),
-                                            ),
-                                          )
-                                        ],
+                                                      Container(height: 1,width: MediaQuery.of(context).size.width-140,decoration:  BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4),width: 1,))),)
+                                                    ],
+                                                  );
+                                                },),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   )),);
