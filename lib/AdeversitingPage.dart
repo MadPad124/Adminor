@@ -1,18 +1,19 @@
 
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart';
+bool liked=false;
 class AdvertisingPage extends StatefulWidget {
   const AdvertisingPage({Key? key}) : super(key: key);
 
   @override
   State<AdvertisingPage> createState() => _AdvertisingPageState();
 }
-
 class _AdvertisingPageState extends State<AdvertisingPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchBoxController=TextEditingController();
     GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
     return Scaffold(
       key: _scaffoldState,
       drawer: Drawer(
@@ -216,7 +217,52 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
           crossAxisCount: 2,
           childAspectRatio:(3/4),
           padding: const EdgeInsets.all(10),
-          children:List.generate(6, (index) => cart(context))
+          children:List.generate(6, (index) => InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white,
+                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
+                child: Column(children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: IconButton(onPressed: (){
+                          setState(() {
+                            liked=!liked;
+                          });
+                        }, icon:liked==true?Icon(Icons.favorite_border,color: Colors.black.withOpacity(0.5),size: 25,):Icon(Icons.favorite,color: Colors.red.withOpacity(0.9),size: 25,)),
+                      )],),
+                  Image.asset('assets/images/splash-bottom-page-image.png',),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Icon(Icons.message_rounded,color: Colors.blue,),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
+                      )
+                    ],),
+
+                ],),
+              ),
+            ),
+          ))
 
         ),
       ),
@@ -254,8 +300,9 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
     );
   }
 }
-Widget cart(context){
-  return InkWell(
+/*Widget cart(context){
+  return
+    InkWell(
     child: Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
@@ -267,8 +314,12 @@ Widget cart(context){
           Row(mainAxisAlignment: MainAxisAlignment.end,
             children: [
             Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(onPressed: (){}, icon:  Icon(Icons.favorite_border,color: Colors.black.withOpacity(0.5),size: 25,)),
+            padding:  EdgeInsets.all(8.0),
+            child: IconButton(onPressed: (){
+              setState(() {
+            liked=!liked;
+            });
+              }, icon:liked==true?Icon(Icons.favorite_border,color: Colors.black.withOpacity(0.5),size: 25,):Icon(Icons.favorite,color: Colors.red.withOpacity(0.5),size: 25,)),
           )],),
           Image.asset('assets/images/splash-bottom-page-image.png',),
           const Column(
@@ -297,4 +348,4 @@ Widget cart(context){
       ),
     ),
   );
-}
+}*/
