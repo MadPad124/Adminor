@@ -1,4 +1,6 @@
 
+import 'package:adminor/HomePages/home.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart';
 bool liked=false;
@@ -12,58 +14,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchBoxController=TextEditingController();
-    GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-
     return Scaffold(
-      key: _scaffoldState,
-      drawer: Drawer(
-        child:
-        ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.green,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
-                    const Icon(Icons.account_circle_rounded,size: 80,color: Colors.white,),
-                    SizedBox(width: 150,child:
-                    ListTile(
-                      title: const Text('حسین کریمیان',style: TextStyle(fontFamily: 'vazir',fontSize: 16,color: Colors.white),),
-                      subtitle: const Text('تهران',style: TextStyle(fontFamily: 'vazir',color: Colors.white),),
-                      onTap: (){},
-                    )
-                    ),
-                  ],
-                  ),
-                  const SizedBox(height: 7,),
-                  Container(width:300,decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white,width: 2))),),
-                  TextButton(onPressed: (){}, child:const Text('خروج',style: TextStyle(fontFamily: 'vazir',color: Colors.red,fontSize: 15) ), )
-                ],
-              ),
-
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.green,
@@ -87,7 +38,6 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(onPressed: (){_scaffoldState.currentState!.openDrawer();}, icon:const Icon(Icons.menu)),
                         SizedBox(
                           width: MediaQuery.of(context).size.width-200,
                             child:
@@ -181,10 +131,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Icon(Icons.location_on,color: Colors.grey[350],),
-                                    ),
+                                    Icon(Icons.location_on,color: Colors.grey[350],),
                                      Container(padding: const EdgeInsets.only(right: 8),decoration:const BoxDecoration(border: Border(right: BorderSide(color: Colors.grey,width: 2))),child: Text('تهران',style: TextStyle(fontFamily: 'Vazir',fontSize: 14,color: Colors.grey[600]),))],),
                               )
 
@@ -223,21 +170,21 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white,
                     boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
                 child: Column(children: [
                   Row(mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding:  EdgeInsets.all(8.0),
+                        padding:  const EdgeInsets.all(0),
                         child: IconButton(onPressed: (){
                           setState(() {
                             liked=!liked;
                           });
-                        }, icon:liked==true?Icon(Icons.favorite_border,color: Colors.black.withOpacity(0.5),size: 25,):Icon(Icons.favorite,color: Colors.red.withOpacity(0.9),size: 25,)),
+                        }, icon:liked==true?Icon(CupertinoIcons.heart,color: Colors.black.withOpacity(0.5),size: 28,):Icon(CupertinoIcons.heart_fill,color: Colors.red.withOpacity(0.9),size: 28,)),
                       )],),
                   Image.asset('assets/images/splash-bottom-page-image.png',),
-                  const Column(
+                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -248,13 +195,13 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                             Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
                             Padding(
                               padding: EdgeInsets.only(left: 15.0),
-                              child: Icon(Icons.message_rounded,color: Colors.blue,),
+                              child: Icon(Icons.message_sharp,color: Colors.blue,size: 25,),
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20),
+                        padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20,top: 5),
                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
                       )
                     ],),
@@ -288,7 +235,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                       icon: const Icon(Icons.home, color: Colors.white,)),
                   IconButton(onPressed: () {},
                       icon: const Icon(Icons.chat, color: Colors.white)),
-                  IconButton(onPressed: () {},
+                  IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
                       icon: const Icon(Icons.add_circle, color: Colors.white)),
                 ],),
               IconButton(onPressed: () {},
