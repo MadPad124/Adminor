@@ -1,5 +1,5 @@
 
-import 'package:adminor/HomePages/home.dart';
+import 'AdeversitingPages/NewAdeversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart';
@@ -141,8 +141,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
           ],
         ),
       ),
-          floatingActionButton:
-          bottomMenu(context),
+          floatingActionButton: bottomMenu(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     body: GestureDetector(
         onTap: (){

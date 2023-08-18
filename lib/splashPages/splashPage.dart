@@ -4,8 +4,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../HomePages/home.dart';
-
 class StartAppSplashPage extends StatelessWidget {
   const StartAppSplashPage({Key? key}) : super(key: key);
 
