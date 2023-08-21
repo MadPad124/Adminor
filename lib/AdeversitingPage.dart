@@ -1,4 +1,6 @@
 
+import 'package:adminor/displayChatPage.dart';
+
 import 'AdeversitingPages/NewAdeversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -215,83 +217,34 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
       ]),),
     );
   }
-
-  Widget bottomMenu(context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25), color: Colors.green,),
-      width: MediaQuery.of(context).size.width - 20,
-      child: Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(onPressed: () {},
-                      icon: const Icon(Icons.home, color: Colors.white,)),
-                  IconButton(onPressed: () {},
-                      icon: const Icon(Icons.chat, color: Colors.white)),
-                  IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
-                      icon: const Icon(Icons.add_circle, color: Colors.white)),
-                ],),
-              IconButton(onPressed: () {},
-                  icon: const Icon(
-                    Icons.manage_accounts_sharp, color: Colors.white,))
-            ]),
-      ),
-
-    );
-  }
 }
-/*Widget cart(context){
-  return
-    InkWell(
+Widget bottomMenu(context) {
+  return Container(
+    decoration: BoxDecoration(
+      boxShadow: const [BoxShadow(color: Colors.grey,blurRadius: 5)],
+      borderRadius: BorderRadius.circular(25), color: Colors.green,),
+    width: MediaQuery.of(context).size.width - 20,
     child: Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.white,
-            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
-        child: Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-            Padding(
-            padding:  EdgeInsets.all(8.0),
-            child: IconButton(onPressed: (){
-              setState(() {
-            liked=!liked;
-            });
-              }, icon:liked==true?Icon(Icons.favorite_border,color: Colors.black.withOpacity(0.5),size: 25,):Icon(Icons.favorite,color: Colors.red.withOpacity(0.5),size: 25,)),
-          )],),
-          Image.asset('assets/images/splash-bottom-page-image.png',),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
-                  Padding(
-                    padding: EdgeInsets.only(left: 15.0),
-                    child: Icon(Icons.message_rounded,color: Colors.blue,),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
-            )
-          ],),
-
-        ],),
-      ),
+      padding: const EdgeInsets.all(7.0),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: () {},
+                    icon: const Icon(Icons.home, color: Colors.white,)),
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DisplayChat(),));},
+                    icon: const Icon(Icons.chat, color: Colors.white)),
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
+                    icon: const Icon(Icons.add_circle, color: Colors.white)),
+              ],),
+            IconButton(onPressed: () {},
+                icon: const Icon(
+                  Icons.manage_accounts_sharp, color: Colors.white,))
+          ]),
     ),
+
   );
-}*/
+}

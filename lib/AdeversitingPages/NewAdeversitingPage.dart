@@ -151,7 +151,7 @@ Widget imageSection(){
           border: const DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6),
           borderRadius: BorderRadius.circular(5),),
             child:const Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center ,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(CupertinoIcons.add),
