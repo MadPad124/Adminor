@@ -1,5 +1,5 @@
 
-import 'package:adminor/AdeversitingPage.dart';
+import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 /*import 'package:liquid_swipe/liquid_swipe.dart';

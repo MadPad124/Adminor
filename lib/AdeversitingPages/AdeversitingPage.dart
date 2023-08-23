@@ -1,7 +1,7 @@
 
-import 'package:adminor/displayChatPage.dart';
+import 'package:adminor/chat/displayChatPage.dart';
 
-import 'AdeversitingPages/NewAdeversitingPage.dart';
+import 'NewAdeversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/scheduler.dart';

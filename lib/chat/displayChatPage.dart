@@ -1,7 +1,8 @@
 
-import 'package:adminor/AdeversitingPage.dart';
+import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
+import 'package:adminor/chat/ChatPage.dart';
 import 'package:flutter/material.dart';
-import 'AdeversitingPages/NewAdeversitingPage.dart';
+import '../AdeversitingPages/NewAdeversitingPage.dart';
 class DisplayChat extends StatefulWidget {
   const DisplayChat({Key? key}) : super(key: key);
 
@@ -85,7 +86,7 @@ class _HaveStateState extends State<HaveState> {
     return SizedBox(
       child: ListView.builder(itemCount: 10,itemBuilder: (context, index) {
       return InkWell(
-        onTap: () {},
+        onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Chat(),));},
         child: Container(padding:const EdgeInsets.only(bottom: 0,top: 10),decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black,width: 1))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
