@@ -3,6 +3,7 @@ import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:flutter/material.dart';
 import '../AdeversitingPages/NewAdeversitingPage.dart';
+import '../Settings/settingsPage.dart';
 class DisplayChat extends StatefulWidget {
   const DisplayChat({Key? key}) : super(key: key);
 
@@ -49,7 +50,7 @@ Widget bottomMenu(context) {
                 IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
                     icon: const Icon(Icons.add_circle, color: Colors.white)),
               ],),
-            IconButton(onPressed: () {},
+            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const SettingsPage(),));},
                 icon: const Icon(
                   Icons.manage_accounts_sharp, color: Colors.white,))
           ]),

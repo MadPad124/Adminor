@@ -1,11 +1,15 @@
 
+import 'package:adminor/Settings/settingsPage.dart';
+import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
 
 import 'NewAdeversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:adminor/cities.dart';
 //import 'package:flutter/scheduler.dart';
 bool liked=false;
+List<String> filteredCities=[];
 class AdvertisingPage extends StatefulWidget {
   const AdvertisingPage({Key? key}) : super(key: key);
 
@@ -79,7 +83,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                     width: MediaQuery.of(context).size.width-130,
                                                     child:
                                                     TextField(
-                                                      onChanged: (value) => searchBoxController.text = value,
+                                                      onChanged: (value) => searching(value),
                                                       style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
                                                       textDirection: TextDirection.rtl,
                                                       decoration:  InputDecoration(
@@ -98,29 +102,37 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                               child: SizedBox(
                                                 height: 240,
                                                 width: MediaQuery.of(context).size.width-130,
-                                                child: ListView.builder(itemCount: 12,itemBuilder: (context, index) {
-                                                  return Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 8.0),
-                                                        child: SizedBox(
-                                                          height:60,
-                                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              const Expanded(child: Padding(
-                                                              padding: EdgeInsets.only(right: 8.0),
-                                                              child: Text('تهران',style: TextStyle(fontSize: 16,fontFamily: 'Vazir'),),
-                                                            )),IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios_new,size: 18,)),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(height: 1,width: MediaQuery.of(context).size.width-140,decoration:  BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4),width: 1,))),)
-                                                    ],
-                                                  );
-                                                },),
+                                                child: ListView.builder(itemCount: filteredCities.isEmpty?30:filteredCities.length, itemBuilder: (context, index) {
+                                              return Column(
+                                              children: [
+                                              Padding(
+                                              padding: const EdgeInsets.only(top: 8.0),
+                                              child: SizedBox(
+                                              height: 60,
+                                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                              Expanded(child: Padding(
+                                              padding: const EdgeInsets.only(right: 8.0),
+                                              child: Text(filteredCities.isEmpty?cities[index]:filteredCities[index],
+                                              style: const TextStyle(fontSize: 16, fontFamily: 'Vazir'),),
+                                              )),
+                                              IconButton(onPressed: () {},
+                                              icon: const Icon(Icons.arrow_back_ios_new, size: 18,)),
+                                              ],
                                               ),
+                                              ),
+                                              ),
+                                              Container(height: 1,
+                                              width: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width - 140,
+                                              decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                              color: Colors.grey.withOpacity(0.4), width: 1,))),)
+                                              ],
+                                              );
+                                              }))
                                             )
                                           ],
                                         ),
@@ -166,6 +178,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
           childAspectRatio:(3/4),
           padding: const EdgeInsets.all(10),
           children:List.generate(6, (index) => InkWell(
+            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const Chat(),)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
@@ -227,6 +240,7 @@ Widget bottomMenu(context) {
     child: Padding(
       padding: const EdgeInsets.all(7.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
@@ -240,11 +254,26 @@ Widget bottomMenu(context) {
                 IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
                     icon: const Icon(Icons.add_circle, color: Colors.white)),
               ],),
-            IconButton(onPressed: () {},
+            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const SettingsPage(),));},
                 icon: const Icon(
                   Icons.manage_accounts_sharp, color: Colors.white,))
           ]),
     ),
 
   );
+
+}
+
+searching(String value){
+for(int i=0;i<cities.length;i++){
+if(cities[i].contains(value)){
+  filteredCities=[];
+filteredCities.add(cities[i].toString());
+print(filteredCities);
+
+}
+else{
+
+}
+}
 }
