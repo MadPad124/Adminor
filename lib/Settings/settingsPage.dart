@@ -9,7 +9,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        //debugShowCheckedModeBanner: false,
         body: Container(color: Colors.white,
           child:Column(children: [
              SizedBox(
