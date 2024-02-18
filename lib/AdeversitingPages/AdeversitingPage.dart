@@ -166,7 +166,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                                         setState((){
                                                                         checkedList.add(filteredCities[index]);
                                                                        print( filteredCities[index]);
-                                                                        valueNotifier2.value=true;
+                                                                         valueNotifier2.value=true;
                                                                         valueNotifier2.value=false;
                                                                         });
                                                                        // print(checkedList[index]);
