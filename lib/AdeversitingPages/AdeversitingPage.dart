@@ -1,7 +1,7 @@
-
 import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'NewAdeversitingPage.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +10,10 @@ import 'package:adminor/cities.dart';
 //import 'package:flutter/scheduler.dart';
 bool liked=false;
 List<String> filteredCities=[];
+List<bool> isChecked=[];
+List checkedList=[];
+ValueNotifier<String> valueNotifier=ValueNotifier('');
+ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
 class AdvertisingPage extends StatefulWidget {
   const AdvertisingPage({Key? key}) : super(key: key);
 
@@ -18,7 +22,14 @@ class AdvertisingPage extends StatefulWidget {
 }
 class _AdvertisingPageState extends State<AdvertisingPage> {
   @override
+  void initState() {
+    isChecked = List<bool>.filled(cities.length, false);
+    checkedList=[];
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+
     TextEditingController searchBoxController=TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +67,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                           decoration: const InputDecoration(
                             hintText: 'جستجو...',
                               border: UnderlineInputBorder(borderSide: BorderSide.none),
-                              /*prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey*/),)),
+                              prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey),)),
                                InkWell(
                                 onTap: (){
                                   showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title:const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
@@ -68,9 +79,9 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                           children: [
                                             SizedBox(
                                               width: MediaQuery.of(context).size.width,
-                                              child: const Padding(
-                                                padding: EdgeInsets.only(bottom: 15.0,right: 25),
-                                                child: Text('حداقل یک شهر را انتخاب کنید',style: TextStyle(fontFamily: 'vazir',fontSize: 16),),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 15.0,right: 25),
+                                                child:  ValueListenableBuilder<bool>(valueListenable: valueNotifier2,builder: (context, value, child) => Text(checkedList.isEmpty?'حداقل یک شهر را انتخاب کنید':checkedList.toString(),style: const TextStyle(fontFamily: 'vazir',fontSize: 16) ,)),
                                               ),
                                             ),
                                             Row(
@@ -83,7 +94,15 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                     width: MediaQuery.of(context).size.width-130,
                                                     child:
                                                     TextField(
-                                                      onChanged: (value) => searching(value),
+                                                      controller: searchBoxController,
+                                                      onChanged: (value) {
+                                                        if(searchBoxController.text.isEmpty){
+                                                          valueNotifier.value='nothing';
+                                                        }
+                                                        else{
+                                                          valueNotifier.value=searchBoxController.text;
+                                                        }
+                                                        },
                                                       style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
                                                       textDirection: TextDirection.rtl,
                                                       decoration:  InputDecoration(
@@ -102,37 +121,101 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                               child: SizedBox(
                                                 height: 240,
                                                 width: MediaQuery.of(context).size.width-130,
-                                                child: ListView.builder(itemCount: filteredCities.isEmpty?30:filteredCities.length, itemBuilder: (context, index) {
-                                              return Column(
-                                              children: [
-                                              Padding(
-                                              padding: const EdgeInsets.only(top: 8.0),
-                                              child: SizedBox(
-                                              height: 60,
-                                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                              Expanded(child: Padding(
-                                              padding: const EdgeInsets.only(right: 8.0),
-                                              child: Text(filteredCities.isEmpty?cities[index]:filteredCities[index],
-                                              style: const TextStyle(fontSize: 16, fontFamily: 'Vazir'),),
-                                              )),
-                                              IconButton(onPressed: () {},
-                                              icon: const Icon(Icons.arrow_back_ios_new, size: 18,)),
-                                              ],
-                                              ),
-                                              ),
-                                              ),
-                                              Container(height: 1,
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width - 140,
-                                              decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                              color: Colors.grey.withOpacity(0.4), width: 1,))),)
-                                              ],
-                                              );
-                                              }))
+                                                child:
+
+
+                                                ValueListenableBuilder<String>(
+                                                  valueListenable: valueNotifier,
+                                                  builder: (context, value, child) {
+                                                    if(searchBoxController.text.isNotEmpty){
+                                                      filteredCities=[];
+                                                      cities.forEach((key, value) {
+
+                                                        var keyword='$key';
+                                                        if(keyword.contains(searchBoxController.text)){
+                                                          filteredCities.add('$key');
+                                                        }
+                                                      });
+                                                    }
+                                                    else{
+                                                      filteredCities=[];
+                                                      filteredCities.addAll(cities.keys);
+                                                    }
+                                                   return ListView.builder(itemCount: filteredCities.length, itemBuilder: (context, index) {
+                                                      return Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 8.0),
+                                                            child: SizedBox(
+                                                              height: 60,
+                                                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: [
+                                                                  Expanded(child: Padding(
+                                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                                    child: StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                                        return CheckboxListTile(
+                                                                          title: Text(filteredCities[index],style:const TextStyle(fontSize: 16, fontFamily: 'Vazir')),
+                                                                          value:/*checkedList.isEmpty?checkedList[index]:*/isChecked[index ],
+                                                                          onChanged: (value) {
+                                                                      setState(
+                                                                      () {
+
+                                                    /*                  isChecked[index] = value!;
+                                                                      if(value){
+                                                                        setState((){
+                                                                        checkedList.add(filteredCities[index]);
+                                                                       print( filteredCities[index]);
+                                                                        valueNotifier2.value=true;
+                                                                        valueNotifier2.value=false;
+                                                                        });
+                                                                       // print(checkedList[index]);
+
+                                                                      }
+                                                                      else{
+                                                                          if(checkedList.isEmpty){
+                                                                            valueNotifier2.value=true ;
+                                                                            valueNotifier2.value=false ;
+
+                                                                          }
+                                                                          else{
+                                                                            checkedList.removeWhere((element) => element==filteredCities[index]);
+                                                                            valueNotifier2.value=true;
+                                                                            valueNotifier2.value=false;
+
+                                                                          }
+
+                                                                      }*/
+                                                                      },
+                                                                      );
+                                                                      },
+                                                                      secondary: const Icon(CupertinoIcons.circle_grid_hex),
+                                                                      );
+                                                                      })
+                                                                    ,
+                                                                  )),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(height: 1,
+                                                            width: MediaQuery
+                                                                .of(context)
+                                                                .size
+                                                                .width - 140,
+                                                            decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                                              color: Colors.grey.withOpacity(0.4), width: 1,))),)
+                                                        ],
+                                                      );
+                                                    });
+                                                  },
+                                                )
+
+
+
+
+
+                                              )
                                             )
                                           ],
                                         ),
@@ -264,16 +347,3 @@ Widget bottomMenu(context) {
 
 }
 
-searching(String value){
-for(int i=0;i<cities.length;i++){
-if(cities[i].contains(value)){
-  filteredCities=[];
-filteredCities.add(cities[i].toString());
-print(filteredCities);
-
-}
-else{
-
-}
-}
-}
