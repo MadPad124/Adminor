@@ -275,6 +275,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                                               }
                                                                             }
                                                                             print('object0');});
+
                                                                         }
                                                                       },
                                                                       );
