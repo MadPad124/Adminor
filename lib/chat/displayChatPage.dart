@@ -1,6 +1,7 @@
 
 import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
+import 'package:adminor/people.dart';
 import 'package:flutter/material.dart';
 import '../AdeversitingPages/NewAdeversitingPage.dart';
 import '../Settings/settingsPage.dart';
@@ -85,9 +86,9 @@ class _HaveStateState extends State<HaveState> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: ListView.builder(itemCount: 10,itemBuilder: (context, index) {
+      child: ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
       return InkWell(
-        onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Chat(),));},
+        onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Chat(index: index,),));},
         child: Container(padding:const EdgeInsets.only(bottom: 0,top: 10),decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black,width: 1))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,14 +96,14 @@ class _HaveStateState extends State<HaveState> {
             children: [
             Row(children: [Padding(
               padding: const EdgeInsets.all(10.0),
-              child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.asset('assets/images/UserRandom.png',width: 60,height: 60,)),
+              child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.asset(url[index],width: 60,height: 60,)),
             ),
-            const Column(
+             Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Text('اصغر عباسی',style: TextStyle(fontFamily: 'Vazir',fontSize: 22),),
-            Text('میخواهم یک سایت را به شما بسپارم',style: TextStyle(fontFamily: 'Vazir',fontSize: 14),),
+            Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 22),),
+            Text('به یک ${job[index]} نیازمند هستم',style: const TextStyle(fontFamily: 'Vazir',fontSize: 14),),
             ],
             ),],),
                Padding(

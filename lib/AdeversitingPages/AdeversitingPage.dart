@@ -2,6 +2,7 @@
 import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
+import 'package:adminor/people.dart';
 /*
 import 'package:liquid_swipe/liquid_swipe.dart';
 */
@@ -26,11 +27,13 @@ class AdvertisingPage extends StatefulWidget {
 class _AdvertisingPageState extends State<AdvertisingPage> {
   @override
   void initState() {
+
     isChecked=cities.values.toList();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+  var w=MediaQuery.of(context).size.width;
 
     TextEditingController searchBoxController=TextEditingController();
     return Scaffold(
@@ -72,63 +75,66 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                               prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey),)),
                                InkWell(
                                 onTap: (){
-                                  print('244');
                                   showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
-                                      IconButton(onPressed: (){
-                                        if(valueNotifier.value=='notAllChecked'){
-                                          checkedList=[];
-                                          for(int i =0;i<31;i++){
-                                            isChecked[i]=true;
-                                            valueNotifier.value=i.toString();
-                                          }
-                                          cities.updateAll((key, value) => true);
-                                          checkedList.addAll(cities.keys);
+                                      ValueListenableBuilder<String>(
+                                        valueListenable: valueNotifier,
+                                        builder: (context, value, child) => IconButton(onPressed: (){
 
-                                          valueNotifier.value='allChecked';
-                                          valueNotifier2.value=!valueNotifier2.value;
-                                          //print('object8');
+                                          if(valueNotifier.value=='notAllChecked'){
+                                            checkedList=[];
+                                            for(int i =0;i<31;i++){
+                                              isChecked[i]=true;
+                                              valueNotifier.value=i.toString();
+                                            }
+                                            cities.updateAll((key, value) => true);
+                                            checkedList.addAll(cities.keys);
 
-                                        }
-                                        else if(valueNotifier.value=='someChecked'){
-                                          checkedList=[];
-                                          //print('object7');
-                                          for(int i =0;i<31;i++){
-                                            isChecked[i]=true;valueNotifier.value=i.toString();
-                                          }
-                                          cities.updateAll((key, value) => true);
-                                          checkedList.addAll(cities.keys);
-                                          //print('object6');
-                                          valueNotifier.value='allChecked';
-                                          valueNotifier2.value=!valueNotifier2.value;
-                                        }
-                                        else if(checkedList.length>=2&&valueNotifier.value=='nothing'){
-                                          checkedList=[];
-                                          //print('object5');
-                                          for(int i =0;i<31;i++){
-                                            isChecked[i]=true;valueNotifier.value=i.toString();
-                                          }
-                                          cities.updateAll((key, value) => true);
-                                          checkedList.addAll(cities.keys);
-                                          //print('object4');
-                                          valueNotifier.value='allChecked';
-                                          valueNotifier2.value=!valueNotifier2.value;
+                                            valueNotifier.value='allChecked';
+                                            valueNotifier2.value=!valueNotifier2.value;
+                                           // print('object8');
 
-                                        }
-                                        else if (valueNotifier.value=='allChecked'){
-                                          //print('object3');
-                                          checkedList=[];
-                                          checkedList=['تهران'];
-                                        cities.forEach((k, v) {cities.update(k, (value) => value=false); });
-                                          cities.update('تهران', (value) => value=true);
-                                          isChecked=[];
-                                          isChecked.addAll(cities.values);
-                                          valueNotifier.value='notAllChecked';
-                                          valueNotifier2.value=!valueNotifier2.value;
-                                        }
-                                        }, icon: const Icon(Icons.check_box_outline_blank))
+                                          }
+                                          else if(valueNotifier.value=='someChecked'){
+                                            checkedList=[];
+                                           // print('object7');
+                                            for(int i =0;i<31;i++){
+                                              isChecked[i]=true;valueNotifier.value=i.toString();
+                                            }
+                                            cities.updateAll((key, value) => true);
+                                            checkedList.addAll(cities.keys);
+                                           // print('object6');
+                                            valueNotifier.value='allChecked';
+                                            valueNotifier2.value=!valueNotifier2.value;
+                                          }
+                                          else if(checkedList.length>=2&&valueNotifier.value=='nothing'){
+                                            checkedList=[];
+                                          //  print('object5');
+                                            for(int i =0;i<31;i++){
+                                              isChecked[i]=true;valueNotifier.value=i.toString();
+                                            }
+                                            cities.updateAll((key, value) => true);
+                                            checkedList.addAll(cities.keys);
+                                           // print('object4');
+                                            valueNotifier.value='allChecked';
+                                            valueNotifier2.value=!valueNotifier2.value;
+
+                                          }
+                                          else if (valueNotifier.value=='allChecked'){
+                                           // print('object3');
+                                            checkedList=[];
+                                            checkedList=['تهران'];
+                                          cities.forEach((k, v) {cities.update(k, (value) => value=false); });
+                                            cities.update('تهران', (value) => value=true);
+                                            isChecked=[];
+                                            isChecked.addAll(cities.values);
+                                            valueNotifier.value='notAllChecked';
+                                            valueNotifier2.value=!valueNotifier2.value;
+                                          }
+                                          }, icon:  Icon(valueNotifier.value=='allChecked'?Icons.check_box:Icons.indeterminate_check_box_rounded,color: Colors.green,)),
+                                      )
                                     ],
                                   ),
                                   content: SingleChildScrollView(
@@ -237,6 +243,8 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                                     child: StatefulBuilder(builder: (BuildContext context, StateSetter setState){
                                                                         return filteredCities.isNotEmpty?
                                                                         CheckboxListTile(
+                                                                          checkColor: Colors.white,
+                                                                          fillColor: MaterialStateProperty.all(Colors.teal),
                                                                           title: Text(filteredCities[index],style:const TextStyle(fontSize: 16, fontFamily: 'Vazir')),
                                                                           value:isChecked[index],
                                                                           onChanged: (value) {
@@ -250,7 +258,9 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                                                checkedList.remove(k);
                                                                               valueNotifier.value='someNotChecked';
                                                                               valueNotifier.value='someChecked';
-                                                                              print('object');
+                                                                              valueNotifier2.value=!valueNotifier2.value;
+                                                                 //             print(checkedList);
+                                                                  //            print(isChecked);
                                                                             }
 
 
@@ -261,8 +271,16 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                                           cities.forEach((k, v) {
                                                                             if(k==filteredCities[index]){
                                                                               cities.update(k, (value) => value=!v);
-                                                                              valueNotifier.value='someNotChecked';
-                                                                              valueNotifier.value='someChecked';
+                                                                              isChecked=cities.values.toList();
+                                                                              if(checkedList.length==31)
+                                                                                {valueNotifier.value='allChecked';}
+                                                                                  //print('ooh');print( valueNotifier.value);
+                                                                              else/*(checkedList.length<30)*/{
+                                                                                valueNotifier.value='someNotChecked';
+                                                                                valueNotifier.value='someChecked';
+                                                                     //           print( valueNotifier.value);
+                                                                     //           print( 'valueNotifier.value');
+                                                                              }
                                                                               if(checkedList.contains(k)){
                                                                                 checkedList.remove(k);
 
@@ -274,7 +292,10 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                                                 valueNotifier2.value=!valueNotifier2.value;
                                                                               }
                                                                             }
-                                                                            print('object0');});
+
+                                                                            //print(checkedList);
+                                                                            //print(isChecked);
+                                                                          });
 
                                                                         }
                                                                       },
@@ -316,12 +337,12 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                     ),
                                   )),);
                                 },
-                                child:Row(
+                                child:const Row(
                                   textDirection: TextDirection.ltr,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.my_location_sharp,color: Colors.red[500],),
+                                    Icon(Icons.location_city,color: CupertinoColors.activeBlue,),
                                     ],),
                               )
 
@@ -338,7 +359,6 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
       FocusScope.of(context).requestFocus(FocusNode());
     },
     child: Stack(children: [
-      Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
       Align(
         alignment: Alignment.bottomCenter,
         child: Image.asset(
@@ -346,63 +366,113 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
           opacity: const AlwaysStoppedAnimation(.3),
         ),
       ),
-      Padding(
+      Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
+
+       ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
+         return Padding(
+           padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
+           child: InkWell(
+             onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Chat(index: index,),)),
+             child: Container(
+               width: w-50,
+               height: 120,
+               decoration: BoxDecoration(color:Colors.green.withOpacity(0.1),border: Border.all(color: Colors.green,width: 1),borderRadius: BorderRadius.circular(12)),
+               child: Row(
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                     Padding(
+                   padding: const EdgeInsets.only(right: 20),
+                   child: SizedBox(
+                     width: 250,
+                     height: 100,
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.teal),),
+                         Text(job[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 12,color: Colors.black),),
+                         Text(city[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 13,color: Colors.red),),
+                       ],
+                     ),
+                   ),
+                 ),
+
+                 Padding(
+                   padding: const EdgeInsets.only(left: 15.0),
+                   child: Image.asset(url[index],width: 80,height: 80,),
+                 )
+               ],)
+             ),
+           ),
+         );
+
+       },
+       )
+
+
+      /*Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: GridView.count(
-          physics: const BouncingScrollPhysics(),
-          crossAxisCount: 2,
-          childAspectRatio:(3/4),
-          padding: const EdgeInsets.all(10),
-          children:List.generate(6, (index) => InkWell(
-            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const Chat(),)),
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white,
-                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
-                child: Column(children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding:  const EdgeInsets.all(0),
-                        child: IconButton(onPressed: (){
-                          setState(() {
-                            liked=!liked;
-                          });
-                        }, icon:liked==true?Icon(CupertinoIcons.heart,color: Colors.black.withOpacity(0.5),size: 28,):Icon(CupertinoIcons.heart_fill,color: Colors.red.withOpacity(0.9),size: 28,)),
-                      )],),
-                  Image.asset('assets/images/splash-bottom-page-image.png',),
-                   const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15.0),
-                              child: Icon(Icons.message_sharp,color: Colors.blue,size: 25,),
-                            ),
-                          ],
+            physics: const BouncingScrollPhysics(),
+            crossAxisCount: w>600?3:1,
+            childAspectRatio:(3/4),
+            padding: const EdgeInsets.all(10),
+            children:List.generate(6, (index) => InkWell(
+              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const Chat(),)),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white,
+                      boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
+                  child: Column(children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding:  const EdgeInsets.all(0),
+                          child: IconButton(onPressed: (){
+                            setState(() {
+                              liked=!liked;
+                            });
+                          }, icon:liked==true?Icon(CupertinoIcons.heart,color: Colors.black.withOpacity(0.5),size: 28,):Icon(CupertinoIcons.heart_fill,color: Colors.red.withOpacity(0.9),size: 28,)),
+                        )],),
+                    Image.asset('assets/images/splash-bottom-page-image.png',),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15.0),
+                                child: Icon(Icons.message_sharp,color: Colors.blue,size: 25,),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20,top: 5),
-                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
-                      )
-                    ],),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20,top: 5),
+                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
+                        )
+                      ],),
 
-                ],),
+                  ],),
+                ),
               ),
-            ),
-          ))
+            ))
 
         ),
-      ),
+      ),*/
+
+
+
+
+
       ]),),
     );
   }
