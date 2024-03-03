@@ -17,11 +17,14 @@ class _DisplayChatState extends State<DisplayChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor:Colors.white,elevation:0,actions:[IconButton(onPressed: (){
+      appBar: AppBar(backgroundColor:Colors.white,elevation:0,actions:[
+        IconButton(onPressed: (){
         setState(() {
         changeState=!changeState;
         });
-        }, icon: const Icon(Icons.settings,color:Colors.grey,size: 30,))],automaticallyImplyLeading: false,title: const Text('گفتگو ها',style: TextStyle(fontSize: 20,fontFamily: 'Vazir',color: Colors.black),)),
+        }, icon: const Icon(Icons.settings,color:Colors.grey,size: 30,))],
+          automaticallyImplyLeading: false,
+          title: const Text('گفتگو ها',style: TextStyle(fontSize: 20,fontFamily: 'Vazir',color: Colors.black),)),
       floatingActionButton: bottomMenu(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: changeState==false?const EmptyState():const HaveState()
@@ -89,7 +92,7 @@ class _HaveStateState extends State<HaveState> {
       child: ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
       return InkWell(
         onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Chat(index: index,),));},
-        child: Container(padding:const EdgeInsets.only(bottom: 0,top: 10),decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black,width: 1))),
+        child: Container(padding:const EdgeInsets.only(bottom: 0,top: 10),decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black,width: 0.1))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,21 +105,26 @@ class _HaveStateState extends State<HaveState> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 22),),
-            Text('به یک ${job[index]} نیازمند هستم',style: const TextStyle(fontFamily: 'Vazir',fontSize: 14),),
+            Text(name[index],style: const TextStyle(fontFamily: 'Shabnam',fontSize: 14),),
+            Text('به یک ${job[index]} نیازمند هستم',style: const TextStyle(fontFamily: 'shabnam',fontSize: 14),),
             ],
             ),],),
-               Padding(
-                padding: const EdgeInsets.only(left:8.0),
+               const Padding(
+                padding: EdgeInsets.only(left:8.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                      Row(textDirection: TextDirection.rtl,mainAxisAlignment: MainAxisAlignment.spaceAround,children: [const Icon(Icons.done_all,color: Colors.green,),const SizedBox(width: 5,), Padding(
-                       padding: EdgeInsets.only(left: index%2==0?3:3),
-                       child: const Text('پنجشنبه'),
-                     )],),
-                     index%2==0?ElevatedButton(onPressed: (){},style: ButtonStyle(elevation:MaterialStateProperty.all(1),backgroundColor: MaterialStateProperty.all(Colors.white),minimumSize: MaterialStateProperty.all(const Size(15,35))), child: const Icon(Icons.arrow_forward_rounded,color: Colors.black,),)
-                         :const SizedBox(height: 50,width: 50,)
+                      Row(textDirection: TextDirection.rtl,mainAxisAlignment: MainAxisAlignment.spaceAround,crossAxisAlignment: CrossAxisAlignment.center,children: [
+
+                        SizedBox(width: 5,),Icon(Icons.done_all,color: Colors.green,),
+                        SizedBox(width: 8,)
+                       ],),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0,bottom:5),
+                      child: Text('پنجشنبه'),
+                    ),
+
                   ],),
               ),
             ],

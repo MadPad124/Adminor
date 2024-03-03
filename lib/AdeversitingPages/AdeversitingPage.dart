@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
@@ -12,12 +14,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:adminor/cities.dart';
 //import 'package:flutter/scheduler.dart';
-bool liked=false;
 List<String> filteredCities=[];
 List<bool> isChecked=[];
 List checkedList=['تهران'];
 ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
 ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
+ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
 class AdvertisingPage extends StatefulWidget {
   const AdvertisingPage({Key? key}) : super(key: key);
 
@@ -34,8 +36,8 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
   @override
   Widget build(BuildContext context) {
   var w=MediaQuery.of(context).size.width;
-
     TextEditingController searchBoxController=TextEditingController();
+    TextEditingController searchBoxController2=TextEditingController();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -50,29 +52,34 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                const Padding(
+/*                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Adminor',style: TextStyle(fontFamily: 'Vazir',fontWeight: FontWeight.w300,fontSize: 24,color: Colors.white),),
-                ),
+                ),*/
                 Container(width:MediaQuery.of(context).size.width-50,height:50,
                     decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(25)),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width-200,
-                            child:
-                        TextField(
-                          onTap: (){},
-
-                          onChanged: (value) => searchBoxController.text = value,
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                          onChanged: (value) {},
                           style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
                           textDirection: TextDirection.rtl,
+                              controller: searchBoxController2,
+                          autofocus: true,
                           decoration: const InputDecoration(
+                            hintStyle: TextStyle(fontFamily: 'Shabnam'),
                             hintText: 'جستجو...',
                               border: UnderlineInputBorder(borderSide: BorderSide.none),
-                              prefixIcon : Icon(Icons.search),prefixIconColor: Colors.grey),)),
+                              prefixIcon : Padding(
+                                padding: EdgeInsets.only(right: 15.0),
+                                child: Icon(Icons.search),
+                              ),prefixIconColor: Colors.grey),
+                            )),
                                InkWell(
                                 onTap: (){
                                   showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title: Row(
@@ -138,8 +145,7 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                     ],
                                   ),
                                   content: SingleChildScrollView(
-                                    child: Center(
-                                      child: SizedBox(
+                                    child: SizedBox(
                                         width: MediaQuery.of(context).size.width,
                                         child: Column(
                                           children: [
@@ -330,19 +336,37 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
                                                   },
                                                 )
                                               )
-                                            )
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  const SizedBox(width: 10,),
+                                                  TextButton(onPressed: (){Navigator.of(context).pop();},style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(80, 50)),backgroundColor:MaterialStateProperty.all(Colors.green),padding: MaterialStateProperty.all(const EdgeInsets.all(15))), child: const Text('تایید',style: TextStyle(color: Colors.white),)),
+                                                  const SizedBox(width: 5,),
+                                                  TextButton(onPressed: (){Navigator.of(context).pop();},style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.red),padding: MaterialStateProperty.all(const EdgeInsets.all(15))), child: const Text('انصراف',style: TextStyle(color: Colors.white),)),
+                                                  const SizedBox(width: 5,),
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      ),
+
                                     ),
                                   )),);
                                 },
-                                child:const Row(
+                                child: Row(
                                   textDirection: TextDirection.ltr,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.location_city,color: CupertinoColors.activeBlue,),
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 15.0),
+                                      child: Icon(Icons.location_city,color: CupertinoColors.activeBlue,),
+                                    ),
+                                    const SizedBox(width: 5,),
+                                    ValueListenableBuilder<String>(valueListenable: valueNotifier,builder:(context, value, child) =>  Text(checkedList.length>1?'${checkedList.length.toString()} شهر':checkedList.first,style: const TextStyle(fontFamily: 'Shabnam'),)),
                                     ],),
                               )
 
@@ -368,47 +392,47 @@ class _AdvertisingPageState extends State<AdvertisingPage> {
       ),
       Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
 
-       ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
-         return Padding(
-           padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
-           child: InkWell(
-             onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Chat(index: index,),)),
-             child: Container(
-               width: w-50,
-               height: 120,
-               decoration: BoxDecoration(color:Colors.green.withOpacity(0.1),border: Border.all(color: Colors.green,width: 1),borderRadius: BorderRadius.circular(12)),
-               child: Row(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                     Padding(
-                   padding: const EdgeInsets.only(right: 20),
-                   child: SizedBox(
-                     width: 250,
-                     height: 100,
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.teal),),
-                         Text(job[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 12,color: Colors.black),),
-                         Text(city[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 13,color: Colors.red),),
-                       ],
-                     ),
-                   ),
-                 ),
+        ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
+            child: InkWell(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Chat(index: index,),)),
+              child: Container(
+                  width: w-50,
+                  height: 120,
+                  decoration: BoxDecoration(color:Colors.green.withOpacity(0.1),border: Border.all(color: Colors.green,width: 1),borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: SizedBox(
+                          width: 250,
+                          height: 100,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.teal),),
+                              Text(job[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 12,color: Colors.black),),
+                              Text(city[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 13,color: Colors.red),),
+                            ],
+                          ),
+                        ),
+                      ),
 
-                 Padding(
-                   padding: const EdgeInsets.only(left: 15.0),
-                   child: Image.asset(url[index],width: 80,height: 80,),
-                 )
-               ],)
-             ),
-           ),
-         );
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: Image.asset(url[index],width: 80,height: 80,),
+                      )
+                    ],)
+              ),
+            ),
+          );
 
-       },
-       )
+        },
+        )
 
 
       /*Padding(
