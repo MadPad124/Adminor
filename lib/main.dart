@@ -1,8 +1,6 @@
 
-import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
+
 import 'package:adminor/Settings/settingsPage.dart';
-import 'package:adminor/loginPages/loginPage.dart';
-import 'package:adminor/splashPages/splashPage.dart';
 //import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home: const /*StartAppSplashPage*/LoginPage()
+      home: const /*StartAppSplashPage*/SettingsPage()
     );
   }
 }

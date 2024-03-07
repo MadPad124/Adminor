@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                                         BorderRadius.all(Radius.circular(15)),
                                       ),
                                     ),
-                                    onPressed: () => print('11'),
+                                    onPressed: () => submitPhoneNumber(),
                                     child: showText('ورود', 16, Colors.green,FontWeight.normal),
                                   ),
                                 )
