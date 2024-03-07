@@ -1,4 +1,3 @@
-
 import 'package:adminor/loginPages/createAccountPage.dart';
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +53,6 @@ class _LoginPageState extends State<LoginPage> {
         automaticallyImplyLeading: false,
         elevation: 1,
         toolbarHeight: 0,
-        actions: [],
       ),
       body: GestureDetector(
         onTap: () {
@@ -139,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ],
                                       keyboardType: TextInputType.number,
                                       autofocus: true,
-                                      style: const TextStyle(color: Colors.white,fontFamily: 'vazir'),
+                                      style: const TextStyle(color: Colors.white,fontFamily: 'Shabnam'),
                                       cursorColor: Colors.black87,
                                       cursorWidth: 0,
                                       maxLength: 11,
@@ -166,12 +164,12 @@ class _LoginPageState extends State<LoginPage> {
                                 Expanded(
                                   flex: 2,
                                   child: showLoading ? AnimatedSize(
-                                    duration: Duration(seconds: 1),
+                                    duration: const Duration(seconds: 1),
                                     child: TextButton(
                                       style: TextButton.styleFrom(
-                                        padding: EdgeInsets.all(6),
+                                        padding: const EdgeInsets.all(6),
                                         animationDuration:
-                                        Duration(milliseconds: 1),
+                                        const Duration(milliseconds: 1),
                                         elevation: 2,
                                         splashFactory: InkSparkle.splashFactory,
                                         backgroundColor: Colors.white,
@@ -200,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                                         BorderRadius.all(Radius.circular(15)),
                                       ),
                                     ),
-                                    onPressed: submitPhoneNumber,
+                                    onPressed: () => print('11'),
                                     child: showText('ورود', 16, Colors.green,FontWeight.normal),
                                   ),
                                 )

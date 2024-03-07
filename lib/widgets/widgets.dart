@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 Widget showText(String text,double fontSize,Color textColor,FontWeight fontWeight){
 
-  return Text(text , style: TextStyle(fontWeight: fontWeight,fontSize: fontSize,color: textColor,fontFamily: 'vazir'),);
+  return Text(text , style: TextStyle(fontWeight: fontWeight,fontSize: fontSize,color: textColor,fontFamily: 'Vazir'),);
 
 }
 
