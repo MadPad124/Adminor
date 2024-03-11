@@ -1,5 +1,6 @@
 
 
+import 'package:adminor/Favorite.dart';
 import 'package:adminor/Settings/settingsPage.dart';
 //import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home: const /*StartAppSplashPage*/SettingsPage()
+      home: const /*StartAppSplashPage*/FavoritePage()
     );
   }
 }

@@ -1,8 +1,11 @@
 
-import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
 import 'package:adminor/loginPages/loginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../AdeversitingPages/AdeversitingPage.dart';
+import '../AdeversitingPages/NewAdeversitingPage.dart';
+import '../chat/displayChatPage.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -62,6 +65,8 @@ class SettingsPage extends StatelessWidget {
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
               option(context, 'تماس با پشتیبانی',CupertinoIcons.checkmark_shield_fill,Colors.blue,const AdvertisingPage()),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
+              option(context, 'آگهی های من',Icons.sticky_note_2_outlined,Colors.orangeAccent, const AdvertisingPage()),
+              Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
               InkWell(
                 onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));},
                  child: SizedBox(width:MediaQuery.of(context).size.width,height: 80,child:Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,children:[
@@ -104,4 +109,36 @@ Widget option(context,String text,IconData icon,Color color,Widget page,){
                    )
                  ],)),
                );
+}
+Widget bottomMenu(context) {
+  return Container(
+    decoration: BoxDecoration(
+      boxShadow: const [BoxShadow(color: Colors.grey,blurRadius: 5)],
+      borderRadius: BorderRadius.circular(25), color: Colors.green,),
+    width: MediaQuery.of(context).size.width - 20,
+    child: Padding(
+      padding: const EdgeInsets.all(7.0),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvertisingPage(),));},
+                    icon: const Icon(Icons.home, color: Colors.white,)),
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DisplayChat(),));},
+                    icon: const Icon(Icons.chat, color: Colors.white)),
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
+                    icon: const Icon(Icons.add_circle, color: Colors.white)),
+              ],),
+            IconButton(onPressed: () {},
+                icon: const Icon(
+                  Icons.manage_accounts_sharp, color: Colors.white,))
+          ]),
+    ),
+
+  );
+
 }

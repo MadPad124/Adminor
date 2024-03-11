@@ -1,4 +1,5 @@
-import 'package:adminor/loginPages/createAccountPage.dart';
+
+import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,11 +22,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       showLoading = true;
     });
-    Future.delayed(const Duration(seconds: 2), () => setState(() {
+    Future.delayed(const Duration(seconds: 5), () => setState(() {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const CreateAccountPage(),
+            builder: (context) => const AdvertisingPage(),
           ));
       showLoading = false;
     })
@@ -34,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   else if (mobileController.text.length<11){
     ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
-            content: const Text('لطفا شماره خود را درست وارد کنید',style: TextStyle(fontFamily: 'vazir'),),
+            content: const Text('لطفا شماره خود را درست وارد کنید',style: TextStyle(fontFamily: 'Shabnam'),),
           backgroundColor: Colors.red.withOpacity(0.7),
            showCloseIcon: true,
            closeIconColor: Colors.white,
