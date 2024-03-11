@@ -2,15 +2,17 @@
 import 'package:adminor/loginPages/loginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../AdeversitingPages/AdeversitingPage.dart';
 import '../AdeversitingPages/NewAdeversitingPage.dart';
+import '../Favorite.dart';
 import '../chat/displayChatPage.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ValueNotifier activated=ValueNotifier(false);
+    var w=MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         floatingActionButton: bottomMenu(context),
@@ -61,9 +63,70 @@ class SettingsPage extends StatelessWidget {
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
               option(context, 'پروفایل من',Icons.account_circle_outlined,Colors.green, const AdvertisingPage()),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
-              option(context, 'نشان شده ها',Icons.star_rounded,Colors.yellow ,const AdvertisingPage()),
+              option(context, 'نشان شده ها',Icons.star_rounded,Colors.yellow ,const FavoritePage()),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
-              option(context, 'تماس با پشتیبانی',CupertinoIcons.checkmark_shield_fill,Colors.blue,const AdvertisingPage()),
+              InkWell(
+                onTap: (){
+                  showDialog(context: context, builder: (context) =>  AlertDialog(
+                    title: const Text('تماس با ما',style: TextStyle(fontFamily: 'Shabnam',fontWeight: FontWeight.w200),),
+                    content: SizedBox(height:305,width:300,child: Column(children: [
+                      const Text('پاسخگوی شما هستیم در 24 ساعت روز',style: TextStyle(fontFamily: 'Vazir'),),
+                      const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Text('09217123169',style: TextStyle(fontFamily: 'Vazir'),),Icon(Icons.call,color: Colors.blue,)],),
+                    const SizedBox(height: 15,),
+                      StatefulBuilder(builder: (BuildContext context, StateSetter setState)=>
+                        TextField(
+                        onChanged: (value) {
+                          if(value.isNotEmpty){
+                            activated.value=true;
+                          }
+                          else{
+                            activated.value=false;
+                          }
+                        },
+                        keyboardType: TextInputType.multiline,
+                        maxLength: 256,
+                        maxLines: 7,
+                          style:const TextStyle(fontFamily: 'Vazir',color: Colors.black,fontWeight: FontWeight.w100),
+                        decoration: const InputDecoration(prefixIcon:Icon(Icons.message_outlined),prefixIconColor: Colors.green,
+                            label:Text('ارسال پیام',style: TextStyle(fontFamily: 'Shabnam'),),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1)),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))),),
+                     ),
+                      StatefulBuilder(builder: (BuildContext context, StateSetter setState)=>
+                         ValueListenableBuilder(valueListenable: activated,
+                           builder: (context, value, child) => TextButton(onPressed: () {
+                             if(activated.value==true){
+                               Navigator.pop(context);activated.value=false;
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                               behavior: SnackBarBehavior.floating,
+                                 shape: const StadiumBorder(),
+                                 showCloseIcon: true,
+                                 elevation: 0,
+                                 backgroundColor: Colors.green.withOpacity(0.1),
+                                 width: 300,
+                                 content: const Center(child: Text('پیام شما با موفقیت ارسال شد',style: TextStyle(color: Colors.black),))));
+                             }},style: ButtonStyle(backgroundColor: activated.value==true?MaterialStateProperty.all(CupertinoColors.activeGreen):MaterialStateProperty.all(Colors.grey.withOpacity(0.3))),
+                            child: const Text('ارسال',style: TextStyle(color: Colors.white),),),
+                         ),
+                      )
+                    ])),
+                )
+                );},
+                child: SizedBox(width:MediaQuery.of(context).size.width,height: 80,child:Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,children:[
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: Icon(CupertinoIcons.checkmark_shield_fill,size: 40,color: Colors.blue,),
+                  ),  const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(top:0.0,right: 5),
+                      child: Text('تماس با پشتیبانی',style: TextStyle(fontFamily: 'Shabnam'),),
+                    ),),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: IconButton(onPressed: (){}, icon: const Icon(CupertinoIcons.forward) ),
+                  )
+                ],)),
+              ),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
               option(context, 'آگهی های من',Icons.sticky_note_2_outlined,Colors.orangeAccent, const AdvertisingPage()),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),

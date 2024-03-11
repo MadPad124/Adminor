@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home: const /*StartAppSplashPage*/FavoritePage()
+      home: const /*StartAppSplashPage*/SettingsPage()
     );
   }
 }

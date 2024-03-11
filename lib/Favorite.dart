@@ -1,5 +1,10 @@
+import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
 import 'package:adminor/people.dart';
 import 'package:flutter/material.dart';
+
+import 'AdeversitingPages/NewAdeversitingPage.dart';
+import 'Settings/settingsPage.dart';
+import 'chat/displayChatPage.dart';
 class FavoritePage extends StatelessWidget {
   const FavoritePage({Key? key}) : super(key: key);
 
@@ -7,7 +12,9 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var w=MediaQuery.of(context).size.width;
     var h=MediaQuery.of(context).size.height;
-    return Scaffold(appBar: AppBar(title: const Row(
+    return Scaffold(
+      floatingActionButton: bottomMenu(context),
+      appBar: AppBar(title: const Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -55,3 +62,36 @@ class FavoritePage extends StatelessWidget {
     );
   }
 }
+Widget bottomMenu(context) {
+  return Container(
+    decoration: BoxDecoration(
+      boxShadow: const [BoxShadow(color: Colors.grey,blurRadius: 5)],
+      borderRadius: BorderRadius.circular(25), color: Colors.green,),
+    width: MediaQuery.of(context).size.width - 20,
+    child: Padding(
+      padding: const EdgeInsets.all(7.0),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvertisingPage(),));},
+                    icon: const Icon(Icons.home, color: Colors.white,)),
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DisplayChat(),));},
+                    icon: const Icon(Icons.chat, color: Colors.white)),
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
+                    icon: const Icon(Icons.add_circle, color: Colors.white)),
+              ],),
+            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const SettingsPage(),));},
+                icon: const Icon(
+                  Icons.manage_accounts_sharp, color: Colors.white,))
+          ]),
+    ),
+
+  );
+
+}
+
