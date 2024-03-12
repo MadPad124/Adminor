@@ -1,4 +1,5 @@
 
+import 'package:adminor/MyProfile.dart';
 import 'package:adminor/loginPages/loginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +62,7 @@ class SettingsPage extends StatelessWidget {
             ],),
             Column(children: [
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
-              option(context, 'پروفایل من',Icons.account_circle_outlined,Colors.green, const AdvertisingPage()),
+              option(context, 'پروفایل من',Icons.account_circle_outlined,Colors.green, const Profile()),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
               option(context, 'نشان شده ها',Icons.star_rounded,Colors.yellow ,const FavoritePage()),
               Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
