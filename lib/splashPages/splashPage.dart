@@ -1,11 +1,13 @@
-import 'package:adminor/loginPages/loginPage.dart';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-class StartAppSplashPage extends StatelessWidget {
-  const StartAppSplashPage({Key? key}) : super(key: key);
+import '../LoginPages/LoginPage.dart';
+
+class StartAppSplash extends StatelessWidget {
+  const StartAppSplash({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class StartAppSplashPage extends StatelessWidget {
                   repeatForever: true,
                 ),
               ),
-              nextScreen: const LoginPage(),
+              nextScreen: const Login(),
               pageTransitionType: PageTransitionType.fade,
             ),
             Column(

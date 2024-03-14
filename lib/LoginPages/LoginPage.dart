@@ -1,17 +1,21 @@
 
-import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
+
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+
+import '../AdeversitingPages/AdvertisingPage.dart';
+
+
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginState extends State<Login> {
 
   TextEditingController mobileController=TextEditingController();
 
@@ -26,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const AdvertisingPage(),
+            builder: (context) => const Advertising(),
           ));
       showLoading = false;
     })

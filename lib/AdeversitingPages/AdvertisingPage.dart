@@ -1,3 +1,4 @@
+
 import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
@@ -6,7 +7,7 @@ import 'package:adminor/people.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 */
 
-import 'NewAdeversitingPage.dart';
+import 'NewAdversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:adminor/cities.dart';
@@ -17,13 +18,13 @@ List checkedList=['تهران'];
 ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
 ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
 ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
-class AdvertisingPage extends StatefulWidget {
-  const AdvertisingPage({Key? key}) : super(key: key);
+class Advertising extends StatefulWidget {
+  const Advertising({Key? key}) : super(key: key);
 
   @override
-  State<AdvertisingPage> createState() => _AdvertisingPageState();
+  State<Advertising> createState() => _AdvertisingState();
 }
-class _AdvertisingPageState extends State<AdvertisingPage> {
+class _AdvertisingState extends State<Advertising> {
   @override
   void initState() {
 
@@ -518,10 +519,10 @@ Widget bottomMenu(context) {
                     icon: const Icon(Icons.home, color: Colors.white,)),
                 IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DisplayChat(),));},
                     icon: const Icon(Icons.chat, color: Colors.white)),
-                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const NewAdvertising(),));},
                     icon: const Icon(Icons.add_circle, color: Colors.white)),
               ],),
-            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const SettingsPage(),));},
+            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const Settings(),));},
                 icon: const Icon(
                   Icons.manage_accounts_sharp, color: Colors.white,))
           ]),

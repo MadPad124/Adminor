@@ -1,9 +1,9 @@
 
-import 'package:adminor/AdeversitingPages/AdeversitingPage.dart';
+import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/people.dart';
 import 'package:flutter/material.dart';
-import '../AdeversitingPages/NewAdeversitingPage.dart';
+import '../AdeversitingPages/NewAdversitingPage.dart';
 import '../Settings/settingsPage.dart';
 class DisplayChat extends StatefulWidget {
   const DisplayChat({Key? key}) : super(key: key);
@@ -47,14 +47,14 @@ Widget bottomMenu(context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvertisingPage(),));},
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Advertising(),));},
                     icon: const Icon(Icons.home, color: Colors.white,)),
                 IconButton(onPressed: () {},
                     icon: const Icon(Icons.chat, color: Colors.white)),
-                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));},
+                IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const NewAdvertising(),));},
                     icon: const Icon(Icons.add_circle, color: Colors.white)),
               ],),
-            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const SettingsPage(),));},
+            IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>const Settings(),));},
                 icon: const Icon(
                   Icons.manage_accounts_sharp, color: Colors.white,))
           ]),
