@@ -1,9 +1,16 @@
+import 'package:adminor/chat/ChatPage.dart';
 import 'package:flutter/material.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-class AdvertisingDetail extends StatelessWidget {
+bool isFavorite=false;
+class AdvertisingDetail extends StatefulWidget {
   const AdvertisingDetail({Key? key}) : super(key: key);
+
+  @override
+  State<AdvertisingDetail> createState() => _AdvertisingDetailState();
+}
+
+class _AdvertisingDetailState extends State<AdvertisingDetail> {
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +18,15 @@ class AdvertisingDetail extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.green,
-          leading: IconButton(onPressed: (){Navigator.of(context).pop();},icon: const Icon(Icons.arrow_back_outlined),),
+          leading: IconButton(onPressed: (){Navigator.of(context).pop();},icon: const Icon(Icons.arrow_back_outlined,color: Colors.white,),),
           actions: [
-            IconButton(onPressed: (){}, icon: const Icon(Icons.share)),
+            IconButton(onPressed: (){}, icon: const Icon(Icons.share,color: Colors.white,)),
             Padding(
               padding:const EdgeInsets.only(left: 8.0),
-              child: IconButton(onPressed: (){}, icon: const Icon(Icons.star_rate_sharp)),
+              child: IconButton(onPressed: (){setState(() {
+                isFavorite=!isFavorite;
+                print(isFavorite);
+              });}, icon:  Icon(Icons.star_rate_sharp,color: isFavorite==true?Colors.yellowAccent:Colors.white)),
             ),
           ],
       ),
@@ -308,7 +318,7 @@ Column(children: [
     },
   ),
   const SizedBox(height: 10,),
-  ElevatedButton(onPressed: (){}, child: const Text('ثبت نظر',style: TextStyle(fontFamily: 'Shabnam'),)),
+  ElevatedButton(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){}, child: const Text('ثبت نظر',style: TextStyle(fontFamily: 'Shabnam',color: Colors.white),)),
   const SizedBox(height: 10,),
   Container(height:1,decoration: const BoxDecoration(border: DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6)),),
   const SizedBox(height: 10,),
@@ -342,8 +352,8 @@ Column(children: [
                     ]),),
                 );
               },),
-            )
-
+            ),
+            InkWell(onTap:(){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Chat(index: 1),));},child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.green),child: const Center(child: Text('چت با کاربر',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
           ],),
       ),
     );
