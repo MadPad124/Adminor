@@ -80,6 +80,7 @@ class _AdvertisingState extends State<Advertising> {
                             )),
                                InkWell(
                                 onTap: (){
+
                                   showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -404,18 +405,21 @@ class _AdvertisingState extends State<Advertising> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 10),
                         child: SizedBox(
-                          width: 250,
+
                           height: 100,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.teal),),
-                              Text(job[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 12,color: Colors.black),),
-                              Text(city[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 13,color: Colors.red),),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.teal),),
+                                Text(job[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 12,color: Colors.black),),
+                                Text(city[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 13,color: Colors.red),),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -14,19 +14,20 @@ class MyAdvertisingPage extends StatelessWidget {
 /*    var h=MediaQuery.of(context).size.height;*/
     return Scaffold(
       floatingActionButton: bottomMenu(context),
+
       appBar: AppBar(title:const Row(
         textDirection: TextDirection.rtl,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('آگهی های من ',style: TextStyle(fontFamily: 'Vazir'),),
+          Text('آگهی های من ',style: TextStyle(fontFamily: 'Shabnam'),),
           Icon(Icons.notes,color: Colors.orange,),
           Expanded(child: SizedBox()),
 
         ],
       ),backgroundColor: Colors.green,),
       body: Center(child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.only(bottom: 100.0),
         child: ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
           return InkWell(
             borderRadius: BorderRadius.circular(8),
@@ -54,9 +55,9 @@ class MyAdvertisingPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          Text('وضعیت :',style: TextStyle(fontSize: 13),),
+                          Text('وضعیت :',style: TextStyle(fontSize: 13,fontFamily: 'Shabnam'),),
                          // Text('حذف شده',style: TextStyle(fontSize: 13,color: Colors.red)),
-                          Text('در حال نمایش',style: TextStyle(fontSize: 13,color: Colors.green)),
+                          Text('در حال نمایش',style: TextStyle(fontSize: 13,color: Colors.green,fontFamily: 'Shabnam')),
 
                         ],),
                          Padding(
@@ -68,7 +69,7 @@ class MyAdvertisingPage extends StatelessWidget {
                              mainAxisAlignment: MainAxisAlignment.center,
                              children: [
                                Icon(Icons.timelapse,color: Colors.white ,size: 15,),
-                               Text('مدیریت آگهی',style: TextStyle(color: Colors.white,fontSize: 12),),
+                               Text('مدیریت آگهی',style: TextStyle(color: Colors.white,fontSize: 12,fontFamily: 'Shabnam'),),
                              ],
                            )),
                          ),
