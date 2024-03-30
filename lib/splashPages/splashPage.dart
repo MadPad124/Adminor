@@ -19,7 +19,6 @@ class StartAppSplash extends StatelessWidget {
         automaticallyImplyLeading: false,
         elevation: 1,
         toolbarHeight: 0,
-        actions: [],
       ),
       body: Center(
         child: Stack(

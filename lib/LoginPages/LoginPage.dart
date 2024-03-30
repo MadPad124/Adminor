@@ -1,11 +1,12 @@
-
+import 'dart:convert';
 
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
 import '../AdeversitingPages/AdvertisingPage.dart';
+import '../api/Functions.dart';
 
 
 class Login extends StatefulWidget {
@@ -16,12 +17,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   TextEditingController mobileController=TextEditingController();
-
   bool showLoading = false;
-
-  void submitPhoneNumber (){
+  Future<void> submitPhoneNumber () async {
   if(mobileController.text.length>=11){
     setState(() {
       showLoading = true;
@@ -35,6 +33,7 @@ class _LoginState extends State<Login> {
       showLoading = false;
     })
     );
+loginUser(mobileController.value.text);
   }
   else if (mobileController.text.length<11){
     ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +46,6 @@ class _LoginState extends State<Login> {
     );
   }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

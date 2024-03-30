@@ -1,3 +1,4 @@
+import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/people.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class Favorite extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
         return InkWell(
-          onTap: (){},
+          onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AdvertisingDetail(),));},
           borderRadius: BorderRadius.circular(8),
           child: Padding(
             padding: const EdgeInsets.all(10.0),

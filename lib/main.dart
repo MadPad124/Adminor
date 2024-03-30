@@ -1,15 +1,14 @@
-//import 'package:adminor/AdeversitingPages/NewAdversitingPage.dart';
-import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
-import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/AdeversitingPages/NewAdversitingPage.dart';
+
+import 'package:adminor/LoginPages/LoginPage.dart';
 import 'package:adminor/splashPages/splashPage.dart';
 //import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-//
+import 'dart:io';
 // import 'package:page_transition/page_transition.dart';
-void main() async {
+void main() async{
+  HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -40,7 +39,14 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home: const /*StartAppSplash*/Advertising()
+      home: const Login()
     );
+  }
+}
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }

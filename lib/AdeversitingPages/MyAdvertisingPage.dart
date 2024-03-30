@@ -1,3 +1,4 @@
+import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/people.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +65,7 @@ class MyAdvertisingPage extends StatelessWidget {
                            padding: const EdgeInsets.only(left: 15.0),
                            child: ElevatedButton(
                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
-                               onPressed: () {} , child: const Row(
+                               onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AdvertisingDetail(),));} , child: const Row(
                              crossAxisAlignment: CrossAxisAlignment.center,
                              mainAxisAlignment: MainAxisAlignment.center,
                              children: [

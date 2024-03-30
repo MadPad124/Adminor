@@ -1,5 +1,7 @@
 
+import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/Settings/settingsPage.dart';
+import 'package:adminor/api/Functions.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
 import 'package:adminor/people.dart';
@@ -20,14 +22,13 @@ ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
 ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
 class Advertising extends StatefulWidget {
   const Advertising({Key? key}) : super(key: key);
-
   @override
   State<Advertising> createState() => _AdvertisingState();
 }
 class _AdvertisingState extends State<Advertising> {
   @override
   void initState() {
-
+    getUsers();
     isChecked=cities.values.toList();
     super.initState();
   }
@@ -395,7 +396,7 @@ class _AdvertisingState extends State<Advertising> {
           return Padding(
             padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
             child: InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Chat(index: index,),)),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const AdvertisingDetail(),)),
               child: Container(
                   width: w-50,
                   height: 120,
@@ -410,7 +411,7 @@ class _AdvertisingState extends State<Advertising> {
 
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(6.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,

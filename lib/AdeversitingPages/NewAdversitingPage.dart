@@ -229,7 +229,25 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                             ),
                             ),
                   //موارد دیگر ----------------------------------
-
+                  const SizedBox(height: 15,),
+                  Center(child: Container(color: Colors.green,height: 1,width: MediaQuery.of(context).size.width-20,)),
+                  const SizedBox(height: 15,),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 15.0,top: 5,bottom: 5),
+                    child: Text('ایمیل',style: TextStyle(fontFamily: 'Shabnam'),),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(style: TextStyle(fontFamily: 'Vazir'),validator:(value) {return 'فیلد نمیتونه خالی باشه';},decoration: const InputDecoration(labelText: 'ایمیل',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
+                    ),),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),keyboardType: TextInputType.emailAddress,validator:(value) {return 'ایمیل اشتباه است';},decoration: const InputDecoration(labelText: 'ایمیل کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
+                    ),),
+                  ),
                      const Padding(
                        padding: EdgeInsets.only(right: 15.0,top: 5,bottom: 5),
                        child: Text('قیمت',style: TextStyle(fontFamily: 'Shabnam'),),
@@ -528,289 +546,6 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                             )));
                         },
                       readOnly:true,decoration: const InputDecoration(suffixIcon: Icon(CupertinoIcons.location),hintText: 'شهر ',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
-                    ),),
-                  ),
-                     Padding(
-                    padding: const EdgeInsets.only(top: 8,right: 8,left: 8,bottom: 0),
-                    child:
-                    TextFormField(
-                      onTap: (){
-                        showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
-                            ValueListenableBuilder<String>(
-                              valueListenable: valueNotifier,
-                              builder: (context, value, child) => IconButton(onPressed: (){
-
-                                if(valueNotifier.value=='notAllChecked'){
-                                  checkedList=[];
-                                  for(int i =0;i<31;i++){
-                                    isChecked[i]=true;
-                                    valueNotifier.value=i.toString();
-                                  }
-                                  cities.updateAll((key, value) => true);
-                                  checkedList.addAll(cities.keys);
-
-                                  valueNotifier.value='allChecked';
-                                  valueNotifier2.value=!valueNotifier2.value;
-                                  // print('object8');
-
-                                }
-                                else if(valueNotifier.value=='someChecked'){
-                                  checkedList=[];
-                                  // print('object7');
-                                  for(int i =0;i<31;i++){
-                                    isChecked[i]=true;valueNotifier.value=i.toString();
-                                  }
-                                  cities.updateAll((key, value) => true);
-                                  checkedList.addAll(cities.keys);
-                                  // print('object6');
-                                  valueNotifier.value='allChecked';
-                                  valueNotifier2.value=!valueNotifier2.value;
-                                }
-                                else if(checkedList.length>=2&&valueNotifier.value=='nothing'){
-                                  checkedList=[];
-                                  //  print('object5');
-                                  for(int i =0;i<31;i++){
-                                    isChecked[i]=true;valueNotifier.value=i.toString();
-                                  }
-                                  cities.updateAll((key, value) => true);
-                                  checkedList.addAll(cities.keys);
-                                  // print('object4');
-                                  valueNotifier.value='allChecked';
-                                  valueNotifier2.value=!valueNotifier2.value;
-
-                                }
-                                else if (valueNotifier.value=='allChecked'){
-                                  // print('object3');
-                                  checkedList=[];
-                                  checkedList=['تهران'];
-                                  cities.forEach((k, v) {cities.update(k, (value) => value=false); });
-                                  cities.update('تهران', (value) => value=true);
-                                  isChecked=[];
-                                  isChecked.addAll(cities.values);
-                                  valueNotifier.value='notAllChecked';
-                                  valueNotifier2.value=!valueNotifier2.value;
-                                }
-                              }, icon:  Icon(valueNotifier.value=='allChecked'?Icons.check_box:Icons.indeterminate_check_box_rounded,color: Colors.green,)),
-                            )
-                          ],
-                        ),
-                            content: SingleChildScrollView(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      width:MediaQuery.of(context).size.width,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 15.0,right: 25,left: 25),
-                                        child:  ValueListenableBuilder<bool>(valueListenable: valueNotifier2,builder: (context, value, child) => Text(checkedList.isEmpty?'حداقل یک شهر را انتخاب کنید':checkedList.join(' || '),style: const TextStyle(fontFamily: 'vazir',fontSize: 16) ,)),
-                                      ),
-                                    ),
-
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                            height: 60,
-                                            //decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(10),border: Border.all(color: Colors.grey,width: 1)),
-                                            width: MediaQuery.of(context).size.width-130,
-                                            child:
-                                            TextField(
-                                              controller: searchBoxController,
-                                              onChanged: (value) {
-                                                if(searchBoxController.text.isEmpty){
-                                                  valueNotifier.value='nothing';
-
-                                                }
-                                                else{
-                                                  valueNotifier.value=searchBoxController.text;
-
-                                                }
-
-                                              },
-                                              style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
-                                              textDirection: TextDirection.rtl,
-                                              decoration:  InputDecoration(
-                                                enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey,width: 1),borderRadius: BorderRadius.circular(8)),
-                                                hintText: 'استان را وارد کنید',
-                                                hintStyle: const TextStyle(fontSize: 16),
-                                                suffixIcon: const Icon(Icons.search),
-                                                focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width:1,color: Colors.teal)),
-                                                border: const UnderlineInputBorder(borderSide: BorderSide.none),
-                                              ),)),
-                                      ],
-                                    ),
-                                    Center(
-                                        child: SizedBox(
-                                            height: 240,
-                                            width: MediaQuery.of(context).size.width-130,
-                                            child:ValueListenableBuilder<String>(
-                                              valueListenable: valueNotifier,
-                                              builder: (context, value, child) {
-                                                if(searchBoxController.text.isNotEmpty){
-                                                  if(checkedList.length==31){
-                                                    filteredCities=[];
-                                                  }
-                                                  else{
-                                                    filteredCities=[];
-                                                    isChecked=[];
-                                                    //isChecked.addAll(cities.values);
-//======================================================================================================
-                                                    cities.forEach((key, value) {
-                                                      if(key.contains(searchBoxController.text)){
-                                                        isChecked.add(value);}
-                                                    });
-//======================================================================================================
-
-                                                  }
-                                                  cities.forEach((key, value) {
-                                                    if(key.contains(searchBoxController.text)){
-                                                      filteredCities.add(key);
-                                                    }
-                                                  });
-                                                }
-                                                else{
-                                                  if(checkedList.length==31){
-                                                    filteredCities=[];
-                                                    filteredCities.addAll(cities.keys);
-                                                    //print('object1');
-
-                                                  }
-                                                  else{
-                                                    isChecked=cities.values.toList();
-                                                    //print('${isChecked}218');
-                                                    filteredCities=[];
-                                                    filteredCities.addAll(cities.keys);}
-
-                                                }
-                                                return ListView.builder(itemCount: filteredCities.length>1?filteredCities.length:1, itemBuilder: (context, index) {
-                                                  return Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 8.0),
-                                                        child: SizedBox(
-                                                          height: 60,
-                                                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              Expanded(child: Padding(
-                                                                padding: const EdgeInsets.only(right: 8.0),
-                                                                child: StatefulBuilder(builder: (BuildContext context, StateSetter setState){
-                                                                  return filteredCities.isNotEmpty?
-                                                                  CheckboxListTile(
-                                                                    checkColor: Colors.white,
-                                                                    fillColor: MaterialStateProperty.all(Colors.teal),
-                                                                    title: Text(filteredCities[index],style:const TextStyle(fontSize: 16, fontFamily: 'Vazir')),
-                                                                    value:isChecked[index],
-                                                                    onChanged: (value) {
-                                                                      setState(
-                                                                            () {
-                                                                          if(checkedList.length>=31){
-                                                                            cities.forEach((k, v) {
-                                                                              if(k==filteredCities[index]){
-                                                                                cities.update(k, (value) => value=!v);
-                                                                                isChecked[index]=!isChecked[index];
-                                                                                checkedList.remove(k);
-                                                                                valueNotifier.value='someNotChecked';
-                                                                                valueNotifier.value='someChecked';
-                                                                                valueNotifier2.value=!valueNotifier2.value;
-                                                                                //             print(checkedList);
-                                                                                //            print(isChecked);
-                                                                              }
-
-
-                                                                            });
-                                                                          }
-                                                                          else{
-
-                                                                            cities.forEach((k, v) {
-                                                                              if(k==filteredCities[index]){
-                                                                                cities.update(k, (value) => value=!v);
-                                                                                isChecked=cities.values.toList();
-                                                                                if(checkedList.length==31)
-                                                                                {valueNotifier.value='allChecked';}
-                                                                                //print('ooh');print( valueNotifier.value);
-                                                                                else/*(checkedList.length<30)*/{
-                                                                                  valueNotifier.value='someNotChecked';
-                                                                                  valueNotifier.value='someChecked';
-                                                                                  //           print( valueNotifier.value);
-                                                                                  //           print( 'valueNotifier.value');
-                                                                                }
-                                                                                if(checkedList.contains(k)){
-                                                                                  checkedList.remove(k);
-
-                                                                                  valueNotifier2.value=!valueNotifier2.value;
-                                                                                }
-                                                                                else{
-                                                                                  checkedList.add(k);
-                                                                                  checkedList.sort();
-                                                                                  valueNotifier2.value=!valueNotifier2.value;
-                                                                                }
-                                                                              }
-
-                                                                              //print(checkedList);
-                                                                              //print(isChecked);
-                                                                            });
-
-                                                                          }
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                    secondary: const Icon(CupertinoIcons.circle_grid_hex,color: Colors.green,),
-                                                                  ):const Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    children: [
-
-                                                                      Center(child: Text('موردی یافت نشد',style:TextStyle(fontSize: 16, fontFamily: 'Vazir',color: Colors.red))),
-                                                                      Icon(Icons.error,color: Colors.redAccent,),
-                                                                    ],
-                                                                  );
-                                                                })
-                                                                ,
-                                                              )),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(height: 1,
-                                                        width: MediaQuery
-                                                            .of(context)
-                                                            .size
-                                                            .width - 140,
-                                                        decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                          color: Colors.grey.withOpacity(0.4), width: 1,))),)
-                                                    ],
-                                                  );
-                                                });
-                                              },
-                                            )
-                                        )
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const SizedBox(width: 10,),
-                                          TextButton(onPressed: (){Navigator.of(context).pop();},style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(80, 30)),backgroundColor:MaterialStateProperty.all(Colors.green),padding: MaterialStateProperty.all(const EdgeInsets.all(15))), child: const Text('تایید',style: TextStyle(color: Colors.white),)),
-                                          const SizedBox(width: 5,),
-                                          TextButton(onPressed: (){Navigator.of(context).pop();},style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.red),padding: MaterialStateProperty.all(const EdgeInsets.all(15))), child: const Text('انصراف',style: TextStyle(color: Colors.white),)),
-                                          const SizedBox(width: 5,),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                              ),
-                            )));
-                      },
-                      readOnly:true,decoration: const InputDecoration(suffixIcon: Icon(Icons.location_city),hintText: 'محله ',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
