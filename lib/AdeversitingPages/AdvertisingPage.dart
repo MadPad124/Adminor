@@ -2,13 +2,11 @@
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/api/Functions.dart';
-import 'package:adminor/chat/ChatPage.dart';
 import 'package:adminor/chat/displayChatPage.dart';
-import 'package:adminor/people.dart';
 /*
 import 'package:liquid_swipe/liquid_swipe.dart';
 */
-
+import '../structure.dart';
 import 'NewAdversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +26,8 @@ class Advertising extends StatefulWidget {
 class _AdvertisingState extends State<Advertising> {
   @override
   void initState() {
-    getUsers();
+    getFavorites();
+    checkRating();
     isChecked=cities.values.toList();
     super.initState();
   }
@@ -69,7 +68,7 @@ class _AdvertisingState extends State<Advertising> {
                           style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
                           textDirection: TextDirection.rtl,
                               controller: searchBoxController2,
-                          autofocus: true,
+                          autofocus: false,
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(fontFamily: 'Shabnam'),
                             hintText: 'جستجو...',
@@ -392,11 +391,11 @@ class _AdvertisingState extends State<Advertising> {
       ),
       Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
 
-        ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
+        users.isEmpty? const Center(child: CircularProgressIndicator()):ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
             child: InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const AdvertisingDetail(),)),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertisingDetail(index: index),)),
               child: Container(
                   width: w-50,
                   height: 120,
@@ -416,9 +415,11 @@ class _AdvertisingState extends State<Advertising> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(name[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.teal),),
-                                Text(job[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 12,color: Colors.black),),
-                                Text(city[index],style: const TextStyle(fontFamily: 'Vazir',fontSize: 13,color: Colors.red),),
+                                Text(users[index].name,style: const TextStyle(fontFamily: 'Vazir',fontSize: 18,color: Colors.teal),),
+                                const SizedBox(height: 5,),
+                                Text(users[index].type,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.black),),
+                                const SizedBox(height: 5,),
+                                Text(users[index].city,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.red),),
                               ],
                             ),
                           ),
@@ -427,7 +428,7 @@ class _AdvertisingState extends State<Advertising> {
 
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0),
-                        child: Image.asset(url[index],width: 80,height: 80,),
+                        child: Image.network(users[index].image,width: 80,height: 80,fit: BoxFit.fill,),
                       )
                     ],)
               ),
@@ -436,70 +437,6 @@ class _AdvertisingState extends State<Advertising> {
 
         },
         )
-
-
-      /*Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: GridView.count(
-            physics: const BouncingScrollPhysics(),
-            crossAxisCount: w>600?3:1,
-            childAspectRatio:(3/4),
-            padding: const EdgeInsets.all(10),
-            children:List.generate(6, (index) => InkWell(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const Chat(),)),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white,
-                      boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3),blurRadius: 10,spreadRadius: 0)],
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1,)),
-                  child: Column(children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding:  const EdgeInsets.all(0),
-                          child: IconButton(onPressed: (){
-                            setState(() {
-                              liked=!liked;
-                            });
-                          }, icon:liked==true?Icon(CupertinoIcons.heart,color: Colors.black.withOpacity(0.5),size: 28,):Icon(CupertinoIcons.heart_fill,color: Colors.red.withOpacity(0.9),size: 28,)),
-                        )],),
-                    Image.asset('assets/images/splash-bottom-page-image.png',),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 20.0,top: 10,bottom: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('محسن لرستانی',style: TextStyle(fontFamily: 'Vazir',fontSize: 16,),),
-                              Padding(
-                                padding: EdgeInsets.only(left: 15.0),
-                                child: Icon(Icons.message_sharp,color: Colors.blue,size: 25,),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5.0,left: 7,right: 20,top: 5),
-                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('گلستان'),Text('دقایقی پیش'),],),
-                        )
-                      ],),
-
-                  ],),
-                ),
-              ),
-            ))
-
-        ),
-      ),*/
-
-
-
-
-
       ]),),
     );
   }

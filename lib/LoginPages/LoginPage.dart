@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import '../AdeversitingPages/AdvertisingPage.dart';
@@ -24,6 +25,8 @@ class _LoginState extends State<Login> {
     setState(() {
       showLoading = true;
     });
+    final cache=GetStorage();
+    cache.writeIfNull('telephone', mobileController.value.text);
     Future.delayed(const Duration(seconds: 5), () => setState(() {
       Navigator.pushReplacement(
           context,

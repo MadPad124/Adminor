@@ -1,4 +1,7 @@
 
+import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
+import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
+import 'package:adminor/AdeversitingPages/NewAdversitingPage.dart';
 import 'package:adminor/LoginPages/LoginPage.dart';
 import 'package:adminor/splashPages/splashPage.dart';
 //import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -6,13 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:io';
+
+import 'package:get_storage/get_storage.dart';
+
+import 'api/Functions.dart';
 // import 'package:page_transition/page_transition.dart';
 void main() async{
+
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
+   await GetStorage.init();
+  users.isEmpty?getUsers():null;
   runApp(const MyApp());
 }
 
@@ -22,6 +31,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
@@ -39,7 +49,7 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home: const Login()
+      home: const NewAdvertising()
     );
   }
 }

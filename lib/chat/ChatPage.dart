@@ -1,5 +1,5 @@
 
-import 'package:adminor/people.dart';
+import 'package:adminor/structure.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:chat_bubbles/date_chips/date_chip.dart';

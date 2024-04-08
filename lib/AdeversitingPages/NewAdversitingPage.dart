@@ -15,7 +15,7 @@ class NewAdvertising extends StatefulWidget {
 class _NewAdvertisingState extends State<NewAdvertising> {
   @override
   Widget build(BuildContext context) {
-
+    final formkey = GlobalKey<FormState>();
     List<String> filteredCities=[];
     List<bool> isChecked=[];
     List checkedList=['تهران'];
@@ -26,11 +26,18 @@ class _NewAdvertisingState extends State<NewAdvertising> {
     double end = 50.0;
     String? selectedValue;
     var items = [
-      'تلگرام ',
-      'واتساپ ',
-      'اینستاگرام ',
       'ایتا ',
-      'سایت ',
+      'سروش ',
+      'بله ',
+      'روبیکا ',
+      'آی گپ ',
+      'سایت',
+      'شاد',
+      'گپ',
+      'ویراستی',
+      'نوا',
+      'چتزی',
+      'آیوا',
     ];
     String? selectedValue2;
     var items2 = [
@@ -113,7 +120,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
     ];
     String? selectedValue7;
     var items7 = [
-      'اتمام یا معافیت الزامی است',
+      'اتمام یا معافیت',
       'فرقی ندارد',
     ];
     TextEditingController searchBoxController=TextEditingController();
@@ -124,16 +131,17 @@ class _NewAdvertisingState extends State<NewAdvertising> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FloatingActionButton(heroTag:'btn1',backgroundColor: Colors.green,onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));},child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
-            FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.pop(context);},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),
+            FloatingActionButton(heroTag:'btn1',backgroundColor: Colors.green,onPressed: (){/*Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));*/},child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
+            FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),
           ],),
       ),
-      body:GestureDetector(
+      body:/*GestureDetector(
         onTap: ()=>FocusScope.of(context).requestFocus(FocusNode()),
-        child: SafeArea(
+        child: */SafeArea(
           child:
           SingleChildScrollView(
             child: Form(
+              key: formkey ,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -159,7 +167,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                   //name field-----------------------------------------
                    Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(validator:(value) {return 'فیلد نمیتونه خالی باشه';},decoration: const InputDecoration(labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                    child: TextFormField(onTap:(){},controller:searchBoxController,validator:(value) {return 'فیلد نمیتونه خالی باشه';},decoration: const InputDecoration(labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
@@ -811,7 +819,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
             ),
           ),
         ),
-      )
-    );
+      );
+    //);
   }
 }

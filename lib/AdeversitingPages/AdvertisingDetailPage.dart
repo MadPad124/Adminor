@@ -1,21 +1,34 @@
+import 'package:adminor/api/Functions.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-bool isFavorite=false;
+
+double Rating=3;
+final cache = GetStorage();
 class AdvertisingDetail extends StatefulWidget {
-  const AdvertisingDetail({Key? key}) : super(key: key);
+  final index;
+  const AdvertisingDetail({super.key, required this.index});
+
 
   @override
   State<AdvertisingDetail> createState() => _AdvertisingDetailState();
 }
 
 class _AdvertisingDetailState extends State<AdvertisingDetail> {
+@override
+  void initState() {
+  cache.read(users[widget.index].phone_number);
+  cache.read('${users[widget.index].phone_number}rated');
 
+    Rating=3;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    var lorem='لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.';
-    return Scaffold(
+
+      return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.green,
           leading: IconButton(onPressed: (){Navigator.of(context).pop();},icon: const Icon(Icons.arrow_back_outlined,color: Colors.white,),),
@@ -23,10 +36,13 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
             IconButton(onPressed: (){}, icon: const Icon(Icons.share,color: Colors.white,)),
             Padding(
               padding:const EdgeInsets.only(left: 8.0),
-              child: IconButton(onPressed: (){setState(() {
-                isFavorite=!isFavorite;
-                print(isFavorite);
-              });}, icon:  Icon(Icons.star_rate_sharp,color: isFavorite==true?Colors.yellowAccent:Colors.white)),
+              child: IconButton(onPressed: (){
+
+                setState(() {
+                  cache.read(users[widget.index].phone_number)==false?cache.write(users[widget.index].phone_number,true):cache.write(users[widget.index].phone_number,false);
+                  addFavorite(users[widget.index].phone_number);
+              });
+                },icon:Icon(Icons.star_rate_sharp,color: cache.read(users[widget.index].phone_number)==true?Colors.yellowAccent:Colors.white)),
             ),
           ],
       ),
@@ -41,20 +57,20 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 textDirection: TextDirection.rtl,
                 children: [
-               const Column(
+                Column(
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
                  Padding(
-                 padding: EdgeInsets.only(right: 10.0,bottom: 10),
-                 child: Text('نام : محسن ایزدی',style: TextStyle(fontFamily: 'Shabnam'),),
+                 padding: const EdgeInsets.only(right: 10.0,bottom: 10),
+                 child: Text('نام : ${users[widget.index].name}',style: const TextStyle(fontFamily: 'Shabnam'),),
                ),
                  Padding(
-                   padding: EdgeInsets.only(right: 10.0,bottom: 10),
-                   child: Text('دسته بندی : بله',style: TextStyle(fontFamily: 'Shabnam'),),
+                   padding: const EdgeInsets.only(right: 10.0,bottom: 10),
+                   child: Text('دسته بندی : ${users[widget.index].type}',style: const TextStyle(fontFamily: 'Shabnam'),),
                  ),
                  Padding(
-                   padding: EdgeInsets.only(right: 10.0),
-                   child: Text('شهر : تهران',style: TextStyle(fontFamily: 'Shabnam'),),
+                   padding: const EdgeInsets.only(right: 10.0),
+                   child: Text('شهر : ${users[widget.index].city}',style: const TextStyle(fontFamily: 'Shabnam'),),
                  ),
                ],),
                   const Column(
@@ -77,7 +93,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     ],),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Image.asset('assets/images/UserRandom.png',width: 100,height: 100,),
+                    child: Image.network(users[widget.index].image,width: 100,height: 100,),
                   ),
                 ],),
             ),
@@ -119,17 +135,17 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     children: [
                       Icon(Icons.attach_money,size: 15,color: Colors.orange,),
                     ],),
-                  const Column(
+                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0,bottom: 10),
-                        child: Text('قیمت : 2 میلیون',style: TextStyle(fontFamily: 'Shabnam'),),
+                        padding: const EdgeInsets.only(left: 10.0,bottom: 10),
+                        child: Text('قیمت : ${users[widget.index].price} میلیون',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0,bottom: 10),
-                        child: Text('شیوه پرداخت : ماهانه',style: TextStyle(fontFamily: 'Shabnam'),),
+                        padding: const EdgeInsets.only(left: 10.0,bottom: 10),
+                        child: Text('شیوه پرداخت : ${users[widget.index].paymentMethod}',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
                     ],),
                 ],),
@@ -149,20 +165,20 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 textDirection: TextDirection.rtl,
                 children: [
-                  const Column(
+                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
+                        padding: const EdgeInsets.only(right: 10.0,bottom: 10),
+                        child: Text('نوع همکاری : ${users[widget.index].dealType}',style: const TextStyle(fontFamily: 'Shabnam'),),
+                      ),
+                      const Padding(
                         padding: EdgeInsets.only(right: 10.0,bottom: 10),
-                        child: Text('نوع همکاری : پاره وقت',style: TextStyle(fontFamily: 'Shabnam'),),
+                        child: Text('ساعت های همکاری',style: TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 10.0,bottom: 10),
-                        child: Text('روز های همکاری',style: TextStyle(fontFamily: 'Shabnam'),),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 40.0),
-                        child: Text('16 : 12',style: TextStyle(fontFamily: 'Shabnam'),),
+                        padding: const EdgeInsets.only(right: 40.0),
+                        child: Text('${users[widget.index].startTime} : ${users[widget.index].endTime}',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
                     ],),
                   const Column(
@@ -226,19 +242,19 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     children: [
                       Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
                     ],),
-                  const Column(
+                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0,bottom: 10),
-                        child: Text('تلفن : 09217123169',style: TextStyle(fontFamily: 'Shabnam'),),
+                        padding: const EdgeInsets.only(left: 10.0,bottom: 10),
+                        child: Text('تلفن : ${users[widget.index].phone_number}',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0,bottom: 10),
-                        child: Text('وضعیت سربازی : معاف دائم',style: TextStyle(fontFamily: 'Shabnam'),),
+                        padding: const EdgeInsets.only(left: 10.0,bottom: 10),
+                        child: Text(' سربازی : ${users[widget.index].status}',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 10.0,bottom: 10),
                         child: Row(
                           children: [
@@ -270,17 +286,18 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
             )),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(decoration:BoxDecoration(borderRadius: BorderRadius.circular(5),border: Border.all(color: Colors.green,width: 2)),child: Padding(
+              child: Container(width:MediaQuery.of(context).size.width,height:200,decoration:BoxDecoration(borderRadius: BorderRadius.circular(5),border: Border.all(color: Colors.green,width: 2)),child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(lorem,maxLines: 5,),
+                child: Text(users[widget.index].specialConditions,maxLines: 5,),
               )),
             ),
 Column(children: [
-  const SizedBox(height: 10,),
-  const Text('به این کاربر امتیاز بدهید',style: TextStyle(fontFamily: 'Shabnam'),),
+  SizedBox(height:cache.read('${users[widget.index].phone_number}rated')==false?0:10),
+  cache.read('${users[widget.index].phone_number}rated')==false?const Text('به این کاربر امتیاز بدهید',style: TextStyle(fontFamily: 'Shabnam'),):Container(),
   const SizedBox(height: 15,),
+  cache.read('${users[widget.index].phone_number}rated')==false?
   RatingBar.builder(
-    onRatingUpdate: (value) => print(value),
+    onRatingUpdate: (value) => Rating=value,
     glowColor: Colors.white,
     initialRating: 3,
     itemCount: 5,
@@ -316,10 +333,18 @@ Column(children: [
           return Container();
       }
     },
-  ),
-  const SizedBox(height: 10,),
-  ElevatedButton(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){}, child: const Text('ثبت نظر',style: TextStyle(fontFamily: 'Shabnam',color: Colors.white),)),
-  const SizedBox(height: 10,),
+  ):const Icon(Icons.sentiment_very_satisfied_outlined,color: Colors.green,size: 50,),
+   SizedBox(height: cache.read('${users[widget.index].phone_number}rated')==false?15:10,),
+  cache.read('${users[widget.index].phone_number}rated')==false? ElevatedButton(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
+    submitRating(Rating,users[widget.index].phone_number);
+    setState(() {
+      cache.write('${users[widget.index].phone_number}rated',true);
+    });
+
+    }, child: const Text('ثبت نظر',style: TextStyle(fontFamily: 'Shabnam',color: Colors.white),))
+      :
+  const Text('ممنون از نظر و همکاری شما',style: TextStyle(fontFamily: 'Shabnam')),
+  const SizedBox(height: 20,),
   Container(height:1,decoration: const BoxDecoration(border: DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6)),),
   const SizedBox(height: 10,),
 
@@ -336,18 +361,19 @@ Column(children: [
                 //primary: false,
                 //shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount:4,itemBuilder: (context, index){
+                itemCount:users.length,itemBuilder: (context, index){
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 1,color: Colors.green)),
                     width: 50,height: 50,
                     child: Column(children: [
-                      ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),child: Image.asset('assets/images/UserRandom.png',width: 150,height: 100,fit: BoxFit.fill,)),
+                      users[index].image=='https://192.168.1.106/adminor/uploads/useravatar.png'?SizedBox(height: 15,):Container(),
+                      ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),child: Image.network(users[index].image,width: 100,height: 100,)),
                       const SizedBox(height: 5,),
-                      const Text('ابولفضل محسنی',style: TextStyle(fontFamily: 'Shabnam')),
+                       Text(users[index].name,style: const TextStyle(fontFamily: 'Shabnam')),
                       const SizedBox(height: 10,),
-                      const Text('قیمت 4300000',style: TextStyle(fontFamily: 'Shabnam'),)
+                       Text('قیمت ${users[index].price}',style: TextStyle(fontFamily: 'Shabnam'),)
 
                     ]),),
                 );

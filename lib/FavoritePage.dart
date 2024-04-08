@@ -1,10 +1,11 @@
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/people.dart';
+import 'package:adminor/structure.dart';
 import 'package:flutter/material.dart';
 
 import 'AdeversitingPages/NewAdversitingPage.dart';
 import 'Settings/settingsPage.dart';
+import 'api/Functions.dart';
 import 'chat/displayChatPage.dart';
 class Favorite extends StatelessWidget {
   const Favorite({Key? key}) : super(key: key);
@@ -25,9 +26,9 @@ class Favorite extends StatelessWidget {
     ),backgroundColor: Colors.green,),
     body: Center(child: Padding(
       padding: const EdgeInsets.all(10.0),
-      child: ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
+      child: ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
         return InkWell(
-          onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AdvertisingDetail(),));},
+          onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  AdvertisingDetail(index: index),));},
           borderRadius: BorderRadius.circular(8),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -40,9 +41,9 @@ class Favorite extends StatelessWidget {
                   ),const SizedBox(width:15),
                     Expanded(
                       child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,children: [
-                      Text(name[index],style: const TextStyle(fontFamily: 'Shabnam'),),
+                      Text(users[index].name,style: const TextStyle(fontFamily: 'Shabnam'),),
                       const SizedBox(height: 5,),
-                      Text('قیمت ${price[index]} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
+                      Text('قیمت ${users[index].price} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
                   ],),
                     ),
                   Padding(

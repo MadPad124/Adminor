@@ -1,11 +1,12 @@
-import 'package:shared_preferences/shared_preferences.dart';
+/*
+//import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 //import 'dart:developer' as dev;
 import 'dart:convert';
 
 class Acts{
 
-  static SharedPreferences? _pref;
+ // static SharedPreferences? _pref;
 
   static const _skipStarterPage = 'skipStarterPage';
   static const _joinStatus = 'joinStatus';
@@ -21,7 +22,9 @@ class Acts{
   static const _userWallet = 'userWallet';
   static const _url = "https://sandoqdar.ir/connections/api/";
 
-  static Future init() async => _pref = await SharedPreferences.getInstance();
+*/
+/*  static Future init() async => _pref = await SharedPreferences.getInstance();*//*
+
 
   // Use On StarterPage
   static Future setSkipStarterPage(bool status) async => _pref?.setBool(_skipStarterPage,status );
@@ -1326,4 +1329,4 @@ class Acts{
   }
   // End Shop Action
 
-}
+}*/

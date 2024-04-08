@@ -1,18 +1,21 @@
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/people.dart';
+import 'package:adminor/api/Functions.dart';
+import 'package:adminor/structure.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../chat/displayChatPage.dart';
 import 'package:adminor/Settings/settingsPage.dart';
 import 'NewAdversitingPage.dart';
 class MyAdvertisingPage extends StatelessWidget {
-  const MyAdvertisingPage({Key? key}) : super(key: key);
+  const MyAdvertisingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     var w=MediaQuery.of(context).size.width;
 /*    var h=MediaQuery.of(context).size.height;*/
+
     return Scaffold(
       floatingActionButton: bottomMenu(context),
 
@@ -29,7 +32,7 @@ class MyAdvertisingPage extends StatelessWidget {
       ),backgroundColor: Colors.green,),
       body: Center(child: Padding(
         padding: const EdgeInsets.only(bottom: 100.0),
-        child: ListView.builder(itemCount: name.length,itemBuilder: (context, index) {
+        child: ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
           return InkWell(
             borderRadius: BorderRadius.circular(8),
             onTap: () {},
@@ -44,9 +47,9 @@ class MyAdvertisingPage extends StatelessWidget {
                     ),const SizedBox(width:15),
                       Expanded(
                         child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,children: [
-                          Text(job[index],style: const TextStyle(fontFamily: 'Shabnam'),),
+                          Text(users[index].type,style: const TextStyle(fontFamily: 'Shabnam'),),
                           const SizedBox(height: 5,),
-                          Text('قیمت ${price[index]} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
+                          Text('قیمت ${users[index].price} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
                         ],),
                       ),
                      Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +68,7 @@ class MyAdvertisingPage extends StatelessWidget {
                            padding: const EdgeInsets.only(left: 15.0),
                            child: ElevatedButton(
                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
-                               onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AdvertisingDetail(),));} , child: const Row(
+                               onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  AdvertisingDetail(index: index,),));} , child: const Row(
                              crossAxisAlignment: CrossAxisAlignment.center,
                              mainAxisAlignment: MainAxisAlignment.center,
                              children: [

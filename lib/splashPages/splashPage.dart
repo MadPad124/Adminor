@@ -1,13 +1,16 @@
 
+import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:adminor/api/Functions.dart';
 
 import '../LoginPages/LoginPage.dart';
-
+final cache = GetStorage();
 class StartAppSplash extends StatelessWidget {
-  const StartAppSplash({Key? key}) : super(key: key);
+  const StartAppSplash({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class StartAppSplash extends StatelessWidget {
           children:[
             AnimatedSplashScreen(
               disableNavigation: false,
-              duration: 4500,
+              duration: 3800,//4500
               animationDuration: const Duration(milliseconds: 320),
               splash:Center(
                 child: AnimatedTextKit(
@@ -40,7 +43,7 @@ class StartAppSplash extends StatelessWidget {
                   repeatForever: true,
                 ),
               ),
-              nextScreen: const Login(),
+              nextScreen:cache.read('telephone')==null?  const Login():const Advertising(),
               pageTransitionType: PageTransitionType.fade,
             ),
             Column(

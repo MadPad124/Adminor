@@ -1,7 +1,7 @@
 
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/chat/ChatPage.dart';
-import 'package:adminor/people.dart';
+import 'package:adminor/structure.dart';
 import 'package:flutter/material.dart';
 import '../AdeversitingPages/NewAdversitingPage.dart';
 import '../Settings/settingsPage.dart';
