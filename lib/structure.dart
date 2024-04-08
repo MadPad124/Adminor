@@ -93,4 +93,3 @@ class FavoriteHolder{
 
   get id => _id;
 }
-

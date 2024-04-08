@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home: const NewAdvertising()
+      home: const StartAppSplash()
     );
   }
 }

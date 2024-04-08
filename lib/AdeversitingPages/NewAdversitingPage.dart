@@ -1,12 +1,18 @@
 
+import 'package:adminor/structure.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
 import '../cities.dart';
 import 'AdvertisingPage.dart';
+
 var otherChoice =false;
 var enabledCheckBox=true;
+RangeValues _values = RangeValues(4.0, 8.0);
+double start = 1000000.0;
+double end = 3000000.0;
 class NewAdvertising extends StatefulWidget {
-  const NewAdvertising({Key? key}) : super(key: key);
+  const NewAdvertising({super.key});
 
   @override
   State<NewAdvertising> createState() => _NewAdvertisingState();
@@ -15,17 +21,14 @@ class NewAdvertising extends StatefulWidget {
 class _NewAdvertisingState extends State<NewAdvertising> {
   @override
   Widget build(BuildContext context) {
-    final formkey = GlobalKey<FormState>();
     List<String> filteredCities=[];
     List<bool> isChecked=[];
     List checkedList=['تهران'];
     ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
     ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
     ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
-    double start = 30.0;
-    double end = 50.0;
-    String? selectedValue;
-    var items = [
+    String? selectedPlatform;
+    var platformItems = [
       'ایتا ',
       'سروش ',
       'بله ',
@@ -39,23 +42,23 @@ class _NewAdvertisingState extends State<NewAdvertising> {
       'چتزی',
       'آیوا',
     ];
-    String? selectedValue2;
-    var items2 = [
+    String? selectedDealType;
+    var dealTypeItems = [
       'تمام وقت',
       'پاره وقت',
       'پیمان کاری',
       'کارآموزی',
       'سایر ',
     ];
-    String? selectedValue3;
-    var items3 = [
+    String? selectedPaymentMethod;
+    var paymentMethodItems = [
       'ماهانه',
       'روزانه',
       'پورسانتی/درصدی',
       'توافقی',
     ];
-    String? selectedValue4;
-    var items4 = [
+    String? selectedStartTime;
+    var startTimeItems = [
       '6',
       '7',
       '8',
@@ -81,8 +84,8 @@ class _NewAdvertisingState extends State<NewAdvertising> {
       '4',
       '5',
     ];
-    String? selectedValue5;
-    var items5 = [
+    String? selectedEndTime;
+    var endTimeItems = [
       '16',
       '17',
       '18',
@@ -108,8 +111,8 @@ class _NewAdvertisingState extends State<NewAdvertising> {
       '14',
       '15',
     ];
-    String? selectedValue6;
-    var items6 = [
+    String? selectedHistory;
+    var historyItems = [
       'کمتر از 1 سال',
       'حداقل 1 سال',
       'حداقل 2 سال',
@@ -118,30 +121,30 @@ class _NewAdvertisingState extends State<NewAdvertising> {
       'حداقل 5 سال',
       'حداقل 6 سال',
     ];
-    String? selectedValue7;
-    var items7 = [
+    String? selectedStatus;
+    var statusItem = [
       'اتمام یا معافیت',
       'فرقی ندارد',
     ];
+    String nameBox;
+    String newAdmin='';
     TextEditingController searchBoxController=TextEditingController();
 
+
+
+    String emailBox;
+    String emailBox2;
+    String specialCondition;
+
+
     return Scaffold(
-      floatingActionButton:SizedBox(
-        width: MediaQuery.of(context).size.width-30,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton(heroTag:'btn1',backgroundColor: Colors.green,onPressed: (){/*Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));*/},child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
-            FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),
-          ],),
-      ),
       body:/*GestureDetector(
         onTap: ()=>FocusScope.of(context).requestFocus(FocusNode()),
         child: */SafeArea(
           child:
           SingleChildScrollView(
             child: Form(
-              key: formkey ,
+              key: key,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -165,18 +168,22 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                 Container(width: MediaQuery.of(context).size.width,decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey,width: 0.1))),),
                 const SizedBox(height: 15,),
                   //name field-----------------------------------------
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(onTap:(){},controller:searchBoxController,validator:(value) {return 'فیلد نمیتونه خالی باشه';},decoration: const InputDecoration(labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                    child: TextFormField(
+                      onChanged: (value) {nameBox=value;},
+                      style: const TextStyle(fontFamily: 'Vazir'),
+                      decoration: const InputDecoration(labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
-
                   //avatar-----------------------------------------
                   //ادمین چی باشه؟ ----------------------------------
                   enabledCheckBox==false?Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(decoration: const InputDecoration(
+                    child: TextFormField(
+                    onChanged: (value) {newAdmin=value;},
+                    decoration: const InputDecoration(
                         hintText: 'اینجا بنویس',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
@@ -203,14 +210,14 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
                         isExpanded: true,
-                        value: selectedValue,
+                        value: selectedPlatform,
                         hint: const Text('ادمین چی هستی؟'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue = newValue!;
+                            selectedPlatform = newValue!;
                           });
                         },
-                        items:enabledCheckBox==true? items.map((String items) {
+                        items:enabledCheckBox==true? platformItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -246,13 +253,31 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(style: TextStyle(fontFamily: 'Vazir'),validator:(value) {return 'فیلد نمیتونه خالی باشه';},decoration: const InputDecoration(labelText: 'ایمیل',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                    child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),
+                      onChanged: (value) {emailBox=value;},
+                        validator: (value) {
+                          if (value.toString().isEmpty ||
+                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value.toString())) {
+                            return 'یک ایمیل معتبر وارد کنید';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(labelText: 'ایمیل',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),keyboardType: TextInputType.emailAddress,validator:(value) {return 'ایمیل اشتباه است';},decoration: const InputDecoration(labelText: 'ایمیل کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                    child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value.toString())) {
+                            return 'ایمیل کارفرما را به درستی وارد کنید';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(labelText: 'ایمیل کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
@@ -262,16 +287,17 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                      ),
                   RangeSlider(
                     values: RangeValues(start, end),
-                    //labels: RangeLabels(start.toString(), end.toString()),
+                    labels: RangeLabels(start.toString(), end.toString()),
                     onChanged: (value) {
+                      Tooltip(message: start.toString(),);
                       setState(() {
                         print(value);
                         start = value.start;
                         end = value.end;
                       });
                     },
-                    min: 10.0,
-                    max: 80.0,
+                    min: 1000000.0,
+                    max: 10000000.0,
                   ),
 
                   Padding(
@@ -581,14 +607,14 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         ),
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
-                        value: selectedValue2,
+                        value: selectedDealType,
                         hint: const Text('انتخاب'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue2 = newValue!;
+                            selectedDealType = newValue!;
                           });
                         },
-                        items:items2.map((String items) {
+                        items:dealTypeItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -620,13 +646,13 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         ),
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
-                        value: selectedValue3,
+                        value: selectedPaymentMethod,
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue3 = newValue!;
+                            selectedPaymentMethod = newValue!;
                           });
                         },
-                        items:items3.map((String items) {
+                        items:paymentMethodItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -658,14 +684,14 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         ),
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
-                        value: selectedValue4,
+                        value: selectedStartTime,
                         hint: const Text('ساعت شروع کار'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue4 = newValue!;
+                            selectedStartTime = newValue!;
                           });
                         },
-                        items:items4.map((String items) {
+                        items:startTimeItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -692,14 +718,14 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         ),
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
-                        value: selectedValue5,
+                        value: selectedEndTime,
                         hint: const Text('ساعت پایان کار'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue5 = newValue!;
+                            selectedEndTime = newValue!;
                           });
                         },
-                        items:items5.map((String items) {
+                        items:endTimeItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -713,14 +739,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
-                      onChanged: (value) {
-                        if(value.isNotEmpty){
-
-                        }
-                        else{
-
-                        }
-                      },
+                      onChanged: (value) {specialCondition=value;},
                       keyboardType: TextInputType.multiline,
                       maxLength: 256,
                       maxLines: 7,
@@ -756,14 +775,14 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         ),
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
-                        value: selectedValue6,
+                        value: selectedHistory,
                         hint: const Text('انتخاب'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue6 = newValue!;
+                            selectedHistory = newValue!;
                           });
                         },
-                        items:items6.map((String items) {
+                        items:historyItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -800,14 +819,14 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         ),
                         validator: (value) => value == null ? "یک گذینه را انتخاب کنید" : null,
                         dropdownColor: Colors.white,
-                        value: selectedValue7,
+                        value: selectedStatus,
                         hint: const Text('انتخاب'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedValue7 = newValue!;
+                            selectedStatus = newValue!;
                           });
                         },
-                        items:items7.map((String items) {
+                        items:statusItem.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -819,7 +838,25 @@ class _NewAdvertisingState extends State<NewAdvertising> {
             ),
           ),
         ),
+      floatingActionButton:SizedBox(
+        width: MediaQuery.of(context).size.width-30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(heroTag:'btn1',backgroundColor: Colors.green,onPressed: (){
+
+              void validate(){
+
+              }
+            /*Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));*/},child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
+            FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),
+          ],),
+      ),
       );
     //);
+
   }
+
 }
+
+
