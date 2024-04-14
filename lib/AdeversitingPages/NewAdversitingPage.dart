@@ -1,16 +1,27 @@
 
-import 'package:adminor/structure.dart';
+
+import 'dart:io';
+import 'package:adminor/api/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import '../cities.dart';
-import 'AdvertisingPage.dart';
-
+import 'package:image_picker/image_picker.dart';
 var otherChoice =false;
 var enabledCheckBox=true;
-RangeValues _values = RangeValues(4.0, 8.0);
-double start = 1000000.0;
-double end = 3000000.0;
+double start = 1.0;
+double end = 1.0;
+String nameBox='';
+String phoneBox='';
+String newAdmin='';
+TextEditingController searchBoxController=TextEditingController();
+String priceBox='';
+String emailBox='';
+String emailBox2='';
+String specialCondition='';
+
+
 class NewAdvertising extends StatefulWidget {
   const NewAdvertising({super.key});
 
@@ -19,6 +30,177 @@ class NewAdvertising extends StatefulWidget {
 }
 
 class _NewAdvertisingState extends State<NewAdvertising> {
+  String? selectedPlatform;
+  var platformItems = [
+    'ایتا ',
+    'سروش ',
+    'بله ',
+    'روبیکا ',
+    'آی گپ ',
+    'سایت',
+    'شاد',
+    'گپ',
+    'ویراستی',
+    'نوا',
+    'چتزی',
+    'آیوا',
+  ];
+  String? selectedDealType;
+  var dealTypeItems = [
+    'تمام وقت',
+    'پاره وقت',
+    'پیمان کاری',
+    'کارآموزی',
+    'سایر ',
+  ];
+  String? selectedPaymentMethod;
+  var paymentMethodItems = [
+    'ماهانه',
+    'روزانه',
+    'پورسانتی/درصدی',
+    'توافقی',
+  ];
+  String? selectedStartTime;
+  var startTimeItems = [
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+  ];
+  String? selectedEndTime;
+  var endTimeItems = [
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+  ];
+  String? selectedHistory;
+  var historyItems = [
+    'کمتر از 1 سال',
+    'حداقل 1 سال',
+    'حداقل 2 سال',
+    'حداقل 3 سال',
+    'حداقل 4 سال',
+    'حداقل 5 سال',
+    'حداقل 6 سال',
+  ];
+  String? selectedStatus;
+  var statusItem = [
+    'اتمام یا معافیت',
+    'فرقی ندارد',
+  ];
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+   if(img!=null){
+     setState(() {
+       image = img;
+     });
+   }
+  }
+
+  //show popup dialog
+  void myAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            title: const Text('لطفا یک گذینه را انتخاب کنید',style: TextStyle(fontFamily: 'Shabnam',fontSize: 16),),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.height / 6+5,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    //if user click this button, user can upload image from gallery
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.gallery);
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.image,color: Colors.blue,),
+                        SizedBox(width: 5,),
+                        Text('گالری',style: TextStyle(fontFamily: 'Shabnam',fontSize: 12),),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 5,),
+                  ElevatedButton(
+                    //if user click this button. user can upload image from camera
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getImage(ImageSource.camera);
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.camera,color: Colors.purple,),
+                        SizedBox(width: 5,),
+                        Text('دوربین',style: TextStyle(fontFamily: 'Shabnam',fontSize: 12),),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  final formkey = GlobalKey<FormState>();
+  @override
+  void initState() {
+
+    start = 1.0;
+    end = 1.0;
+    users.isEmpty?getUsers():null;
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     List<String> filteredCities=[];
@@ -27,116 +209,6 @@ class _NewAdvertisingState extends State<NewAdvertising> {
     ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
     ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
     ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
-    String? selectedPlatform;
-    var platformItems = [
-      'ایتا ',
-      'سروش ',
-      'بله ',
-      'روبیکا ',
-      'آی گپ ',
-      'سایت',
-      'شاد',
-      'گپ',
-      'ویراستی',
-      'نوا',
-      'چتزی',
-      'آیوا',
-    ];
-    String? selectedDealType;
-    var dealTypeItems = [
-      'تمام وقت',
-      'پاره وقت',
-      'پیمان کاری',
-      'کارآموزی',
-      'سایر ',
-    ];
-    String? selectedPaymentMethod;
-    var paymentMethodItems = [
-      'ماهانه',
-      'روزانه',
-      'پورسانتی/درصدی',
-      'توافقی',
-    ];
-    String? selectedStartTime;
-    var startTimeItems = [
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-      '23',
-      '24',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-    ];
-    String? selectedEndTime;
-    var endTimeItems = [
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-      '23',
-      '24',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-    ];
-    String? selectedHistory;
-    var historyItems = [
-      'کمتر از 1 سال',
-      'حداقل 1 سال',
-      'حداقل 2 سال',
-      'حداقل 3 سال',
-      'حداقل 4 سال',
-      'حداقل 5 سال',
-      'حداقل 6 سال',
-    ];
-    String? selectedStatus;
-    var statusItem = [
-      'اتمام یا معافیت',
-      'فرقی ندارد',
-    ];
-    String nameBox;
-    String newAdmin='';
-    TextEditingController searchBoxController=TextEditingController();
-
-
-
-    String emailBox;
-    String emailBox2;
-    String specialCondition;
-
-
     return Scaffold(
       body:/*GestureDetector(
         onTap: ()=>FocusScope.of(context).requestFocus(FocusNode()),
@@ -144,7 +216,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
           child:
           SingleChildScrollView(
             child: Form(
-              key: key,
+              key: formkey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -160,8 +232,19 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     child: InkWell(
                         borderRadius: BorderRadius.circular(50),
                         onTap: () {
+                    myAlert();
+
                     },
-                        child: Image.asset('assets/images/user avatar.png',width: 50,height: 50,)),
+                        child: image!=null?ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Image.file(
+                            //to show image, you type like this.
+                            File(image!.path),
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ):Image.asset('assets/images/user avatar.png',width: 50,height: 50,)),
                   ),
                 ],),
                   //avatar-----------------------------------------
@@ -172,9 +255,15 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       onChanged: (value) {nameBox=value;},
-                      style: const TextStyle(fontFamily: 'Vazir'),
-                      decoration: const InputDecoration(labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
+                      /*validator: (value) => 'فیلد نام باید پر شود',*/
+                      style: const TextStyle(fontFamily: 'Shabnam'),
+                      decoration: const InputDecoration(
+                          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: TextStyle(fontFamily: 'Shabnam'),
+                          labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),
+                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+
                     ),),
                   ),
                   //avatar-----------------------------------------
@@ -182,8 +271,12 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                   enabledCheckBox==false?Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      style: const TextStyle(fontFamily: 'Shabnam'),
+                      validator: (value){return 'فیلد نمیتواند خالی باشد';},
                     onChanged: (value) {newAdmin=value;},
                     decoration: const InputDecoration(
+                      errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                      errorStyle: TextStyle(fontFamily: 'Shabnam'),
                         hintText: 'اینجا بنویس',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
@@ -195,6 +288,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabled: enabledCheckBox,
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
@@ -263,7 +359,10 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(labelText: 'ایمیل',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                        decoration: const InputDecoration(
+                            errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                            errorStyle: TextStyle(fontFamily: 'Shabnam'),
+                            hintText: 'adminor@gmail.com',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
@@ -277,27 +376,61 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(labelText: 'ایمیل کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                        decoration: const InputDecoration(
+                            errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                            errorStyle: TextStyle(fontFamily: 'Shabnam'),
+                            labelText: 'ایمیل کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
-                     const Padding(
-                       padding: EdgeInsets.only(right: 15.0,top: 5,bottom: 5),
-                       child: Text('قیمت',style: TextStyle(fontFamily: 'Shabnam'),),
-                     ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 15.0,top: 5,bottom: 5),
+                    child: Text('تلفن',style: TextStyle(fontFamily: 'Shabnam'),),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(style: const TextStyle(fontFamily: 'Shabnam'),keyboardType: TextInputType.phone,maxLength: 11,
+                      onChanged: (value) => phoneBox=value,
+                      validator: (value) {
+                        if(value==null){
+                          return 'تلفن را درست وارد کنید';
+                        }
+                        else{
+                          return null;
+                        }
+                      },
+                      decoration: const InputDecoration(
+                          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: TextStyle(fontFamily: 'Shabnam'),
+                          hintText: 'مثال : 09218783322',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
+                      ),),
+                  ),
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+  const Padding(
+    padding: EdgeInsets.only(right: 15.0,top: 5,bottom: 5),
+    child: Text('قیمت',style: TextStyle(fontFamily: 'Shabnam'),),
+  ),
+   Padding(
+    padding: const EdgeInsets.only(left: 15.0,top: 5,bottom: 5),
+    child: Text('${end.toStringAsFixed(3)} میلیون تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
+  ),
+],),
                   RangeSlider(
+                    activeColor: Colors.green,
+
                     values: RangeValues(start, end),
-                    labels: RangeLabels(start.toString(), end.toString()),
                     onChanged: (value) {
-                      Tooltip(message: start.toString(),);
                       setState(() {
-                        print(value);
+                        priceBox=end.toString();
                         start = value.start;
                         end = value.end;
                       });
                     },
-                    min: 1000000.0,
-                    max: 10000000.0,
+                    min: 1.0,
+                    max: 10.0,
                   ),
 
                   Padding(
@@ -594,6 +727,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -633,6 +769,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -671,6 +810,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -705,6 +847,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -762,6 +907,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -806,6 +954,9 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         alignment: Alignment.centerRight,
                         style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
                         decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                          errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
+                          errorStyle: const TextStyle(fontFamily: 'Shabnam'),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -844,12 +995,17 @@ class _NewAdvertisingState extends State<NewAdvertising> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FloatingActionButton(heroTag:'btn1',backgroundColor: Colors.green,onPressed: (){
+            if(formkey.currentState!.validate()==false){
+              print('you have problem in form');
+            }
+            else{
+              addNewAdmin(nameBox,phoneBox, newAdmin, emailBox, emailBox2, priceBox, 'تهران', selectedDealType!, selectedPaymentMethod!, int.parse(selectedStartTime!), int.parse(selectedEndTime!), specialCondition, selectedHistory, selectedStatus,image!);
 
-              void validate(){
-
-              }
-            /*Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));*/},child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
-            FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Advertising(),));},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),
+              print('new user added');
+              formkey.currentState!.reset();
+            }
+            },child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
+            FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.of(context).pop();},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),
           ],),
       ),
       );

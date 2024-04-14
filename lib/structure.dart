@@ -15,13 +15,12 @@ class UserStructure{
   String _city;
   String _dealType;
   String _paymentMethod;
-  int _startTime;
-  int _endTime;
+  String _startTime;
+  String _endTime;
   String _specialConditions;
-  int _history;
+  String _history;
   String _email_1;
   String _email_2;
-  int _point;
   String _status;
   UserStructure(
       this._id,
@@ -39,22 +38,21 @@ class UserStructure{
       this._history,
       this._email_1,
       this._email_2,
-      this._point,
       this._status);
 
-  int get point => _point;
+
 
   String get email_2 => _email_2;
 
   String get email_1 => _email_1;
 
-  int get history => _history;
+  String get history => _history;
 
   String get specialConditions => _specialConditions;
 
-  int get endTime => _endTime;
+  String get endTime => _endTime;
 
-  int get startTime => _startTime;
+  String get startTime => _startTime;
 
   String get paymentMethod => _paymentMethod;
 

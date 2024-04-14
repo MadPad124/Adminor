@@ -21,7 +21,8 @@ void main() async{
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
    await GetStorage.init();
-  users.isEmpty?getUsers():null;
+  final cache=GetStorage();
+  cache.read('telephone')==''?null:getUsers();
   runApp(const MyApp());
 }
 

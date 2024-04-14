@@ -19,8 +19,9 @@ class AdvertisingDetail extends StatefulWidget {
 class _AdvertisingDetailState extends State<AdvertisingDetail> {
 @override
   void initState() {
+  cache.remove('${users[widget.index].phone_number}rated');
   cache.read(users[widget.index].phone_number);
-  cache.read('${users[widget.index].phone_number}rated');
+ // cache.read('${users[widget.index].phone_number}rated');
 
     Rating=3;
     super.initState();

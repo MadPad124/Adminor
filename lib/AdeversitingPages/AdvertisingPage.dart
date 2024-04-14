@@ -391,51 +391,54 @@ class _AdvertisingState extends State<Advertising> {
       ),
       Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
 
-        users.isEmpty? const Center(child: CircularProgressIndicator()):ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
-            child: InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertisingDetail(index: index),)),
-              child: Container(
-                  width: w-50,
-                  height: 120,
-                  decoration: BoxDecoration(color:Colors.green.withOpacity(0.1),border: Border.all(color: Colors.green,width: 1),borderRadius: BorderRadius.circular(12)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: SizedBox(
+        users.isEmpty? const Center(child: CircularProgressIndicator()):Padding(
+          padding: const EdgeInsets.only(bottom: 80.0),
+          child: ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 3,top: 12,right: 15,left: 15),
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertisingDetail(index: index),)),
+                child: Container(
+                    width: w-50,
+                    height: 120,
+                    decoration: BoxDecoration(color:Colors.green.withOpacity(0.1),border: Border.all(color: Colors.green,width: 1),borderRadius: BorderRadius.circular(12)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: SizedBox(
 
-                          height: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(users[index].name,style: const TextStyle(fontFamily: 'Vazir',fontSize: 18,color: Colors.teal),),
-                                const SizedBox(height: 5,),
-                                Text(users[index].type,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.black),),
-                                const SizedBox(height: 5,),
-                                Text(users[index].city,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.red),),
-                              ],
+                            height: 100,
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(users[index].name,style: const TextStyle(fontFamily: 'Vazir',fontSize: 18,color: Colors.teal),),
+                                  const SizedBox(height: 5,),
+                                  Text(users[index].type,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.black),),
+                                  const SizedBox(height: 5,),
+                                  Text(users[index].city,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.red),),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: Image.network(users[index].image,width: 80,height: 80,fit: BoxFit.fill,),
-                      )
-                    ],)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Image.network(users[index].image,width: 80,height: 80,fit: BoxFit.fill,),
+                        )
+                      ],)
+                ),
               ),
-            ),
-          );
+            );
 
-        },
+          },
+          ),
         )
       ]),),
     );
