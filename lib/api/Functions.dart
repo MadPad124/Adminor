@@ -86,20 +86,22 @@ void suggestionSystem(){
 }
 // ignore: non_constant_identifier_names
 void submitRating(double Rating,String phone) async{
-  var url = Uri.parse('$baseUrl/adminor/?action=rating');
+  var url = Uri.parse('$baseUrl/?action=rating');
   var response = await http.post(url, body: {'rating': Rating.toString(),'phone':cache.read('telephone'),'adminphone':phone});
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
 }
 void checkRating() async{
-  var url = Uri.parse('$baseUrl/adminor/?action=checkrating');
+  var url = Uri.parse('$baseUrl/?action=checkrating');
   var response = await http.post(url, body: {'phone': cache.read('telephone')});
   if(response.statusCode==200){
+    print('object');
     var jsonResponse=convert.jsonDecode(response.body);
     if(jsonResponse.length>1){
       for(int i=0;i<jsonResponse.length;i++){
         if("0${jsonResponse['adminphone']}"==users[i].phone_number && '0${jsonResponse['phone']}'==cache.read('telephone')){
           cache.write('${users[i].phone_number}rated', true);
+          print('ok');
         }
       }
     }

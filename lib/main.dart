@@ -1,8 +1,3 @@
-
-import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
-import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/AdeversitingPages/NewAdversitingPage.dart';
-import 'package:adminor/LoginPages/LoginPage.dart';
 import 'package:adminor/splashPages/splashPage.dart';
 //import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
