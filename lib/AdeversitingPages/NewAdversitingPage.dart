@@ -1,6 +1,8 @@
 
 
 import 'dart:io';
+import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
+import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +10,15 @@ import 'package:get_storage/get_storage.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import '../cities.dart';
 import 'package:image_picker/image_picker.dart';
-var otherChoice =false;
-var enabledCheckBox=true;
+
+import '../structure.dart';
 double start = 1.0;
 double end = 1.0;
 String nameBox='';
 String phoneBox='';
 String newAdmin='';
 TextEditingController searchBoxController=TextEditingController();
-String priceBox='';
+String priceBox='1';
 String emailBox='';
 String emailBox2='';
 String specialCondition='';
@@ -30,6 +32,7 @@ class NewAdvertising extends StatefulWidget {
 }
 
 class _NewAdvertisingState extends State<NewAdvertising> {
+  var enabledCheckBox=false;
   String? selectedPlatform;
   var platformItems = [
     'ایتا ',
@@ -255,7 +258,11 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       onChanged: (value) {nameBox=value;},
-                      /*validator: (value) => 'فیلد نام باید پر شود',*/
+                      validator: (value) {
+                        if(value!.trim()==''||value.isEmpty){
+                          return 'فیلد نمیتواند خالی باشد ';
+                        }
+                      },
                       style: const TextStyle(fontFamily: 'Shabnam'),
                       decoration: const InputDecoration(
                           errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -268,11 +275,15 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                   ),
                   //avatar-----------------------------------------
                   //ادمین چی باشه؟ ----------------------------------
-                  enabledCheckBox==false?Padding(
+                  enabledCheckBox==true?Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       style: const TextStyle(fontFamily: 'Shabnam'),
-                      validator: (value){return 'فیلد نمیتواند خالی باشد';},
+                      validator: (value) {
+                        if(value!.trim()==''||value.isEmpty){
+                          return 'فیلد نمیتواند خالی باشد ';
+                        }
+                          },
                     onChanged: (value) {newAdmin=value;},
                     decoration: const InputDecoration(
                       errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -286,12 +297,11 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                             focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
                           errorStyle: const TextStyle(fontFamily: 'Shabnam'),
-                          enabled: enabledCheckBox,
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.green, width: 2),
                             borderRadius: BorderRadius.circular(5),
@@ -310,10 +320,10 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                         hint: const Text('ادمین چی هستی؟'),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedPlatform = newValue!;
+                            selectedPlatform=newValue!;
                           });
                         },
-                        items:enabledCheckBox==true? platformItems.map((String items) {
+                        items:enabledCheckBox==false? platformItems.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
@@ -328,11 +338,10 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                       textDirection: TextDirection.rtl,
                         child: CheckboxListTile(
                           activeColor: Colors.green,
-                          value: otherChoice, onChanged:
+                          value: enabledCheckBox, onChanged:
                           (value) {
                           setState(() {
                             enabledCheckBox=!enabledCheckBox;
-                            otherChoice=!otherChoice;
                           });
                                   },
                             title: const Text('موارد دیگر',style: TextStyle(fontFamily: 'Shabnam'),),
@@ -376,6 +385,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                           }
                           return null;
                         },
+                      onChanged:(value) =>  emailBox2=value,
                         decoration: const InputDecoration(
                             errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
                             errorStyle: TextStyle(fontFamily: 'Shabnam'),
@@ -725,7 +735,7 @@ Row(
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -767,7 +777,7 @@ Row(
                         hint: const Text('انتخاب'),
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -808,7 +818,7 @@ Row(
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -845,7 +855,7 @@ Row(
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -905,7 +915,7 @@ Row(
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -952,7 +962,7 @@ Row(
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  TextStyle(fontFamily: "Shabnam",color: Colors.grey.shade600,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -999,10 +1009,35 @@ Row(
               print('you have problem in form');
             }
             else{
-              addNewAdmin(nameBox,phoneBox, newAdmin, emailBox, emailBox2, priceBox, 'تهران', selectedDealType!, selectedPaymentMethod!, int.parse(selectedStartTime!), int.parse(selectedEndTime!), specialCondition, selectedHistory, selectedStatus,image!);
+              showDialog(context: context, builder: (context) =>  AlertDialog(
+                  actions: [
+                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('خیر',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
+                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){
+                      Navigator.of(context).pop();
+                      addNewAdmin(nameBox,phoneBox, enabledCheckBox==true?newAdmin:selectedPlatform!, emailBox, emailBox2, priceBox.length>5?priceBox.substring(0,5):priceBox, 'تهران', selectedDealType!, selectedPaymentMethod!, int.parse(selectedStartTime!), int.parse(selectedEndTime!), specialCondition, selectedHistory, selectedStatus,image==null?null:image!);
+                      var userHolder=UserStructure(0, phoneBox, cache.read('telephone').toString(), nameBox, priceBox, enabledCheckBox==true?newAdmin:selectedPlatform!, 'https://192.168.1.106/adminor/uploads/${image==null?'useravatar.png':image!.name}', 'تهران', selectedDealType!,  selectedPaymentMethod!,  selectedStartTime.toString(), selectedEndTime.toString(), specialCondition, selectedHistory!, emailBox, emailBox2, selectedStatus!);
+                      users.add(userHolder);
+                      formkey.currentState!.reset();
+                      setState(() {
 
-              print('new user added');
-              formkey.currentState!.reset();
+                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Advertising()));
+                      setState(() {
+
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        shape: StadiumBorder(),
+                        elevation: 0,
+                        backgroundColor: Colors.green,
+                        width: 300,
+                        content: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('ادمین جدید با موفقیت ایجاد شد',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),),Icon(Icons.add,color: Colors.white,)])));},
+                        child: const Text('بله',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),))
+                  ],
+                  title:const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
+                    Text('آیا از افزودن ادمین مطمعن هستید؟',style: TextStyle(fontFamily: 'Vazir',fontSize: 15),),
+                    Icon(Icons.error,color: Colors.blue,)],)
+              ),);
             }
             },child: const Directionality(textDirection: TextDirection.rtl,child: Icon(Icons.done,color: Colors.white,))),
             FloatingActionButton(heroTag:'btn2',backgroundColor: Colors.white,onPressed: (){Navigator.of(context).pop();},child: const Directionality(textDirection: TextDirection.ltr,child: Icon(CupertinoIcons.back,color: Colors.green,))),

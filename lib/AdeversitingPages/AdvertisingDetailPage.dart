@@ -19,10 +19,7 @@ class AdvertisingDetail extends StatefulWidget {
 class _AdvertisingDetailState extends State<AdvertisingDetail> {
 @override
   void initState() {
-  //cache.remove('${users[widget.index].phone_number}rated');
   cache.read(users[widget.index].phone_number);
- print(cache.read('${users[widget.index].phone_number}rated'));
-
     Rating=3;
     super.initState();
   }
@@ -38,11 +35,29 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
             Padding(
               padding:const EdgeInsets.only(left: 8.0),
               child: IconButton(onPressed: (){
+                switch(cache.read(users[widget.index].phone_number)){
+                  case false:
+                    cache.write(users[widget.index].phone_number,true);
+                    addFavorite(users[widget.index].phone_number,widget.index);
+                    setState(() {
 
-                setState(() {
-                  cache.read(users[widget.index].phone_number)==false?cache.write(users[widget.index].phone_number,true):cache.write(users[widget.index].phone_number,false);
-                  addFavorite(users[widget.index].phone_number);
-              });
+                    });
+                    break;
+                  case null:
+                    cache.write(users[widget.index].phone_number,true);
+                    addFavorite(users[widget.index].phone_number,widget.index);
+                    setState(() {
+
+                    });
+                    break;
+                  case true:
+                    cache.write(users[widget.index].phone_number,false);
+                    addFavorite(users[widget.index].phone_number,widget.index);
+                    setState(() {
+
+                    });
+                    break;
+                }
                 },icon:Icon(Icons.star_rate_sharp,color: cache.read(users[widget.index].phone_number)==true?Colors.yellowAccent:Colors.white)),
             ),
           ],

@@ -1,7 +1,9 @@
 
+import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/MyAdvertisingPage.dart';
 import 'package:adminor/LoginPages/LoginPage.dart';
 import 'package:adminor/ProfilePage.dart';
+import 'package:adminor/api/Functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../AdeversitingPages/AdvertisingPage.dart';
@@ -54,15 +56,15 @@ class Settings extends StatelessWidget {
                 textDirection: TextDirection.rtl,children: [
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.asset('assets/images/UserRandom.png',width: 70,height: 70,)),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.network(cache.read('profile_image'),width: 70,height: 70,)),
                 ),
-                const Column(
+                 Column(
                   textDirection: TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('اصغر عباسی',style: TextStyle(decoration: TextDecoration.none,color: Colors.black,fontSize: 20,fontFamily: 'Shabnam')),
-                    Text('تهران',style: TextStyle(decoration: TextDecoration.none,color: Colors.grey,fontSize: 16,fontFamily: 'Shabnam'))],)
+                    Text(cache.read('name'),style: const TextStyle(decoration: TextDecoration.none,color: Colors.black,fontSize: 20,fontFamily: 'Shabnam')),
+                    Text(cache.read('city'),style: const TextStyle(decoration: TextDecoration.none,color: Colors.grey,fontSize: 16,fontFamily: 'Shabnam'))],)
               ],),
               Column(children: [
                 Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
@@ -73,6 +75,7 @@ class Settings extends StatelessWidget {
                 InkWell(
                   onTap: (){
                     showDialog(context: context, builder: (context) =>  AlertDialog(
+                      backgroundColor: Colors.white,
                       title: const Text('تماس با ما',style: TextStyle(fontFamily: 'Shabnam',fontWeight: FontWeight.w200),),
                       content: SingleChildScrollView(
                         child: SizedBox(height:305,width:300,child: Column(children: [
@@ -84,6 +87,7 @@ class Settings extends StatelessWidget {
                                 onChanged: (value) {
                                   if(value.isNotEmpty){
                                     activated.value=true;
+
                                   }
                                   else{
                                     activated.value=false;
@@ -139,9 +143,15 @@ class Settings extends StatelessWidget {
                 InkWell(
                   onTap: (){
                     showDialog(context: context, builder: (context) =>  AlertDialog(
+                      backgroundColor: Colors.white,
                         actions: [
                           TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.red.withOpacity(0.1))) ,onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.red),)),
-                          TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.green.withOpacity(0.1))),onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Login()));},
+                          TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.green.withOpacity(0.1))),onPressed: (){
+                            cache.erase();
+                            favorites=[];
+                            users=[];
+                            print('user is logged out');
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Login()));},
                               child: const Text('تایید',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.green),))
                         ],
                         title:const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [

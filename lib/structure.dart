@@ -8,6 +8,7 @@ List<String> url=['assets/images/user avatar.png','assets/images/men avatar.png'
 class UserStructure{
   int _id;
   String _phone_number;
+  String _adminPhone;
   String _name;
   String _price;
   String _type;
@@ -25,6 +26,7 @@ class UserStructure{
   UserStructure(
       this._id,
       this._phone_number,
+      this._adminPhone,
       this._name,
       this._price,
       this._type,
@@ -70,6 +72,8 @@ class UserStructure{
 
   String get phone_number => _phone_number;
 
+  String get adminPhone => _adminPhone;
+
   int get id => _id;
 
   String get status => _status;
@@ -79,15 +83,42 @@ class FavoriteHolder{
   final _id;
   final _phone;
   final _adminPhone;
-  final _status;
+  final _index;
 
-  FavoriteHolder(this._id, this._phone, this._adminPhone, this._status);
 
-  get status => _status;
+  FavoriteHolder(this._id, this._phone, this._adminPhone, this._index);
 
   get adminPhone => _adminPhone;
+
+  get index => _index;
 
   get phone => _phone;
 
   get id => _id;
 }
+
+/*
+class userInfoHolder{
+  int _id;
+  String _name;
+  String _profile_image;
+  String _tell;
+  String _email;
+  String _city;
+
+  userInfoHolder(this._id, this._name, this._profile_image, this._tell,
+      this._email, this._city);
+
+  String get city => _city;
+
+  String get email => _email;
+
+  String get tell => _tell;
+
+  String get profile_image => _profile_image;
+
+  String get name => _name;
+
+  int get id => _id;
+}
+*/

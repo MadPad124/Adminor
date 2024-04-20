@@ -19,16 +19,17 @@ ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
 ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
 ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
 class Advertising extends StatefulWidget {
-  const Advertising({Key? key}) : super(key: key);
+  const Advertising({super.key});
   @override
   State<Advertising> createState() => _AdvertisingState();
 }
 class _AdvertisingState extends State<Advertising> {
   @override
-  void initState() {
-    getFavorites();
+  void initState(){
+    favorites.isEmpty?getFavorites():null;
     checkRating();
     isChecked=cities.values.toList();
+    cache.read('name')!=null?null:getInfo(cache.read('telephone'));
     super.initState();
   }
   @override
@@ -64,7 +65,6 @@ class _AdvertisingState extends State<Advertising> {
                           width: MediaQuery.of(context).size.width-200,
                             child: TextField(
                               keyboardType: TextInputType.text,
-                          onChanged: (value) {},
                           style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
                           textDirection: TextDirection.rtl,
                               controller: searchBoxController2,
