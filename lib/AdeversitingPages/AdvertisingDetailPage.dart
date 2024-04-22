@@ -1,9 +1,12 @@
+import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:adminor/chat/ChatPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../structure.dart';
 
 double Rating=3;
 final cache = GetStorage();
@@ -384,18 +387,58 @@ Column(children: [
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 1,color: Colors.green)),
                     width: 50,height: 50,
                     child: Column(children: [
-                      users[index].image=='https://192.168.1.106/adminor/uploads/useravatar.png'?SizedBox(height: 15,):Container(),
-                      ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),child: Image.network(users[index].image,width: 100,height: 100,)),
+                      users[index].image=='https://192.168.1.106/adminor/uploads/useravatar.png'?const SizedBox(height: 15,):Container(),
+                      ClipRRect(borderRadius:  BorderRadius.circular(50),child: Image.network(users[index].image,width: 100,height: 100,)),
                       const SizedBox(height: 5,),
                        Text(users[index].name,style: const TextStyle(fontFamily: 'Shabnam')),
                       const SizedBox(height: 10,),
-                       Text('قیمت ${users[index].price}',style: TextStyle(fontFamily: 'Shabnam'),)
+                       Text('قیمت ${users[index].price}',style: const TextStyle(fontFamily: 'Shabnam'),)
 
                     ]),),
                 );
               },),
             ),
-            InkWell(onTap:(){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Chat(index: 1),));},child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.green),child: const Center(child: Text('چت با کاربر',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
+            cache.read('telephone')=='0${users[widget.index].adminPhone}'?
+            InkWell(onTap:(){
+              showDialog(context: context, builder: (context) =>  AlertDialog(
+                  actions: [
+                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
+                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
+                    deleteMyAdmin(users[widget.index].id);
+                      cache.write('id', users[widget.index].id);
+                      users=[];
+                    for(var i in userResponse){
+                      if(i['id'].toString()==cache.read('id').toString()){
+                      }
+                      else{
+                        var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+                        users.add(userItem);
+                        setState(() {
+
+                        });
+                      }
+                    }
+                    cache.remove('id');
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>const Advertising() ,));
+                      setState(() {
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          shape: const StadiumBorder(),
+                          elevation: 0,
+                          backgroundColor: Colors.red.withOpacity(0.7),
+                          width: 300,
+                          content: const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('آگهی با موفقیت حذف شد',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),),Icon(Icons.delete_sweep,color: Colors.white,)])));
+                    },
+                        child: const Text('تایید',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),))
+                  ],
+                  title:const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
+                    Text('آیا مطمعن هستید؟',style: TextStyle(fontFamily: 'Vazir',fontSize: 15),),
+                    Icon(Icons.error,color: Colors.blue,)],)
+              ),);
+
+            },child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.red),child: const Center(child: Text('حذف آگهی',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
+            :InkWell(onTap:(){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Chat(index: 1),));},child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.green),child: const Center(child: Text('چت با کاربر',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
           ],),
       ),
     );

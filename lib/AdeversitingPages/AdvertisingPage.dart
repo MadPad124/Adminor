@@ -6,7 +6,6 @@ import 'package:adminor/chat/displayChatPage.dart';
 /*
 import 'package:liquid_swipe/liquid_swipe.dart';
 */
-import '../structure.dart';
 import 'NewAdversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +29,7 @@ class _AdvertisingState extends State<Advertising> {
     checkRating();
     isChecked=cities.values.toList();
     cache.read('name')!=null?null:getInfo(cache.read('telephone'));
+    getInfo(cache.read('telephone'));
     super.initState();
   }
   @override

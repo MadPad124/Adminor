@@ -6,7 +6,6 @@ import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import '../cities.dart';
 import 'package:image_picker/image_picker.dart';
@@ -211,7 +210,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
     List checkedList=['تهران'];
     ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
     ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
-    ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
+    //ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
     return Scaffold(
       body:/*GestureDetector(
         onTap: ()=>FocusScope.of(context).requestFocus(FocusNode()),

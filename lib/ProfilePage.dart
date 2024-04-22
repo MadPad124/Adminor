@@ -100,12 +100,12 @@ class _ProfileState extends State<Profile> {
                         onTap: () {
                           if(image==null){
                             myAlert();
-                            cache.write('profile_image', 'https://192.168.1.106/adminor/uploads/useravatar.png');
+                            cache.write('profile_image', 'https://192.168.1.104/adminor/uploads/useravatar.png');
                             setState((){});
                           }
                           else{
-                            print('object');
-                          image=null;
+                          image=null;print(image!.path);
+                            cache.write('profile_image', 'https://192.168.1.104/adminor/uploads/useravatar.png');
                           setState((){});
                           }
                           }

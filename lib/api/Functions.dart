@@ -5,12 +5,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:image_picker/image_picker.dart';
-
+var userResponse;
 List<UserStructure> users=[];
+List<UserStructure> myUsers=[];
 List<FavoriteHolder> favorites=[];
 /*List<userInfoHolder> userInfo=[];*/
 List<int>favoriteIndex=[];
-var baseUrl='https://192.168.1.106/adminor';
+var baseUrl='https://192.168.1.104/adminor';
 
 void loginUser(String mobile) async{
   var url = Uri.parse('$baseUrl/?action=adduser');
@@ -27,11 +28,15 @@ void getUsers() async{
   var url = Uri.parse('$baseUrl/gettAllUsers.php?action=getAllUsers');
   var response = await http.get(url);
   if(response.statusCode==200){
-    var jsonResponse=convert.jsonDecode(response.body);
+     userResponse=convert.jsonDecode(response.body);
 
-    for(var i in jsonResponse){
-      var userItem=UserStructure(i['id'], i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+    for(var i in userResponse){
+      var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
       users.add(userItem);
+      if('0${i['adminPhone']}'==cache.read('telephone')){
+        myUsers.add(userItem);
+      }
+
 
     }
   }
@@ -70,7 +75,7 @@ void getFavorites() async{
         for(int f=0;f<favorites.length;f++){
           if("0${favorites[f].adminPhone}"==users[u].phone_number && '0${favorites[f].phone}'==cache.read('telephone')){
             cache.write(users[u].phone_number, true);
-            favoriteIndex.add(favorites[f].index);
+            favoriteIndex.add(int.parse(favorites[f].index));
           }
         }}
     }
@@ -123,8 +128,6 @@ void checkRating() async{
         cache.write('${users[k].phone_number}rated', false);
       }
     }
-
-
   }
 
 }
@@ -133,7 +136,7 @@ void checkRating() async{
 Future<void> addNewAdmin(String name,String phone,String adminType,String email,String email2,String price,String city,String dealType,String paymentMethod,
     int startTime,int endTime,String specialConditions,var history,var status,[XFile? image]) async {
   if(image!=null){
-    var request = http.MultipartRequest('POST', Uri.parse('https://192.168.1.106/adminor/upload.php'));
+    var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/upload.php'));
     request.files.add(await http.MultipartFile.fromPath('image', image!.path));
     var response = await request.send();
     if (response.statusCode == 200) {
@@ -159,6 +162,7 @@ Future<void> addNewAdmin(String name,String phone,String adminType,String email,
       'dealType':dealType,'paymentMethod':paymentMethod,'startTime':startTime.toString(),'endTime':endTime.toString(),'specialConditions':specialConditions==null?'':specialConditions,'history':history,'status':status,'image':'useravatar.png'});
     if(registerResponse.statusCode==200){
       print('new admin added');
+
     }
     else{
       print('failed to add new admin');
@@ -166,19 +170,15 @@ Future<void> addNewAdmin(String name,String phone,String adminType,String email,
   }
 }
 //Add Admin
-void fetchMyAdmins() async{
-  var url=Uri.parse('$baseUrl/?action=gettMyAdmins');
-  var response=await http.post(url,body: {'registerPhone':cache.read('telephone')});
+void deleteMyAdmin(int id) async{
+  var url = Uri.parse('$baseUrl/?action=deleteAdmin');
+  var response=await http.post(url, body: {'id': id.toString()});
   if(response.statusCode==200){
-    var jsonResponse=convert.jsonDecode(response.body);
-    for(int i in jsonResponse){
-
-    }
+    print(response.body);
   }
-}
-//Get Admins
-void deleteMyAdmin() async{
-
+  else{
+    print('there is problem in connection');
+  }
 }
 //Delete Admins
 void sendMessage() async{
@@ -202,7 +202,7 @@ void getInfo(var mobile) async{
 }
 void updateUserInfo(String name,String email,String city,[XFile? file]) async{
   if(file!=null){
-    var request = http.MultipartRequest('POST', Uri.parse('https://192.168.1.106/adminor/upload.php'));
+    var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/upload.php'));
     request.files.add(await http.MultipartFile.fromPath('image', file!.path));
     var response = await request.send();
     if (response.statusCode == 200) {

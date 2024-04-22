@@ -1,9 +1,8 @@
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/structure.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart'as http;
 import 'AdeversitingPages/NewAdversitingPage.dart';
 import 'Settings/settingsPage.dart';
 import 'api/Functions.dart';
@@ -39,7 +38,7 @@ class _FavoriteState extends State<Favorite> {
     backgroundColor: Colors.white,
     body: Center(child: Padding(
       padding: const EdgeInsets.all(10.0),
-      child: favoriteIndex.isEmpty? Center(child: Column(crossAxisAlignment:CrossAxisAlignment.center,children: [SizedBox(height: h/6,),Icon(Icons.star,color: Colors.grey.shade200,size: 200,),const Text('هیچ کاربر ادمینی پیدا نشد',style: TextStyle(fontFamily: 'Shabnam',fontSize: 16),)],),):
+      child: favoriteIndex.isEmpty? Center(child: Column(crossAxisAlignment:CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.star,color: Colors.grey.shade200,size: 200,),const Text('هیچ کاربر ادمینی پیدا نشد',style: TextStyle(fontFamily: 'Shabnam',fontSize: 16),)],),):
       Padding(
         padding: const EdgeInsets.only(bottom: 100.0),
         child: ListView.builder(itemCount: favoriteIndex.length,itemBuilder: (context, index) {
@@ -70,13 +69,26 @@ class _FavoriteState extends State<Favorite> {
                               showDialog(context: context, builder: (context) =>  AlertDialog(
                                   actions: [
                                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
-                                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){Navigator.of(context).pop();ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
+                                      var url = Uri.parse('$baseUrl/?action=addfavorite');
+                                      await http.post(url, body: {'phone': cache.read('telephone'),'adminPhone':users[favoriteIndex[index]].phone_number,'index':favoriteIndex[index].toString()});
+                                      cache.write(users[favoriteIndex[index]].phone_number,false);
+                                      favoriteIndex.remove(favoriteIndex[index]);
+                                      setState(() {
+
+                                      });
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>const Favorite() ,));
+                                      setState(() {
+
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                         behavior: SnackBarBehavior.floating,
                                         shape: const StadiumBorder(),
                                         elevation: 0,
-                                        backgroundColor: Colors.red.withOpacity(0.7),
+                                        backgroundColor: Colors.blue.withOpacity(0.7),
                                         width: 300,
-                                        content: const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('مورد با موفقیت حذف شد',style: TextStyle(color: Colors.white),),Icon(Icons.delete_outline_rounded,color: Colors.white,)])));},
+                                        content: const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('مورد با موفقیت حذف شد',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),),Icon(Icons.delete_outline_rounded,color: Colors.white,)])));
+                                      },
                                         child: const Text('تایید',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),))
                                   ],
                                   title:const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
@@ -85,7 +97,7 @@ class _FavoriteState extends State<Favorite> {
                               ),);
                             }, child: const Row(
                           children: [
-                            Text('حذف نشان',style: TextStyle(color: Colors.black),),
+                            Text('حذف نشان',style: TextStyle(color: Colors.black,fontFamily: 'Vazir'),),
                             Icon(Icons.star_border_purple500_outlined,color: Colors.yellow ,),
                           ],
                         )),

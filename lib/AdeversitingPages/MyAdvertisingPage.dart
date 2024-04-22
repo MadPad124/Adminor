@@ -1,7 +1,6 @@
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/api/Functions.dart';
-import 'package:adminor/structure.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../chat/displayChatPage.dart';
@@ -19,12 +18,14 @@ class MyAdvertisingPage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: bottomMenu(context),
 
-      appBar: AppBar(title:const Row(
+      appBar: AppBar(
+        leading: IconButton(onPressed:(){Navigator.of(context).pop();}, icon:const Icon(Icons.arrow_back,color: Colors.white,),),
+        title:const Row(
         textDirection: TextDirection.rtl,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('آگهی های من ',style: TextStyle(fontFamily: 'Shabnam'),),
+          Text('آگهی های من ',style: TextStyle(fontFamily: 'Shabnam',color: Colors.white),),
           Icon(Icons.notes,color: Colors.orange,),
           Expanded(child: SizedBox()),
 
@@ -32,24 +33,24 @@ class MyAdvertisingPage extends StatelessWidget {
       ),backgroundColor: Colors.green,),
       body: Center(child: Padding(
         padding: const EdgeInsets.only(bottom: 100.0),
-        child: ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
+        child: ListView.builder(itemCount: myUsers.length,itemBuilder: (context, index) {
           return InkWell(
             borderRadius: BorderRadius.circular(8),
             onTap: () {},
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(8)),width: w,height: 100,
+              child: Container(decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(5)),width: w,height: 100,
                   child:Row(mainAxisAlignment: MainAxisAlignment.start,
                     children: [Padding(
                       padding: const EdgeInsets.only(right: 15.0),
                       child: ClipRRect(borderRadius:BorderRadius.circular(50) ,
-                        child: Image.asset(url[index],width: 70,height: 140,),),
+                        child: Image.network(myUsers[index].image,width: 70,height: 70,),),
                     ),const SizedBox(width:15),
                       Expanded(
                         child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,children: [
-                          Text(users[index].type,style: const TextStyle(fontFamily: 'Shabnam'),),
+                          Text(myUsers[index].type,style: const TextStyle(fontFamily: 'Shabnam'),),
                           const SizedBox(height: 5,),
-                          Text('قیمت ${users[index].price} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
+                          Text('قیمت ${myUsers[index].price} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
                         ],),
                       ),
                      Column(crossAxisAlignment: CrossAxisAlignment.start,
