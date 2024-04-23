@@ -11,7 +11,7 @@ List<UserStructure> myUsers=[];
 List<FavoriteHolder> favorites=[];
 /*List<userInfoHolder> userInfo=[];*/
 List<int>favoriteIndex=[];
-var baseUrl='https://192.168.1.104/adminor';
+var baseUrl='https://192.168.1.106/adminor';
 
 void loginUser(String mobile) async{
   var url = Uri.parse('$baseUrl/?action=adduser');
@@ -31,7 +31,7 @@ void getUsers() async{
      userResponse=convert.jsonDecode(response.body);
 
     for(var i in userResponse){
-      var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+      var userItem=UserStructure(i['id'], i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
       users.add(userItem);
       if('0${i['adminPhone']}'==cache.read('telephone')){
         myUsers.add(userItem);
