@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/structure.dart';
+
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,9 +10,8 @@ var userResponse;
 List<UserStructure> users=[];
 List<UserStructure> myUsers=[];
 List<FavoriteHolder> favorites=[];
-/*List<userInfoHolder> userInfo=[];*/
 List<int>favoriteIndex=[];
-var baseUrl='https://192.168.1.106/adminor';
+var baseUrl='https://192.168.81.35/adminor';
 
 void loginUser(String mobile) async{
   var url = Uri.parse('$baseUrl/?action=adduser');
@@ -31,13 +31,11 @@ void getUsers() async{
      userResponse=convert.jsonDecode(response.body);
 
     for(var i in userResponse){
-      var userItem=UserStructure(i['id'], i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+      var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
       users.add(userItem);
       if('0${i['adminPhone']}'==cache.read('telephone')){
         myUsers.add(userItem);
       }
-
-
     }
   }
 }
@@ -48,17 +46,6 @@ void search(){
 
 }
 //First Page
-void fetchChats()async{
-  //لیست کاربران موجو که با آنها چت شده است را دریافت میکند
-}
-void fetchChatsText()async{
-  //لیست پیام های موجود که با آنها چت شده است را دریافت میکند
-}
-//Chats
-void updateProfile() async{
-
-}
-//Profile
 void getFavorites() async{
   var url = Uri.parse('$baseUrl/gettAllUsers.php?action=getfavorite');
   var response = await http.post(url, body: {'phone': cache.read('telephone')});
@@ -99,9 +86,6 @@ if(favoriteIndex.contains(index)==false){
 else{
   favoriteIndex.remove(index);
 }
-}
-void suggestionSystem(){
-
 }
 // ignore: non_constant_identifier_names
 void submitRating(double Rating,String phone) async{
@@ -181,9 +165,6 @@ void deleteMyAdmin(int id) async{
   }
 }
 //Delete Admins
-void sendMessage() async{
-
-}
 void getInfo(var mobile) async{
     var url = Uri.parse('$baseUrl/gettAllUsers.php?action=getInfo');
     var response=await http.post(url, body: {'phone': mobile});
@@ -224,3 +205,18 @@ void updateUserInfo(String name,String email,String city,[XFile? file]) async{
 
 }
 //Pro user or Basic
+/*
+signingWithPhone() async{
+  FirebaseAuth auth=FirebaseAuth.instance;
+  try{
+    await auth.verifyPhoneNumber(verificationCompleted: (PhoneAuthCredential credential) async{},
+        verificationFailed: (e){
+      throw Exception(e.toString());
+        }, codeSent: ((String verificationId,int? resendToken) async{
+          await Future.delayed(Duration(seconds: 2));
+        }), codeAutoRetrievalTimeout: (String verificationId){});
+  } on FirebaseAuthException catch(e){
+    print(e.toString());
+
+  };
+}*/

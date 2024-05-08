@@ -17,7 +17,7 @@ class MyAdvertisingPage extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: bottomMenu(context),
-
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(onPressed:(){Navigator.of(context).pop();}, icon:const Icon(Icons.arrow_back,color: Colors.white,),),
         title:const Row(
@@ -31,7 +31,11 @@ class MyAdvertisingPage extends StatelessWidget {
 
         ],
       ),backgroundColor: Colors.green,),
-      body: Center(child: Padding(
+      body: Center(child:
+      myUsers.isEmpty? Column(crossAxisAlignment:CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,children: [
+        Image.asset('assets/images/empty.png',width: 250,height: 250,),
+      const Text('در حال حاضر هیچ آگهی برای نمایش وجود ندارد',style: TextStyle(fontFamily: 'Shabnam'),)],):
+      Padding(
         padding: const EdgeInsets.only(bottom: 100.0),
         child: ListView.builder(itemCount: myUsers.length,itemBuilder: (context, index) {
           return InkWell(

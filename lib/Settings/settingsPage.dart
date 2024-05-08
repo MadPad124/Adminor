@@ -6,26 +6,42 @@ import 'package:adminor/ProfilePage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import '../AdeversitingPages/AdvertisingPage.dart';
 import '../AdeversitingPages/NewAdversitingPage.dart';
 import '../FavoritePage.dart';
 import '../chat/displayChatPage.dart';
 class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
-
+  const Settings({super.key});
   @override
   Widget build(BuildContext context) {
+    List<String> filteredCities=[];
+    List<bool> isChecked=[];
+    List checkedList=['تهران'];
+    ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
+    ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
+    //ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
     ValueNotifier activated=ValueNotifier(false);
-    var w=MediaQuery.of(context).size.width;
-    var h=MediaQuery.of(context).size.height;
     TextEditingController emailController=TextEditingController();
     return SafeArea(
       child: Scaffold(
         floatingActionButton: bottomMenu(context),
-        body: SingleChildScrollView(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: SafeArea(
           child: Stack(children: [
-            Image.asset(width: w,height: h+50,'assets/images/setting.jpg',fit: BoxFit.cover,),
+            SizedBox(
+              child: Column(
+                children: [
+                Expanded(
+                  child: Image.asset(
+                    'assets/images/splash-bottom-page-image-sun.png',
+                    opacity: const AlwaysStoppedAnimation(.3),
+                  ),
+                ),
+                Image.asset('assets/images/splash-bottom-page-image.png'),
+              ],),
+            ),
             Column(children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -80,26 +96,9 @@ class Settings extends StatelessWidget {
                       backgroundColor: Colors.white,
                       title: const Text('تماس با ما',style: TextStyle(fontFamily: 'Shabnam',fontWeight: FontWeight.w200),),
                       content: SingleChildScrollView(
-                        child: SizedBox(height:330,width:300,child: Column(children: [
+                        child: SizedBox(height:250,width:300,child: Column(children: [
                           const Text('پاسخگوی شما هستیم در 24 ساعت روز',style: TextStyle(fontFamily: 'Vazir'),),
                           const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Text('09217123169',style: TextStyle(fontFamily: 'Vazir'),),Icon(Icons.call,color: Colors.blue,)],),
-                          const SizedBox(height: 15,),
-                          TextFormField(style: const TextStyle(fontFamily: 'Vazir'),
-                            controller:emailController,
-                              validator: (value) {
-                                if (value.toString().isEmpty ||
-                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(value.toString())) {
-                                  return 'یک ایمیل معتبر وارد کنید';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
-                                  errorStyle: TextStyle(fontFamily: 'Shabnam'),
-                                  hintText: 'adminor@gmail.com',hintStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
-                              ),),
                           const SizedBox(height: 15,),
                           StatefulBuilder(builder: (BuildContext context, StateSetter setState)=>
                               TextField(
@@ -112,6 +111,7 @@ class Settings extends StatelessWidget {
                                     activated.value=false;
                                   }
                                 },
+                                controller: emailController,
                                 keyboardType: TextInputType.multiline,
                                 maxLength: 256,
                                 maxLines: 3,
@@ -128,27 +128,20 @@ class Settings extends StatelessWidget {
                                     Navigator.pop(context);activated.value=false;
                                     final Email email = Email(
                                       body: emailController.text,
-                                      subject: 'تماس با ما ادمینور',
+                                      subject: 'تماس با ادمینور',
                                       recipients: ['hkarimian79@gmail.com'],
-/*                                      cc: [''],
+          /*                                      cc: [''],
                                       bcc: [''],
-                                      attachmentPaths: ['/path/to/attachment.zip'],
-                                      isHTML: false,*/
+                                      attachmentPaths: ['/path/to/attachment.zip'],*/
+                                      isHTML: true,
                                     );
-                                    try {
                                       await FlutterEmailSender.send(email);
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content: Text('ایمیل با موفقیت ارسال شد.'),
                                         ),
                                       );
-                                    } catch (error) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text('مشکل در ارسال ایمیل: $error'),
-                                        ),
-                                      );
-                                    }
+
                                   }},style: ButtonStyle(backgroundColor: activated.value==true?MaterialStateProperty.all(CupertinoColors.activeGreen):MaterialStateProperty.all(Colors.grey.withOpacity(0.3))),
                                   child: const Text('ارسال',style: TextStyle(color: Colors.white),),),
                               ),
@@ -210,7 +203,7 @@ class Settings extends StatelessWidget {
                   ],)),
                 ),
 
-             
+
               ],)
             ]
             ),

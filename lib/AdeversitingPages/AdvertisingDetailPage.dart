@@ -8,10 +8,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../structure.dart';
 
-double Rating=3;
+double rating=3;
 final cache = GetStorage();
 class AdvertisingDetail extends StatefulWidget {
-  final index;
+  final int index;
   const AdvertisingDetail({super.key, required this.index});
 
 
@@ -23,7 +23,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
 @override
   void initState() {
   cache.read(users[widget.index].phone_number);
-    Rating=3;
+    rating=3;
     super.initState();
   }
   @override
@@ -34,7 +34,6 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
       appBar: AppBar(backgroundColor: Colors.green,
           leading: IconButton(onPressed: (){Navigator.of(context).pop();},icon: const Icon(Icons.arrow_back_outlined,color: Colors.white,),),
           actions: [
-            IconButton(onPressed: (){}, icon: const Icon(Icons.share,color: Colors.white,)),
             Padding(
               padding:const EdgeInsets.only(left: 8.0),
               child: IconButton(onPressed: (){
@@ -94,21 +93,21 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                ],),
                   const Column(
                     children: [
-                    Icon(Icons.supervisor_account_outlined,size: 15,),
+                    Icon(Icons.supervisor_account_outlined,size: 20,),
                     SizedBox(height: 20,),
-                    Icon(Icons.supervisor_account_outlined,size: 15,),
+                    Icon(Icons.supervisor_account_outlined,size: 20,),
                     SizedBox(height: 20,),
-                    Icon(Icons.supervisor_account_outlined,size: 15,),
+                    Icon(Icons.supervisor_account_outlined,size: 20,),
                   ],),
                   const Column(
                     children: [
-                      Icon(Icons.supervisor_account_outlined,size: 15,),
+                      Icon(Icons.supervisor_account_outlined,size: 20,),
                       SizedBox(height: 20,),
-                      Icon(Icons.supervisor_account_outlined,size: 15,),
+                      Icon(Icons.supervisor_account_outlined,size: 20,),
                     ],),
                   const Column(
                     children: [
-                      Icon(Icons.supervisor_account_outlined,size: 15,),
+                      Icon(Icons.supervisor_account_outlined,size: 20,),
                     ],),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -135,24 +134,23 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     padding: const EdgeInsets.all(15.0),
                     child: Image.asset('assets/images/cash.png',width: 100,height: 100,),
                   ),
-
                   const Column(
                     children: [
-                      Icon(Icons.attach_money,size: 15,color: Colors.orange,),
-                      SizedBox(height: 20,),
-                      Icon(Icons.attach_money,size: 15,color: Colors.orange,),
-                      SizedBox(height: 20,),
-                      Icon(Icons.attach_money,size: 15,color: Colors.orange,),
+                      Icon(Icons.attach_money,size: 20,color: Colors.orange,),
                     ],),
                   const Column(
                     children: [
-                      Icon(Icons.attach_money,size: 15,color: Colors.orange,),
+                      Icon(Icons.attach_money,size: 20,color: Colors.orange,),
                       SizedBox(height: 20,),
-                      Icon(Icons.attach_money,size: 15,color: Colors.orange,),
+                      Icon(Icons.attach_money,size: 20,color: Colors.orange,),
                     ],),
                   const Column(
                     children: [
-                      Icon(Icons.attach_money,size: 15,color: Colors.orange,),
+                      Icon(Icons.attach_money,size: 20,color: Colors.orange,),
+                      SizedBox(height: 20,),
+                      Icon(Icons.attach_money,size: 20,color: Colors.orange,),
+                      SizedBox(height: 20,),
+                      Icon(Icons.attach_money,size: 20,color: Colors.orange,),
                     ],),
                    Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,21 +200,21 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     ],),
                   const Column(
                     children: [
-                      Icon(Icons.work_history,size: 15,color: Colors.green,),
+                      Icon(Icons.work,size: 20,color: Colors.green,),
                       SizedBox(height: 20,),
-                      Icon(Icons.work_history,size: 15,color: Colors.green),
+                      Icon(Icons.work,size: 20,color: Colors.green),
                       SizedBox(height: 20,),
-                      Icon(Icons.work_history,size: 15,color: Colors.green),
+                      Icon(Icons.work,size: 20,color: Colors.green),
                     ],),
                   const Column(
                     children: [
-                      Icon(Icons.work_history,size: 15,color: Colors.green),
+                      Icon(Icons.work,size: 20,color: Colors.green),
                       SizedBox(height: 20,),
-                      Icon(Icons.work_history,size: 15,color: Colors.green),
+                      Icon(Icons.work,size: 20,color: Colors.green),
                     ],),
                   const Column(
                     children: [
-                      Icon(Icons.work_history,size: 15,color: Colors.green),
+                      Icon(Icons.work,size: 20,color: Colors.green),
                     ],),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -240,34 +238,37 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Image.asset('assets/images/tick.jpg',width: 100,height: 100,),
+                    child: Image.asset('assets/images/history.jpg',width: 100,height: 100,),
                   ),
+                  const Column(
+                    children: [
+                      Icon(Icons.access_time_filled,size: 20,color: Colors.blue),
+                    ],),
+                  const Column(
+                    children: [
+                      Icon(Icons.access_time_filled,size: 20,color: Colors.blue),
+                      SizedBox(height: 20,),
+                      Icon(Icons.access_time_filled,size: 20,color: Colors.blue),
+                    ],),
+                  const Column(
+                    children: [
+                      Icon(Icons.access_time_filled,size: 20,color: Colors.blue),
+                      SizedBox(height: 20,),
+                      Icon(Icons.access_time_filled,size: 20,color: Colors.blue),
+                      SizedBox(height: 20,),
+                      Icon(Icons.access_time_filled,size: 20,color: Colors.blue),
+                    ],),
 
-                  const Column(
-                    children: [
-                      Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
-                      SizedBox(height: 20,),
-                      Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
-                      SizedBox(height: 20,),
-                      Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
-                    ],),
-                  const Column(
-                    children: [
-                      Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
-                      SizedBox(height: 20,),
-                      Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
-                    ],),
-                  const Column(
-                    children: [
-                      Icon(Icons.subdirectory_arrow_right,size: 15,color: Colors.blue),
-                    ],),
+
+
+
                    Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0,bottom: 10),
-                        child: Text('تلفن : ${users[widget.index].phone_number}',style: const TextStyle(fontFamily: 'Shabnam'),),
+                        child: Text('سابقه : ${users[widget.index].history} سال',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0,bottom: 10),
@@ -283,6 +284,60 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                         ),
                       ),
                     ],),
+                ],),
+            ),
+            Container(
+              height: 1,
+              decoration: const BoxDecoration(
+                border:  DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.rtl,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0,bottom: 10),
+                        child: Text('تلفن : ${users[widget.index].phone_number}',style: const TextStyle(fontFamily: 'Shabnam'),),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10.0,bottom: 10),
+                        child: Text(':ایمیل کارفرما',style: TextStyle(fontFamily: 'Shabnam'),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 40.0),
+                        child: Text(users[widget.index].email_2,style: const TextStyle(fontFamily: 'Shabnam'),),
+                      ),
+                    ],),
+                  const Column(
+                    children: [
+                      Icon(Icons.sensor_occupied,size: 20,color: Colors.red,),
+                      SizedBox(height: 20,),
+                      Icon(Icons.sensor_occupied,size: 20,color: Colors.red),
+                      SizedBox(height: 20,),
+                      Icon(Icons.sensor_occupied,size: 20,color: Colors.red),
+                    ],),
+                  const Column(
+                    children: [
+                      Icon(Icons.sensor_occupied,size: 20,color: Colors.red),
+                      SizedBox(height: 20,),
+                      Icon(Icons.sensor_occupied,size: 20,color: Colors.red),
+                    ],),
+                  const Column(
+                    children: [
+                      Icon(Icons.sensor_occupied,size: 20,color: Colors.red),
+                    ],),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Image.asset('assets/images/socialMedia.png',width: 100,height: 100,),
+                  ),
                 ],),
             ),
             Container(
@@ -314,9 +369,10 @@ Column(children: [
   SizedBox(height:cache.read('${users[widget.index].phone_number}rated')==false?0:10),
   cache.read('${users[widget.index].phone_number}rated')==false?const Text('به این کاربر امتیاز بدهید',style: TextStyle(fontFamily: 'Shabnam'),):Container(),
   const SizedBox(height: 15,),
+
   cache.read('${users[widget.index].phone_number}rated')==false?
   RatingBar.builder(
-    onRatingUpdate: (value) => Rating=value,
+    onRatingUpdate: (value) => rating=value,
     glowColor: Colors.white,
     initialRating: 3,
     itemCount: 5,
@@ -355,7 +411,7 @@ Column(children: [
   ):const Icon(Icons.sentiment_very_satisfied_outlined,color: Colors.green,size: 50,),
    SizedBox(height: cache.read('${users[widget.index].phone_number}rated')==false?15:10,),
   cache.read('${users[widget.index].phone_number}rated')==false? ElevatedButton(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
-    submitRating(Rating,users[widget.index].phone_number);
+    submitRating(rating,users[widget.index].phone_number);
     setState(() {
       cache.write('${users[widget.index].phone_number}rated',true);
     });
@@ -386,8 +442,11 @@ Column(children: [
                   child: Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 1,color: Colors.green)),
                     width: 50,height: 50,
-                    child: Column(children: [
-                      users[index].image=='https://192.168.1.106/adminor/uploads/useravatar.png'?const SizedBox(height: 15,):Container(),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                   /*   users[index].image=='https://192.168.1.106/adminor/uploads/useravatar.png'?const SizedBox(height: 15,):Container(),*/
                       ClipRRect(borderRadius:  BorderRadius.circular(50),child: Image.network(users[index].image,width: 100,height: 100,)),
                       const SizedBox(height: 5,),
                        Text(users[index].name,style: const TextStyle(fontFamily: 'Shabnam')),

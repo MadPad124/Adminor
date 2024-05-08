@@ -1,5 +1,6 @@
 
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
+import 'package:adminor/LoginPages/otp_Screen.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class StartAppSplash extends StatelessWidget {
                   repeatForever: true,
                 ),
               ),
-              nextScreen:cache.read('telephone')==null?  const Login():const Advertising(),
+              nextScreen:cache.read('telephone')==null?  const Login/*OTPScreen*/():const Advertising/*OTPScreen*/(),
               pageTransitionType: PageTransitionType.fade,
             ),
             Column(

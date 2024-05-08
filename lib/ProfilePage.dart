@@ -1,14 +1,16 @@
 import 'dart:io';
-
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/api/Functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'AdeversitingPages/AdvertisingPage.dart';
 import 'AdeversitingPages/NewAdversitingPage.dart';
 import 'Settings/settingsPage.dart';
 import 'chat/displayChatPage.dart';
+import 'cities.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -80,12 +82,14 @@ class _ProfileState extends State<Profile> {
   }
   @override
   Widget build(BuildContext context) {
+    List<String> filteredCities=[];
+    ValueNotifier<String> stateNotifier=ValueNotifier('notAllChecked');
     var w=MediaQuery.of(context).size.width;
-
     TextEditingController nameController=TextEditingController(text: cache.read('name'));
     TextEditingController emailController=TextEditingController(text: cache.read('email'));
     TextEditingController phoneController=TextEditingController(text:cache.read('telephone'));
-    TextEditingController locationController=TextEditingController(text:'تهران');
+    TextEditingController locationController=TextEditingController(text:cache.read('city'));
+    TextEditingController searchBoxController2=TextEditingController();
     return SafeArea(
       child: Scaffold(
         body:  Center(
@@ -170,9 +174,163 @@ class _ProfileState extends State<Profile> {
                     child: TextField(style:const TextStyle(fontFamily: 'Vazir'),controller:locationController,readOnly: true,keyboardType: TextInputType.number,
                       decoration: const InputDecoration(suffixIcon:Icon(Icons.location_city),label:Text('مکان',style: TextStyle(fontFamily: 'Shabnam'),),
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1)),
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
-                      ,
-                    ),),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
+                    ),
+                    onTap: (){
+                      showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),
+                          content: SingleChildScrollView(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width:MediaQuery.of(context).size.width,
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(bottom: 15.0,right: 25,left: 25),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                          height: 60,
+                                          width: MediaQuery.of(context).size.width-130,
+                                          child:
+                                          TextField(
+                                            controller: searchBoxController2,
+                                            onChanged: (value) {
+                                              if(searchBoxController2.text.isEmpty){
+                                                stateNotifier.value='nothing';
+                                              }
+                                              else{
+                                                stateNotifier.value=searchBoxController2.text;
+                                              }
+                                            },
+                                            style: const TextStyle(fontFamily: 'Vazir',color: Colors.black),
+                                            textDirection: TextDirection.rtl,
+                                            decoration:  InputDecoration(
+                                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey,width: 1),borderRadius: BorderRadius.circular(8)),
+                                              hintText: 'اینجا بنویسید',
+                                              hintStyle: const TextStyle(fontSize: 16),
+                                              suffixIcon: const Icon(Icons.search),
+                                              focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width:1,color: Colors.teal)),
+                                              border: const UnderlineInputBorder(borderSide: BorderSide.none),
+                                            ),)),
+                                    ],
+                                  ),
+                                      Center(
+                                      child: SizedBox(
+                                          height: 240,
+                                          width: MediaQuery.of(context).size.width-130,
+                                          child:ValueListenableBuilder<String>(
+                                            valueListenable: stateNotifier,
+                                            builder: (context, value, child) {
+                                              if(searchBoxController2.text.isNotEmpty){
+                                                if(checkedList.length==31){
+                                                  filteredCities=[];
+                                                }
+                                                else{
+                                                  filteredCities=[];
+                                                }
+                                                cities.forEach((key, value) {
+                                                  if(key.contains(searchBoxController2.text)){
+                                                    filteredCities.add(key);
+                                                  }
+                                                });
+                                              }
+                                              else{
+                                                if(checkedList.length==31){
+                                                  filteredCities=[];
+                                                  filteredCities.addAll(cities.keys);
+                                                  //print('object1');
+                                                }
+                                                else{
+                                                  filteredCities=[];
+                                                  filteredCities.addAll(cities.keys);}
+
+                                              }
+                                              return StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                                return filteredCities.isNotEmpty?
+                                                 ListView.builder(itemCount: filteredCities.length>1?filteredCities.length:1, itemBuilder: (context, index) {
+                                                return Column(
+                                                  children: [
+                                                     Padding(
+                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                      child: SizedBox(
+                                                        height: 60,
+                                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Expanded(child: Padding(
+                                                              padding: const EdgeInsets.only(right: 8.0),
+                                                              child:
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  locationController.text=filteredCities[index].toString();
+                                                                  filteredCities=[];
+                                                                  filteredCities.addAll(cities.keys);
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                child: Row(
+                                                                  children: [
+                                                                  SizedBox(width:20,child: Text(filteredCities[index].substring(0,1),style:const TextStyle(fontSize: 16, fontFamily: 'Vazir',color: Colors.lightBlue))),
+                                                                  Expanded(
+                                                                    child: Center(
+                                                                      child: Text(filteredCities[index],style:const TextStyle(fontSize: 16, fontFamily: 'Vazir')),
+                                                                    ),
+                                                                  ),
+                                                                    const SizedBox(width: 20,child: Icon(Icons.location_city_rounded,color: Colors.green,),)
+                                                                ],),
+                                                              )
+                                                            )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(height: 1,
+                                                      width: MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width - 140,
+                                                      decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                                        color: Colors.grey.withOpacity(0.4), width: 1,))),)
+                                                  ],
+                                                );
+                                              }):
+                                                const Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Center(child: Text('موردی یافت نشد',style:TextStyle(fontSize: 16, fontFamily: 'Vazir',color: Colors.red))),
+                                                    Icon(Icons.error,color: Colors.redAccent,),
+                                                  ],
+                                                );});
+
+
+                                            },
+                                          )
+                                      )
+                                  ),
+                                  /*Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(width: 10,),
+                                        TextButton(onPressed: (){Navigator.of(context).pop();},style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(80, 30)),backgroundColor:MaterialStateProperty.all(Colors.green),padding: MaterialStateProperty.all(const EdgeInsets.all(15))), child: const Text('تایید',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),)),
+                                        const SizedBox(width: 5,),
+                                        TextButton(onPressed: (){Navigator.of(context).pop();},style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.red),padding: MaterialStateProperty.all(const EdgeInsets.all(15))), child: const Text('انصراف',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),)),
+                                        const SizedBox(width: 5,),
+                                      ],
+                                    ),
+                                  ),*/
+                                ],
+                              ),
+
+                            ),
+                          )));
+                    },
+                    ),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(onPressed: (){
@@ -183,10 +341,10 @@ class _ProfileState extends State<Profile> {
                           TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
                           TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){
                            cache.write('name', nameController.text);
-                           image==null?null:cache.write('profile_image', 'https://192.168.1.106/adminor/uploads/${image!.path.substring(78)}',);
+                           image==null?null:cache.write('profile_image', 'https://192.168.1.104/adminor/uploads/${image!.path.substring(78)}',);
                            cache.write('email', emailController.text);
-                           cache.write('city', 'تهران');
-                           updateUserInfo(nameController.text, emailController.text,'تهران',image==null?null:image);
+                           cache.write('city', locationController.text);
+                           updateUserInfo(nameController.text, emailController.text,locationController.text,image==null?null:image);
                            setState(() {
 
                            });
