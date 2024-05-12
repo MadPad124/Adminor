@@ -23,6 +23,7 @@ class UserStructure{
   String _email_1;
   String _email_2;
   String _status;
+  int _score;
   UserStructure(
       this._id,
       this._phone_number,
@@ -40,9 +41,14 @@ class UserStructure{
       this._history,
       this._email_1,
       this._email_2,
-      this._status);
+      this._status,
+      this._score
+      );
 
 
+  set score(int value) {
+    _score = value;
+  }
 
   String get email_2 => _email_2;
 
@@ -75,6 +81,8 @@ class UserStructure{
   String get adminPhone => _adminPhone;
 
   int get id => _id;
+
+  int get score => _score;
 
   String get status => _status;
 }

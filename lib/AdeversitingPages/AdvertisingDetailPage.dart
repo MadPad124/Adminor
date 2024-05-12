@@ -1,14 +1,15 @@
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:adminor/chat/ChatPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../structure.dart';
-
 double rating=3;
+List<int> likely=[];
 final cache = GetStorage();
 class AdvertisingDetail extends StatefulWidget {
   final int index;
@@ -24,11 +25,16 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
   void initState() {
   cache.read(users[widget.index].phone_number);
     rating=3;
+    likely=[];
+    for(int i=0;i<users.length;i++){
+      if(users[i].city==users[widget.index].city && users[i].id!=users[widget.index].id){
+        likely.add(i);
+      }
+    }
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
       return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.green,
@@ -41,18 +47,24 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                   case false:
                     cache.write(users[widget.index].phone_number,true);
                     addFavorite(users[widget.index].phone_number,widget.index);
+                    submitScore(users[widget.index].id, 5);
+                    users[widget.index].score+=5;
                     setState(() {
 
                     });
                     break;
                   case null:
                     cache.write(users[widget.index].phone_number,true);
+                    submitScore(users[widget.index].id,5);
+                    users[widget.index].score+=5;
                     addFavorite(users[widget.index].phone_number,widget.index);
                     setState(() {
 
                     });
                     break;
                   case true:
+                    submitScore(users[widget.index].id, -5);
+                    users[widget.index].score-=5;
                     cache.write(users[widget.index].phone_number,false);
                     addFavorite(users[widget.index].phone_number,widget.index);
                     setState(() {
@@ -111,7 +123,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     ],),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Image.network(users[widget.index].image,width: 100,height: 100,),
+                    child: Image.network('$baseUrl/uploads/${users[widget.index].image}',width: 100,height: 100,),
                   ),
                 ],),
             ),
@@ -268,7 +280,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0,bottom: 10),
-                        child: Text('سابقه : ${users[widget.index].history} سال',style: const TextStyle(fontFamily: 'Shabnam'),),
+                        child: Text('سابقه : ${users[widget.index].history}',style: const TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0,bottom: 10),
@@ -309,7 +321,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                       ),
                       const Padding(
                         padding: EdgeInsets.only(right: 10.0,bottom: 10),
-                        child: Text(':ایمیل کارفرما',style: TextStyle(fontFamily: 'Shabnam'),),
+                        child: Text('ایمیل کارفرما:',style: TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 40.0),
@@ -413,6 +425,8 @@ Column(children: [
   cache.read('${users[widget.index].phone_number}rated')==false? ElevatedButton(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
     submitRating(rating,users[widget.index].phone_number);
     setState(() {
+      submitScore(users[widget.index].id,rating.toInt()-3);
+      users[widget.index].score=rating.toInt()-3;
       cache.write('${users[widget.index].phone_number}rated',true);
     });
 
@@ -420,14 +434,18 @@ Column(children: [
       :
   const Text('ممنون از نظر و همکاری شما',style: TextStyle(fontFamily: 'Shabnam')),
   const SizedBox(height: 20,),
-  Container(height:1,decoration: const BoxDecoration(border: DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6)),),
-  const SizedBox(height: 10,),
 
 ],),
-            SizedBox(width: MediaQuery.of(context).size.width,child: const Directionality(textDirection: TextDirection.rtl,child: Padding(
-              padding: EdgeInsets.only(right: 15.0),
-              child: Text('موارد مشابه',style: TextStyle(fontFamily: 'Shabnam'),),
-            ))),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 15.0,left: 10),
+                child: Text('موارد مشابه',style: TextStyle(fontFamily: 'Shabnam',fontWeight: FontWeight.w900),),
+              ),
+              Expanded(child: Container(height:1,decoration: const BoxDecoration(border: DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6)),)),
+            ],),
             SizedBox(
               height: 200,
               child: ListView.builder(
@@ -436,24 +454,73 @@ Column(children: [
                 //primary: false,
                 //shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount:users.length,itemBuilder: (context, index){
+                itemCount:likely.length,itemBuilder: (context, index){
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 1,color: Colors.green)),
-                    width: 50,height: 50,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                   /*   users[index].image=='https://192.168.1.106/adminor/uploads/useravatar.png'?const SizedBox(height: 15,):Container(),*/
-                      ClipRRect(borderRadius:  BorderRadius.circular(50),child: Image.network(users[index].image,width: 100,height: 100,)),
-                      const SizedBox(height: 5,),
-                       Text(users[index].name,style: const TextStyle(fontFamily: 'Shabnam')),
-                      const SizedBox(height: 10,),
-                       Text('قیمت ${users[index].price}',style: const TextStyle(fontFamily: 'Shabnam'),)
+                  child: InkWell(
+                    splashColor: Colors.green,
+                    overlayColor: MaterialStateProperty.all(Colors.green.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertisingDetail(index: likely[index]),)),
+                    child: Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 1,color: Colors.green)),
+                      width: 50,height: 50,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        ClipRRect(borderRadius:  BorderRadius.circular(50),child: Image.network('$baseUrl/uploads/${users[likely[index]].image}',width: 100,height: 100,)),
+                        const SizedBox(height: 5,),
+                         Text(users[likely[index]].name,style: const TextStyle(fontFamily: 'Shabnam')),
+                        const SizedBox(height: 10,),
+                         Text(users[likely[index]].city,style: const TextStyle(fontFamily: 'Shabnam',color:Colors.red),),
+                    
+                      ]),),
+                  ),
+                );
+              },),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 15.0,left: 10),
+                child: Text('محبوب ترین ها',style: TextStyle(fontFamily: 'Shabnam',fontWeight: FontWeight.w900),),
+              ),
+              Expanded(child: Container(height:1,decoration: const BoxDecoration(border: DashedBorder.fromBorderSide(side: BorderSide(color: Colors.green), dashLength: 6)),)),
+              ],),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                physics: const ScrollPhysics(),
+                itemExtent: 150,
+                //primary: false,
+                //shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount:likely.length,itemBuilder: (context, index){
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    splashColor: Colors.green,
+                    overlayColor: MaterialStateProperty.all(Colors.green.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertisingDetail(index: likely[index]),)),
+                    child: Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 1,color: Colors.green)),
+                      width: 50,height: 50,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ClipRRect(borderRadius:  BorderRadius.circular(50),child: Image.network('$baseUrl/uploads/${users[likely[index]].image}',width: 100,height: 100,)),
+                            const SizedBox(height: 5,),
+                            Text(users[likely[index]].name,style: const TextStyle(fontFamily: 'Shabnam')),
+                            const SizedBox(height: 10,),
+                            Text('امتیاز ${users[likely[index]].score}',style: const TextStyle(fontFamily: 'Shabnam'),)
 
-                    ]),),
+                          ]),),
+                  ),
                 );
               },),
             ),
@@ -470,7 +537,7 @@ Column(children: [
                       if(i['id'].toString()==cache.read('id').toString()){
                       }
                       else{
-                        var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+                        var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],i['score']);
                         users.add(userItem);
                         setState(() {
 

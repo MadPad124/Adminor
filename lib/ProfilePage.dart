@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/api/Functions.dart';
+import 'package:adminor/structure.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ import 'AdeversitingPages/NewAdversitingPage.dart';
 import 'Settings/settingsPage.dart';
 import 'chat/displayChatPage.dart';
 import 'cities.dart';
+TextEditingController locationController=TextEditingController(text:cache.read('city'));
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -88,7 +90,6 @@ class _ProfileState extends State<Profile> {
     TextEditingController nameController=TextEditingController(text: cache.read('name'));
     TextEditingController emailController=TextEditingController(text: cache.read('email'));
     TextEditingController phoneController=TextEditingController(text:cache.read('telephone'));
-    TextEditingController locationController=TextEditingController(text:cache.read('city'));
     TextEditingController searchBoxController2=TextEditingController();
     return SafeArea(
       child: Scaffold(
@@ -104,12 +105,12 @@ class _ProfileState extends State<Profile> {
                         onTap: () {
                           if(image==null){
                             myAlert();
-                            cache.write('profile_image', 'https://192.168.1.104/adminor/uploads/useravatar.png');
+                            cache.write('profile_image', '$baseUrl/uploads/useravatar.png');
                             setState((){});
                           }
                           else{
                           image=null;print(image!.path);
-                            cache.write('profile_image', 'https://192.168.1.104/adminor/uploads/useravatar.png');
+                            cache.write('profile_image', '$baseUrl/uploads/useravatar.png');
                           setState((){});
                           }
                           }
@@ -130,7 +131,7 @@ class _ProfileState extends State<Profile> {
                                 width: 50,
                                 height: 50,
                               ),
-                            ):ClipRRect(borderRadius:BorderRadius.circular(50),child: Image.network(cache.read('profile_image'),width: 50,height: 50,))),
+                            ):ClipRRect(borderRadius:BorderRadius.circular(50),child: Image.network(cache.read('profile_image') ?? '$baseUrl/uploads/user avatar.png',width: 50,height: 50,))),
 
 
 
@@ -268,6 +269,7 @@ class _ProfileState extends State<Profile> {
                                                               InkWell(
                                                                 onTap: () {
                                                                   locationController.text=filteredCities[index].toString();
+                                                                  print(locationController.text.toString());
                                                                   filteredCities=[];
                                                                   filteredCities.addAll(cities.keys);
                                                                   Navigator.of(context).pop();
@@ -341,10 +343,30 @@ class _ProfileState extends State<Profile> {
                           TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
                           TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){
                            cache.write('name', nameController.text);
-                           image==null?null:cache.write('profile_image', 'https://192.168.1.104/adminor/uploads/${image!.path.substring(78)}',);
+                           image==null?null:cache.write('profile_image', '$baseUrl/uploads/${image!.path.substring(78)}',);
                            cache.write('email', emailController.text);
-                           cache.write('city', locationController.text);
                            updateUserInfo(nameController.text, emailController.text,locationController.text,image==null?null:image);
+
+                           if(checkedList.contains(locationController.text)==false){
+                             checkedList.add(locationController.text);
+                             cities.update(locationController.text, (value) => true);
+                           }
+                           if(checkedList.length>2){
+                             users=[];
+                             for(var i in userResponse){
+                               for(int j=0;j<checkedList.length;j++){
+                                 if(checkedList[j]==i['city']){
+                                   var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
+                                   users.add(userItem);
+                                 }
+                               }}
+                             setState(() {
+
+                             });
+                           }
+
+                           cache.write('city', locationController.text);
+                           //checkedList
                            setState(() {
 
                            });

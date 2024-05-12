@@ -196,7 +196,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
   final formkey = GlobalKey<FormState>();
   @override
   void initState() {
-
+    print(users.length);
     start = 1.0;
     end = 1.0;
     users.isEmpty?getUsers():null;
@@ -374,7 +374,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value.toString())) {
+                                  .hasMatch(value.toString())&&emailBox2.isNotEmpty) {
                             return 'ایمیل کارفرما را به درستی وارد کنید';
                           }
                           return null;
@@ -889,7 +889,7 @@ Row(
                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){
                       Navigator.of(context).pop();
                       addNewAdmin(nameBox,phoneBox, enabledCheckBox==true?newAdmin:selectedPlatform!, emailBox, emailBox2, priceBox.length>5?priceBox.substring(0,5):priceBox, locationController2.text, selectedDealType!, selectedPaymentMethod!, int.parse(selectedStartTime!), int.parse(selectedEndTime!), specialCondition, selectedHistory, selectedStatus,image==null?null:image!);
-                      var userHolder=UserStructure(0, phoneBox, cache.read('telephone').toString(), nameBox, priceBox, enabledCheckBox==true?newAdmin:selectedPlatform!, 'https://192.168.1.106/adminor/uploads/${image==null?'useravatar.png':image!.name}', 'تهران', selectedDealType!,  selectedPaymentMethod!,  selectedStartTime.toString(), selectedEndTime.toString(), specialCondition, selectedHistory!, emailBox, emailBox2, selectedStatus!);
+                      var userHolder=UserStructure(0, phoneBox, cache.read('telephone').toString(), nameBox, priceBox, enabledCheckBox==true?newAdmin:selectedPlatform!, image==null?'useravatar.png':image!.name, 'تهران', selectedDealType!,  selectedPaymentMethod!,  selectedStartTime.toString(), selectedEndTime.toString(), specialCondition, selectedHistory!, emailBox, emailBox2, selectedStatus!,0);
                       users.add(userHolder);
                       formkey.currentState!.reset();
                       setState(() {

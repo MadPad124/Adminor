@@ -70,6 +70,8 @@ class _FavoriteState extends State<Favorite> {
                                   actions: [
                                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
                                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
+                                      submitScore(users[favoriteIndex[index]].id,-5);
+                                      users[favoriteIndex[index]].score-=5;
                                       var url = Uri.parse('$baseUrl/?action=addfavorite');
                                       await http.post(url, body: {'phone': cache.read('telephone'),'adminPhone':users[favoriteIndex[index]].phone_number,'index':favoriteIndex[index].toString()});
                                       cache.write(users[favoriteIndex[index]].phone_number,false);

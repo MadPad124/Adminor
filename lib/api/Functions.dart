@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/structure.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -11,14 +12,14 @@ List<UserStructure> users=[];
 List<UserStructure> myUsers=[];
 List<FavoriteHolder> favorites=[];
 List<int>favoriteIndex=[];
-var baseUrl='https://192.168.81.35/adminor';
+var baseUrl='https://192.168.1.104/adminor';
 
 void loginUser(String mobile) async{
   var url = Uri.parse('$baseUrl/?action=adduser');
-  await http.post(url, body: {'phone': mobile});
+  var response=await http.post(url, body: {'phone': mobile});
   final cache=GetStorage();
   cache.write('telephone', mobile);
-
+  print(response.body);
   //کاربر در صورت وجود وارد برنامه میشود در صورت نبود با متد پست در پایگاه داده ذخیره میشود
 }
 //Login Page
@@ -31,7 +32,7 @@ void getUsers() async{
      userResponse=convert.jsonDecode(response.body);
 
     for(var i in userResponse){
-      var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+      var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
       users.add(userItem);
       if('0${i['adminPhone']}'==cache.read('telephone')){
         myUsers.add(userItem);
@@ -173,10 +174,17 @@ void getInfo(var mobile) async{
       if(jsonResponse.length>0){
         final cache=GetStorage();
           cache.write('name', jsonResponse[0]['name']);
-          cache.write('profile_image', jsonResponse[0]['profile_image']);
+          cache.write('profile_image','$baseUrl/uploads/${jsonResponse[0]['profile_image']}');
           cache.write('email', jsonResponse[0]['email']);
           cache.write('city', jsonResponse[0]['city']);
-          print('User info has recived ');
+          print('User info has Recived ');
+      }
+      else{
+        cache.write('name', 'کاربر');
+        cache.write('profile_image','$baseUrl/uploads/useravatar.png');
+        cache.write('email','adminor@gmail.com');
+        cache.write('city', 'تهران');
+        print('new user added');
       }
     }
 
@@ -202,6 +210,22 @@ void updateUserInfo(String name,String email,String city,[XFile? file]) async{
   else{
     print('failed to update user');
   }
+
+}
+submitScore(int id,int score) async{
+  var url=Uri.parse('$baseUrl/?action=scoreFunction');
+      try{
+        var response = await http.post(url, body: {'id':id.toString(),'score':score.toString()});
+        if(response.statusCode==200){
+          print(response.body);
+        }
+        else{
+          print('failed to update user');
+        }
+      }
+      catch(e){
+        print(e);
+      }
 
 }
 //Pro user or Basic

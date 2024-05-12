@@ -14,14 +14,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:adminor/cities.dart';
 //import 'package:flutter/scheduler.dart';
+
+//-----------------------------------------------------------------------------//
 List<String> filteredCities=[];
 List<String> allData=[];
 List<bool> isChecked=[];
-List checkedList=['تهران'];
+List checkedList=[cache.read('city')];
 ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
 ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
-ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
+
 TextEditingController searchBoxController2=TextEditingController();
+//-----------------------------------------------------------------------------//
+
+
+
 class Advertising extends StatefulWidget {
   const Advertising({super.key});
   @override
@@ -30,41 +36,47 @@ class Advertising extends StatefulWidget {
 class _AdvertisingState extends State<Advertising> {
   @override
   void initState(){
+    if(cache.read('city')!='تهران'){
+      if(checkedList.contains('تهران')==false){
+        cities.update('تهران', (value) => false);
+      }
+      cities.update(cache.read('city'), (value) => true);
+    }
     if(allData.isEmpty){
       for(int i=0;i<users.length;i++){
         allData.add(users[i].name);
       }}
+    if(checkedList.length==1){
+      users=[];
+      for(var i in userResponse){
+        if(i['city']==cache.read('city')){
+          var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
+          users.add(userItem);
+        }
+      }
+      setState(() {
+
+      });
+    }
     favorites.isEmpty?getFavorites():null;
     checkRating();
     isChecked=cities.values.toList();
-    cache.read('name')!=null?null:getInfo(cache.read('telephone'));
-    getInfo(cache.read('telephone'));
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
   var w=MediaQuery.of(context).size.width;
     TextEditingController searchBoxController=TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.green,
         toolbarHeight: 150,
         flexibleSpace:Row(
-          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             const SizedBox(width: 30,),
             Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-
               children: [
-
-/*                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Adminor',style: TextStyle(fontFamily: 'Vazir',fontWeight: FontWeight.w300,fontSize: 24,color: Colors.white),),
-                ),*/
                 const SizedBox(height: 50,),
                 Container(width:MediaQuery.of(context).size.width-50,height:50,
                     decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(25)),
@@ -73,7 +85,7 @@ class _AdvertisingState extends State<Advertising> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width-200,
+                          width: MediaQuery.of(context).size.width-220,
                             child: TextField(
                               onTap: () => showSearch(context: context, delegate: CustomSearch()),
                               keyboardType: TextInputType.text,
@@ -94,62 +106,89 @@ class _AdvertisingState extends State<Advertising> {
                                InkWell(
                                 onTap: (){
 
-                                  showDialog(context: context, builder: (context) => AlertDialog(contentPadding: const EdgeInsets.only(top:10),title: Row(
+
+
+                                  //-----------------------------------------------------------------------------//
+                                  showDialog(context: context, builder: (context) => AlertDialog(
+                                      contentPadding: const EdgeInsets.only(top:10),title: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text('انتخاب استان',style: TextStyle(fontFamily: 'Vazir',color: Colors.black,fontSize: 20),),
                                       ValueListenableBuilder<String>(
                                         valueListenable: valueNotifier,
                                         builder: (context, value, child) => IconButton(onPressed: (){
-
                                           if(valueNotifier.value=='notAllChecked'){
                                             checkedList=[];
                                             for(int i =0;i<31;i++){
                                               isChecked[i]=true;
                                               valueNotifier.value=i.toString();
                                             }
+                                            //126 comment
                                             cities.updateAll((key, value) => true);
                                             checkedList.addAll(cities.keys);
                                             valueNotifier.value='allChecked';
                                             valueNotifier2.value=!valueNotifier2.value;
-                                           // print('object8');
-
+                                            print('notAllChecked');
                                           }
-                                          else if(valueNotifier.value=='someChecked'){
+                                          else if(valueNotifier.value=='someChecked'&&searchBoxController.text.isEmpty){
                                             checkedList=[];
-                                           // print('object7');
+                                            print('someChecked');
                                             for(int i =0;i<31;i++){
-                                              isChecked[i]=true;valueNotifier.value=i.toString();
+                                              isChecked[i]=true;
+                                              valueNotifier.value=i.toString();
                                             }
+                                            //140 comment
                                             cities.updateAll((key, value) => true);
                                             checkedList.addAll(cities.keys);
-                                           // print('object6');
                                             valueNotifier.value='allChecked';
                                             valueNotifier2.value=!valueNotifier2.value;
                                           }
                                           else if(checkedList.length>=2&&valueNotifier.value=='nothing'){
                                             checkedList=[];
-                                          //  print('object5');
+                                            print('nothing>2');
                                             for(int i =0;i<31;i++){
-                                              isChecked[i]=true;valueNotifier.value=i.toString();
+                                              isChecked[i]=true;
+                                              valueNotifier.value=i.toString();
                                             }
-                                            cities.updateAll((key, value) => true);
                                             checkedList.addAll(cities.keys);
-                                           // print('object4');
                                             valueNotifier.value='allChecked';
                                             valueNotifier2.value=!valueNotifier2.value;
 
                                           }
                                           else if (valueNotifier.value=='allChecked'){
-                                           // print('object3');
+                                            print('allChecked');
                                             checkedList=[];
                                             checkedList=['تهران'];
-                                          cities.forEach((k, v) {cities.update(k, (value) => value=false); });
+                                            //163 comment
+                                           cities.forEach((k, v) {cities.update(k, (value) => value=false); });
                                             cities.update('تهران', (value) => value=true);
                                             isChecked=[];
-                                            isChecked.addAll(cities.values);
+                                            for(int i=0;i<31;i++){
+
+                                              if(i==7){
+                                                isChecked.add(true);
+                                                valueNotifier.value=i.toString();
+                                              }
+                                              else{
+                                                isChecked.add(false);
+                                                valueNotifier.value=i.toString();
+                                              }
+                                            }
                                             valueNotifier.value='notAllChecked';
                                             valueNotifier2.value=!valueNotifier2.value;
+                                          }
+                                          else if(searchBoxController.text.isNotEmpty){
+                                            print('searchbox have value and checked all');
+                                            checkedList=[];
+                                            isChecked=[];
+                                            //140 comment
+                                            cities.updateAll((key, value) => true);
+                                            isChecked.addAll(cities.values);
+                                            checkedList.addAll(cities.keys);
+                                            valueNotifier.value='someChecked';
+                                            valueNotifier.value='allChecked';
+                                            valueNotifier2.value=!valueNotifier2.value;
+
                                           }
                                           }, icon:  Icon(valueNotifier.value=='allChecked'?Icons.check_box:Icons.indeterminate_check_box_rounded,color: Colors.green,)),
                                       )
@@ -175,9 +214,8 @@ class _AdvertisingState extends State<Advertising> {
                                                 SizedBox(
                                                   height: 60,
                                                     //decoration: BoxDecoration(color:Colors.white,borderRadius: BorderRadius.circular(10),border: Border.all(color: Colors.grey,width: 1)),
-                                                    width: MediaQuery.of(context).size.width-130,
-                                                    child:
-                                                    TextField(
+                                                    width:MediaQuery.of(context).size.width-130,
+                                                    child:TextField(
                                                       controller: searchBoxController,
                                                       onChanged: (value) {
                                                         if(searchBoxController.text.isEmpty){
@@ -210,18 +248,16 @@ class _AdvertisingState extends State<Advertising> {
                                                     if(searchBoxController.text.isNotEmpty){
                                                       if(checkedList.length==31){
                                                          filteredCities=[];
-                                                         }
+                                                      }
+                                                      //allChecked
                                                       else{
                                                         filteredCities=[];
                                                         isChecked=[];
                                                         //isChecked.addAll(cities.values);
-//======================================================================================================
                                                         cities.forEach((key, value) {
                                                           if(key.contains(searchBoxController.text)){
                                                             isChecked.add(value);}
                                                         });
-//======================================================================================================
-
                                                       }
                                                       cities.forEach((key, value) {
                                                         if(key.contains(searchBoxController.text)){
@@ -229,18 +265,20 @@ class _AdvertisingState extends State<Advertising> {
                                                         }
                                                       });
                                                     }
+
+                                                    //search box is empty
                                                     else{
                                                       if(checkedList.length==31){
                                                       filteredCities=[];
                                                       filteredCities.addAll(cities.keys);
-                                                      //print('object1');
-
+                                                      print('search box is empty and all cities selected');
                                                       }
+                                                     //-----------------------------------------------------------
                                                      else{
                                                        isChecked=cities.values.toList();
-                                                       //print('${isChecked}218');
-                                                     filteredCities=[];
-                                                     filteredCities.addAll(cities.keys);}
+                                                       filteredCities=[];
+                                                       filteredCities.addAll(cities.keys);
+                                                     }
 
                                                     }
                                                    return ListView.builder(itemCount: filteredCities.length>1?filteredCities.length:1, itemBuilder: (context, index) {
@@ -268,51 +306,73 @@ class _AdvertisingState extends State<Advertising> {
                                                                         if(checkedList.length>=31){
                                                                           cities.forEach((k, v) {
                                                                             if(k==filteredCities[index]){
+                                                                              //298 comment
                                                                               cities.update(k, (value) => value=!v);
+
+
                                                                               isChecked[index]=!isChecked[index];
-                                                                               checkedList.remove(k);
+                                                                              checkedList.remove(k);
                                                                               valueNotifier.value='someNotChecked';
                                                                               valueNotifier.value='someChecked';
                                                                               valueNotifier2.value=!valueNotifier2.value;
                                                                             }
                                                                           });
                                                                         }
+                                                                        else if(checkedList.length==1&&valueNotifier.value=='someChecked'){
+                                                                          checkedList=[];
+                                                                          checkedList.add(cache.read('city'));
+                                                                          cities.update(filteredCities[index], (value) => value=false);
+                                                                          cities.update(cache.read('city'), (value) => value=true);
+                                                                          isChecked=cities.values.toList();
+                                                                          //valueNotifier.value='someChecked';
+                                                                          valueNotifier.value='notAllChecked';
+                                                                          valueNotifier2.value=!valueNotifier2.value;
+                                                                          setState((){});
+                                                                        }
+                                                                        else if(filteredCities[index]==cache.read('city')&&valueNotifier.value=='notAllChecked'){
+                                                                          print(filteredCities[index]);
+                                                                          checkedList=[];
+                                                                          checkedList.add(cache.read('city'));
+                                                                          cities.update(filteredCities[index], (value) => value=false);
+                                                                          cities.update(cache.read('city'), (value) => value=true);
+                                                                          isChecked=cities.values.toList();
+                                                                          //valueNotifier.value='someChecked';
+                                                                          valueNotifier.value='notAllChecked';
+                                                                          valueNotifier2.value=!valueNotifier2.value;
+                                                                          setState((){});
 
 
+                                                                        }
+                                                                        //filtered <31 comment
                                                                         else{
                                                                           cities.forEach((k, v) {
                                                                             if(k==filteredCities[index]){
+                                                                              //314 comment
                                                                               cities.update(k, (value) => value=!v);
+                                                                              //316 comment
                                                                               isChecked=cities.values.toList();
-
-
                                                                               if(checkedList.length==31){
                                                                                 valueNotifier.value='allChecked';}
-
                                                                               else/*(checkedList.length<30)*/{
                                                                                 valueNotifier.value='someNotChecked';
                                                                                 valueNotifier.value='someChecked';
                                                                               }
-
-
+                                                                              //delete filtered cities from check list if existed comment
                                                                               if(checkedList.contains(k)){
                                                                                 checkedList.remove(k);
-
                                                                                 valueNotifier2.value=!valueNotifier2.value;
                                                                               }
+                                                                              //add filtered cities to check list if existed comment
                                                                               else{
                                                                                 checkedList.add(k);
                                                                                 checkedList.sort();
                                                                                 valueNotifier2.value=!valueNotifier2.value;
                                                                               }
                                                                             }
-
-                                                                            //print(checkedList);
-                                                                            //print(isChecked);
                                                                           });
-
                                                                         }
                                                                       },
+
                                                                       );
                                                                       },
                                                                       secondary: const Icon(CupertinoIcons.circle_grid_hex,color: Colors.green,),
@@ -352,11 +412,24 @@ class _AdvertisingState extends State<Advertising> {
                                                 Expanded(child: Container(
                                                   decoration: const BoxDecoration(borderRadius:BorderRadius.only(bottomLeft:Radius.circular(25),bottomRight:Radius.circular(25) ),color: Colors.blue,),
                                                   child: TextButton(onPressed: (){
+/*
+                                                    if(valueNotifier.value=='allChecked'||checkedList.length>31){
+                                                      cities.updateAll((key, value) => true);
+
+                                                      print('1');
+                                                    }
+                                                    else if(valueNotifier.value=='notAllChecked'||checkedList.length<31){
+                                                      cities.forEach((k, v) {cities.update(k, (value) => value=false); });
+                                                      cities.update('تهران', (value) => value=true);
+                                                      print('2');
+                                                    }
+*/
+
                                                     users=[];
                                                     for(int j=0;j<checkedList.length;j++){
                                                       for(var i in userResponse){
                                                         if(i['city'].toString().contains(checkedList[j])){
-                                                          var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+                                                          var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
                                                           users.add(userItem);
                                                         }
                                                         else{continue;}
@@ -377,6 +450,11 @@ class _AdvertisingState extends State<Advertising> {
 
                                     ),
                                   )),);
+                                  //-----------------------------------------------------------------------------//
+
+
+
+
                                 },
                                 child: Row(
                                   textDirection: TextDirection.ltr,
@@ -391,7 +469,6 @@ class _AdvertisingState extends State<Advertising> {
                                     ValueListenableBuilder<String>(valueListenable: valueNotifier,builder:(context, value, child) =>  Text(checkedList.length>1?'${checkedList.length.toString()} شهر':checkedList.first,style: const TextStyle(fontFamily: 'Shabnam'),)),
                                     ],),
                               )
-
                       ],
                     )),
                 const SizedBox(height: 10,),
@@ -411,7 +488,7 @@ class _AdvertisingState extends State<Advertising> {
                             users=[];
                             for(var i in userResponse){
                               if(i['city'].toString().contains('تهران')){
-                                var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+                                var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
                                 users.add(userItem);
                               }
                           }
@@ -421,13 +498,12 @@ class _AdvertisingState extends State<Advertising> {
                         }
                         else{
                           cities.update(checkedList[index], (value) => false);
-                          isChecked[index]=false;
                           checkedList.removeAt(index);
+                          users=[];
                           for(int j=0;j<checkedList.length;j++){
-                            users=[];
                             for(var i in userResponse){
                               if(i['city'].toString().contains(checkedList[j])){
-                                var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status']);
+                                var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
                                 users.add(userItem);
                               }
                             }
@@ -443,16 +519,13 @@ class _AdvertisingState extends State<Advertising> {
                     ),
                   );
                 },),)
-
-
-
               ],)
           ],
         ),
       ),
-          floatingActionButton: bottomMenu(context),
+      floatingActionButton: bottomMenu(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    body: GestureDetector(
+      body: GestureDetector(
         onTap: (){
       FocusScope.of(context).requestFocus(FocusNode());
     },
@@ -465,7 +538,6 @@ class _AdvertisingState extends State<Advertising> {
         ),
       ),
       Align(alignment: Alignment.bottomCenter,child: Image.asset('assets/images/splash-bottom-page-image.png')),
-
         users.isEmpty? const Center(child: CircularProgressIndicator()):Padding(
           padding: const EdgeInsets.only(bottom: 80.0),
           child: ListView.builder(itemCount: users.length,itemBuilder: (context, index) {
@@ -505,7 +577,7 @@ class _AdvertisingState extends State<Advertising> {
 
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
-                          child: Image.network(users[index].image,width: 80,height: 80,fit: BoxFit.fill,),
+                          child: Image.network('$baseUrl/uploads/${users[index].image}',width: 80,height: 80,fit: BoxFit.fill,),
                         )
                       ],)
                 ),

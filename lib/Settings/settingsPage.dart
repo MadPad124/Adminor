@@ -16,12 +16,6 @@ class Settings extends StatelessWidget {
   const Settings({super.key});
   @override
   Widget build(BuildContext context) {
-    List<String> filteredCities=[];
-    List<bool> isChecked=[];
-    List checkedList=['تهران'];
-    ValueNotifier<String> valueNotifier=ValueNotifier('notAllChecked');
-    ValueNotifier<bool> valueNotifier2=ValueNotifier(false);
-    //ValueNotifier<bool> valueNotifier3=ValueNotifier(false);
     ValueNotifier activated=ValueNotifier(false);
     TextEditingController emailController=TextEditingController();
     return SafeArea(
@@ -74,15 +68,15 @@ class Settings extends StatelessWidget {
                 textDirection: TextDirection.rtl,children: [
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.network(cache.read('profile_image'),width: 70,height: 70,)),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.network(cache.read('profile_image') ?? '$baseUrl/uploads/useravatar.png',width: 70,height: 70,)),
                 ),
                  Column(
                   textDirection: TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(cache.read('name'),style: const TextStyle(decoration: TextDecoration.none,color: Colors.black,fontSize: 20,fontFamily: 'Shabnam')),
-                    Text(cache.read('city'),style: const TextStyle(decoration: TextDecoration.none,color: Colors.grey,fontSize: 16,fontFamily: 'Shabnam'))],)
+                    Text(cache.read('name') ?? 'کاربر',style: const TextStyle(decoration: TextDecoration.none,color: Colors.black,fontSize: 20,fontFamily: 'Shabnam')),
+                    Text(cache.read('city') ?? 'تهران',style: const TextStyle(decoration: TextDecoration.none,color: Colors.grey,fontSize: 16,fontFamily: 'Shabnam'))],)
               ],),
               Column(children: [
                 Container(width: MediaQuery.of(context).size.width,decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3)))),),
@@ -175,11 +169,13 @@ class Settings extends StatelessWidget {
                         actions: [
                           TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.red.withOpacity(0.1))) ,onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.red),)),
                           TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.green.withOpacity(0.1))),onPressed: (){
-                            cache.erase();
                             favorites=[];
                             users=[];
                             print('user is logged out');
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Login()));},
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Login()));
+                            cache.erase();
+                            },
+
                               child: const Text('تایید',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.green),))
                         ],
                         title:const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
