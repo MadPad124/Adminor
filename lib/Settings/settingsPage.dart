@@ -1,5 +1,4 @@
 
-import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/MyAdvertisingPage.dart';
 import 'package:adminor/LoginPages/LoginPage.dart';
 import 'package:adminor/ProfilePage.dart';
@@ -8,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:get_storage/get_storage.dart';
 import '../AdeversitingPages/AdvertisingPage.dart';
 import '../AdeversitingPages/NewAdversitingPage.dart';
 import '../FavoritePage.dart';
 import '../chat/displayChatPage.dart';
+final cache = GetStorage();
 class Settings extends StatelessWidget {
   const Settings({super.key});
   @override
@@ -68,7 +69,7 @@ class Settings extends StatelessWidget {
                 textDirection: TextDirection.rtl,children: [
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: ClipRRect(borderRadius: BorderRadius.circular(50),child: Image.network(cache.read('profile_image') ?? '$baseUrl/uploads/useravatar.png',width: 70,height: 70,)),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(50),child: cache.read('profile_image')!=null?Image.network(cache.read('profile_image'), width: 70,height: 70,):Image.asset('assets/images/adminorUser.jpeg')),
                 ),
                  Column(
                   textDirection: TextDirection.rtl,
@@ -135,6 +136,7 @@ class Settings extends StatelessWidget {
                                           content: Text('ایمیل با موفقیت ارسال شد.'),
                                         ),
                                       );
+                                      submitHistory(cache.read('telephone'), 'call',users[0]);
 
                                   }},style: ButtonStyle(backgroundColor: activated.value==true?MaterialStateProperty.all(CupertinoColors.activeGreen):MaterialStateProperty.all(Colors.grey.withOpacity(0.3))),
                                   child: const Text('ارسال',style: TextStyle(color: Colors.white),),),
@@ -169,11 +171,11 @@ class Settings extends StatelessWidget {
                         actions: [
                           TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.red.withOpacity(0.1))) ,onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.red),)),
                           TextButton(style:ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.green.withOpacity(0.1))),onPressed: (){
-                            favorites=[];
-                            users=[];
                             print('user is logged out');
                             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Login()));
                             cache.erase();
+                            favorites=[];
+                            users=[];
                             },
 
                               child: const Text('تایید',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.green),))

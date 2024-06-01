@@ -2,11 +2,13 @@ import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart'as http;
 import 'AdeversitingPages/NewAdversitingPage.dart';
 import 'Settings/settingsPage.dart';
 import 'api/Functions.dart';
 import 'chat/displayChatPage.dart';
+final cache = GetStorage();
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
 
@@ -22,7 +24,6 @@ class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     var w=MediaQuery.of(context).size.width;
-    var h=MediaQuery.of(context).size.height;
     return Scaffold(
       floatingActionButton: bottomMenu(context),
       appBar: AppBar(
@@ -52,13 +53,13 @@ class _FavoriteState extends State<Favorite> {
                     children: [Padding(
                       padding: const EdgeInsets.only(right: 15.0),
                       child: ClipRRect(borderRadius:BorderRadius.circular(50) ,
-                        child: Image.network(users[favoriteIndex[index]].image,width: 70,height: 70,),),
+                        child: Image.network('$baseUrl/uploads/${users[favoriteIndex[index]].image}',width: 70,height: 70,),),
                     ),const SizedBox(width:15),
                       Expanded(
                         child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,children: [
                           Text(users[favoriteIndex[index]].name,style: const TextStyle(fontFamily: 'Shabnam'),),
                           const SizedBox(height: 5,),
-                          Text('قیمت ${users[favoriteIndex[index]].price} تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
+                          Text('قیمت ${users[favoriteIndex[index]].price} میلیون تومان',style: const TextStyle(fontFamily: 'Shabnam'),),
                         ],),
                       ),
                       Padding(

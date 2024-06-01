@@ -10,11 +10,16 @@ import 'package:adminor/api/Functions.dart';
 
 import '../LoginPages/LoginPage.dart';
 final cache = GetStorage();
-class StartAppSplash extends StatelessWidget {
+class StartAppSplash extends StatefulWidget {
   const StartAppSplash({super.key});
+
+  @override
+  State<StartAppSplash> createState() => _StartAppSplashState();
+}
+
+class _StartAppSplashState extends State<StartAppSplash> {
   @override
   Widget build(BuildContext context) {
-    cache.read('telephone')!=null?getInfo(cache.read('telephone')):null;
        return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -44,7 +49,7 @@ class StartAppSplash extends StatelessWidget {
                   repeatForever: true,
                 ),
               ),
-              nextScreen:cache.read('telephone')==null?const Login/*OTPScreen*/():const Advertising/*OTPScreen*/(),
+              nextScreen:cache.read('name')==null?const Login/*OTPScreen*/(): const Advertising()/*OTPScreen*/,
               pageTransitionType: PageTransitionType.fade,
             ),
             Column(

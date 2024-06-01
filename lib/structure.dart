@@ -1,10 +1,3 @@
-List<String> name=['محمد فاقانی','محسن عباسی','هوشنگ تیموری','بهاره رهنما'];
-List<String> price=['120000','360000','96000','210000'];
-List<String> city=['تهران','فارس','لرستان','یزد'];
-List<String> job=['ادمین اینستاگرام','ادمین سایت','ادمین ایتا','ادمین تلگرام'];
-List<String> url=['assets/images/user avatar.png','assets/images/men avatar.png','assets/images/UserRandom.png','assets/images/women avatar.png'];
-
-
 class UserStructure{
   int _id;
   String _phone_number;
@@ -105,28 +98,29 @@ class FavoriteHolder{
   get id => _id;
 }
 
-/*
-class userInfoHolder{
+class HistoryHolder{
   int _id;
-  String _name;
-  String _profile_image;
   String _tell;
-  String _email;
-  String _city;
+  String _date;
+  String _messageTitle;
+  String _messageText;
 
-  userInfoHolder(this._id, this._name, this._profile_image, this._tell,
-      this._email, this._city);
 
-  String get city => _city;
 
-  String get email => _email;
+  HistoryHolder(
+      this._id, this._tell, this._date, this._messageTitle, this._messageText);
+
+  String get messageText => _messageText;
+
+
+  int get id => _id;
+
+  String get messageTitle => _messageTitle;
+
+
+  String get data => _date;
+
 
   String get tell => _tell;
 
-  String get profile_image => _profile_image;
-
-  String get name => _name;
-
-  int get id => _id;
 }
-*/

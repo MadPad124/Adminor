@@ -1,7 +1,8 @@
-import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
+
+import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/api/Functions.dart';
-import 'package:adminor/chat/ChatPage.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
@@ -65,6 +66,9 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                   case true:
                     submitScore(users[widget.index].id, -5);
                     users[widget.index].score-=5;
+                    if(users[widget.index].score<10){
+                    submitHistory(users[widget.index].adminPhone, 'alarm',users[widget.index]);
+                    }
                     cache.write(users[widget.index].phone_number,false);
                     addFavorite(users[widget.index].phone_number,widget.index);
                     setState(() {
@@ -123,7 +127,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                     ],),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Image.network('$baseUrl/uploads/${users[widget.index].image}',width: 100,height: 100,),
+                    child: ClipRRect(borderRadius:BorderRadius.circular(50),child: Image.network('$baseUrl/uploads/${users[widget.index].image}',width: 100,height: 100,)),
                   ),
                 ],),
             ),
@@ -321,7 +325,7 @@ class _AdvertisingDetailState extends State<AdvertisingDetail> {
                       ),
                       const Padding(
                         padding: EdgeInsets.only(right: 10.0,bottom: 10),
-                        child: Text('ایمیل کارفرما:',style: TextStyle(fontFamily: 'Shabnam'),),
+                        child: Text('تلفن کارفرما:',style: TextStyle(fontFamily: 'Shabnam'),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 40.0),
@@ -424,9 +428,13 @@ Column(children: [
    SizedBox(height: cache.read('${users[widget.index].phone_number}rated')==false?15:10,),
   cache.read('${users[widget.index].phone_number}rated')==false? ElevatedButton(style:ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
     submitRating(rating,users[widget.index].phone_number);
+    submitHistory(cache.read('telephone'), 'rating',users[widget.index]);
     setState(() {
       submitScore(users[widget.index].id,rating.toInt()-3);
       users[widget.index].score=rating.toInt()-3;
+      if(users[widget.index].score<10){
+        submitHistory(users[widget.index].adminPhone, 'alarm',users[widget.index]);
+      }
       cache.write('${users[widget.index].phone_number}rated',true);
     });
 
@@ -530,14 +538,13 @@ Column(children: [
                   actions: [
                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
-                    deleteMyAdmin(users[widget.index].id);
+                    deleteMyAdmin(users[widget.index].phone_number);
                       cache.write('id', users[widget.index].id);
+                    submitHistory(cache.read('telephone'), 'remove',users[widget.index]);
                       users=[];
                     for(var i in userResponse){
-                      if(i['id'].toString()==cache.read('id').toString()){
-                      }
-                      else{
-                        var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],i['score']);
+                      if(i['id'].toString()!=cache.read('id').toString()){
+                        var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
                         users.add(userItem);
                         setState(() {
 
@@ -545,7 +552,11 @@ Column(children: [
                       }
                     }
                     cache.remove('id');
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>const Advertising() ,));
+                    getUsers();
+                      setState(() {
+                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>const Settings() ,));
+
                       setState(() {
                       });
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -564,7 +575,51 @@ Column(children: [
               ),);
 
             },child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.red),child: const Center(child: Text('حذف آگهی',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
-            :InkWell(onTap:(){Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Chat(index: 1),));},child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.green),child: const Center(child: Text('چت با کاربر',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
+            :Container(),
+            cache.read('telephone')==users[widget.index].adminPhone?
+            InkWell(onTap:(){
+              showDialog(context: context, builder: (context) =>  AlertDialog(
+                  actions: [
+                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
+                    TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: () async {
+                      deleteMyAdmin(users[widget.index].phone_number);
+                      cache.write('id', users[widget.index].id);
+                      submitHistory(cache.read('telephone'), 'remove',users[widget.index]);
+                      users=[];
+                      for(var i in userResponse){
+                        if(i['id'].toString()!=cache.read('id').toString()){
+                          var userItem=UserStructure(int.parse(i['id']), i['phone'], i['adminPhone'],i['name'], i['price'], i['type'], i['image'], i['city'], i['dealType'], i['payment_Method'], i['startTime'], i['endTime'], i['special_Conditions'], i['history'], i['email_1'], i['email_2'],i['status'],int.parse(i['score']));
+                          users.add(userItem);
+                          setState(() {
+
+                          });
+                        }
+                      }
+                      cache.remove('id');
+                      getUsers();
+                      setState(() {
+                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>const Settings() ,));
+
+                      setState(() {
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          shape: const StadiumBorder(),
+                          elevation: 0,
+                          backgroundColor: Colors.red.withOpacity(0.7),
+                          width: 300,
+                          content: const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Text('آگهی با موفقیت حذف شد',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),),Icon(Icons.delete_sweep,color: Colors.white,)])));
+                    },
+                        child: const Text('تایید',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),))
+                  ],
+                  title:const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
+                    Text('آیا مطمعن هستید؟',style: TextStyle(fontFamily: 'Vazir',fontSize: 15),),
+                    Icon(Icons.error,color: Colors.blue,)],)
+              ),);
+
+            },child: Container(width:MediaQuery.of(context).size.width,height:50,decoration: const BoxDecoration(color: Colors.red),child: const Center(child: Text('حذف آگهی',style: TextStyle(color: Colors.white,fontFamily: 'Shabnam'),))))
+                :Container(),
           ],),
       ),
     );

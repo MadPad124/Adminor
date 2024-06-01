@@ -1,14 +1,14 @@
 
 import 'dart:io';
-import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
-import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
+import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:get_storage/get_storage.dart';
+/*import 'package:liquid_swipe/liquid_swipe.dart';*/
 import '../cities.dart';
 import 'package:image_picker/image_picker.dart';
-import '../structure.dart';
+final cache = GetStorage();
 double start = 1.0;
 double end = 1.0;
 String nameBox='';
@@ -17,7 +17,7 @@ String newAdmin='';
 TextEditingController searchBoxController3=TextEditingController();
 String priceBox='1';
 String emailBox='';
-String emailBox2='';
+String phoneBox2='';
 String specialCondition='';
 
 
@@ -196,7 +196,6 @@ class _NewAdvertisingState extends State<NewAdvertising> {
   final formkey = GlobalKey<FormState>();
   @override
   void initState() {
-    print(users.length);
     start = 1.0;
     end = 1.0;
     users.isEmpty?getUsers():null;
@@ -241,7 +240,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                             width: 50,
                             height: 50,
                           ),
-                        ):Image.asset('assets/images/user avatar.png',width: 50,height: 50,)),
+                        ):ClipRRect(borderRadius: BorderRadius.circular(25),child: Image.asset('assets/images/adminorUser.jpeg',width: 50,height: 50,))),
                   ),
                 ],),
                   //avatar-----------------------------------------
@@ -261,7 +260,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                       decoration: const InputDecoration(
                           errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
                           errorStyle: TextStyle(fontFamily: 'Shabnam'),
-                          labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam'),
+                          labelText: 'نام و نام خانوادگی',labelStyle: TextStyle(fontFamily: 'Shabnam',fontSize: 16),
                           focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
 
@@ -373,23 +372,22 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value.toString())&&emailBox2.isNotEmpty) {
-                            return 'ایمیل کارفرما را به درستی وارد کنید';
+                          if (phoneBox2.isNotEmpty) {
+                            return 'موبایل کارفرما را به درستی وارد کنید';
                           }
                           return null;
                         },
-                      onChanged:(value) =>  emailBox2=value,
+                      onChanged:(value) =>  phoneBox2=value,
                         decoration: const InputDecoration(
                             errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
                             errorStyle: TextStyle(fontFamily: 'Shabnam'),
-                            labelText: 'ایمیل کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
+                            labelText: 'تلفن کارفرمای قبلی',labelStyle: TextStyle(fontFamily: 'Shabnam'),enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green,width: 1.5)),
                         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2))
                     ),),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(right: 15.0,top: 5,bottom: 5),
-                    child: Text('تلفن',style: TextStyle(fontFamily: 'Shabnam'),),
+                    child: Text('موبایل ادمین',style: TextStyle(fontFamily: 'Shabnam'),),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -692,7 +690,7 @@ Row(
                     child:  DropdownButtonFormField(
                         enableFeedback: false,
                         alignment: Alignment.centerRight,
-                        style:  const TextStyle(fontFamily: "Shabana",color: Colors.black,fontSize: 16),
+                        style:  const TextStyle(fontFamily: "Shabnam",color: Colors.black,fontSize: 16),
                         decoration: InputDecoration(
                           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue,width: 2)),
                           errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.red,width: 2)),
@@ -887,15 +885,21 @@ Row(
                   actions: [
                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('خیر',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
                     TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){
+                      addNewAdmin(nameBox,phoneBox, enabledCheckBox==true?newAdmin:selectedPlatform!, emailBox, phoneBox2, priceBox.length>5?priceBox.substring(0,5):priceBox, locationController2.text, selectedDealType!, selectedPaymentMethod!, int.parse(selectedStartTime!), int.parse(selectedEndTime!), specialCondition, selectedHistory, selectedStatus,image==null?null:image!);
+                      submitHistory(cache.read('telephone'), 'add',users[0]);
+                      cache.write('${phoneBox}rated',false);
+                      getUsers();
+/*                      var userHolder=UserStructure(int.parse(cache.read('bigId'))+1, phoneBox, cache.read('telephone').toString(), nameBox, priceBox, enabledCheckBox==true?newAdmin:selectedPlatform!, image==null?'adminorUser.jpeg':image!.name, 'تهران', selectedDealType!,  selectedPaymentMethod!,  selectedStartTime.toString(), selectedEndTime.toString(), specialCondition, selectedHistory!, emailBox, phoneBox2, selectedStatus!,20);
+                      users.add(userHolder);*/
+
                       Navigator.of(context).pop();
-                      addNewAdmin(nameBox,phoneBox, enabledCheckBox==true?newAdmin:selectedPlatform!, emailBox, emailBox2, priceBox.length>5?priceBox.substring(0,5):priceBox, locationController2.text, selectedDealType!, selectedPaymentMethod!, int.parse(selectedStartTime!), int.parse(selectedEndTime!), specialCondition, selectedHistory, selectedStatus,image==null?null:image!);
-                      var userHolder=UserStructure(0, phoneBox, cache.read('telephone').toString(), nameBox, priceBox, enabledCheckBox==true?newAdmin:selectedPlatform!, image==null?'useravatar.png':image!.name, 'تهران', selectedDealType!,  selectedPaymentMethod!,  selectedStartTime.toString(), selectedEndTime.toString(), specialCondition, selectedHistory!, emailBox, emailBox2, selectedStatus!,0);
-                      users.add(userHolder);
+
+
                       formkey.currentState!.reset();
                       setState(() {
 
                       });
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Advertising()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Settings()));
                       setState(() {
 
                       });

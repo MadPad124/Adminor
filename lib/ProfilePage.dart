@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:adminor/AdeversitingPages/AdvertisingDetailPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:adminor/structure.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'AdeversitingPages/AdvertisingPage.dart';
@@ -12,6 +12,11 @@ import 'AdeversitingPages/NewAdversitingPage.dart';
 import 'Settings/settingsPage.dart';
 import 'chat/displayChatPage.dart';
 import 'cities.dart';
+final cache = GetStorage();
+TextEditingController nameController=TextEditingController(text: cache.read('name'));
+TextEditingController emailController=TextEditingController(text: cache.read('email'));
+TextEditingController phoneController=TextEditingController(text:cache.read('telephone'));
+TextEditingController searchBoxController2=TextEditingController();
 TextEditingController locationController=TextEditingController(text:cache.read('city'));
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -84,13 +89,11 @@ class _ProfileState extends State<Profile> {
   }
   @override
   Widget build(BuildContext context) {
+    var hasImage=cache.read('profile_image')!=null?true:false;
     List<String> filteredCities=[];
     ValueNotifier<String> stateNotifier=ValueNotifier('notAllChecked');
     var w=MediaQuery.of(context).size.width;
-    TextEditingController nameController=TextEditingController(text: cache.read('name'));
-    TextEditingController emailController=TextEditingController(text: cache.read('email'));
-    TextEditingController phoneController=TextEditingController(text:cache.read('telephone'));
-    TextEditingController searchBoxController2=TextEditingController();
+
     return SafeArea(
       child: Scaffold(
         body:  Center(
@@ -105,12 +108,12 @@ class _ProfileState extends State<Profile> {
                         onTap: () {
                           if(image==null){
                             myAlert();
-                            cache.write('profile_image', '$baseUrl/uploads/useravatar.png');
+                            hasImage=false;
                             setState((){});
                           }
                           else{
+                            hasImage=false;
                           image=null;print(image!.path);
-                            cache.write('profile_image', '$baseUrl/uploads/useravatar.png');
                           setState((){});
                           }
                           }
@@ -131,7 +134,7 @@ class _ProfileState extends State<Profile> {
                                 width: 50,
                                 height: 50,
                               ),
-                            ):ClipRRect(borderRadius:BorderRadius.circular(50),child: Image.network(cache.read('profile_image') ?? '$baseUrl/uploads/user avatar.png',width: 50,height: 50,))),
+                            ):ClipRRect(borderRadius:BorderRadius.circular(50),child: hasImage==true?Image.network(cache.read('profile_image'),width: 50,height: 50,): Image.asset('assets/images/adminorUser.jpeg',width: 50,height: 50,))),
 
 
 
@@ -343,7 +346,7 @@ class _ProfileState extends State<Profile> {
                           TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),onPressed: (){Navigator.of(context).pop();}, child: const Text('انصراف',style: TextStyle(fontFamily: 'Vazir',fontSize: 15,color: Colors.white),)),
                           TextButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),onPressed: (){
                            cache.write('name', nameController.text);
-                           image==null?null:cache.write('profile_image', '$baseUrl/uploads/${image!.path.substring(78)}',);
+                           image==null?cache.write('profile_image','$baseUrl/uploads/adminorUser.jpeg' ):cache.write('profile_image', '$baseUrl/uploads/${image!.name}',);
                            cache.write('email', emailController.text);
                            updateUserInfo(nameController.text, emailController.text,locationController.text,image==null?null:image);
 
@@ -365,6 +368,7 @@ class _ProfileState extends State<Profile> {
                              });
                            }
 
+                           submitHistory(cache.read('telephone'), 'profile',users[0]);
                            cache.write('city', locationController.text);
                            //checkedList
                            setState(() {

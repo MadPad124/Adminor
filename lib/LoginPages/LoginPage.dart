@@ -1,13 +1,13 @@
 
+import 'package:adminor/LoginPages/otp_Screen.dart';
 import 'package:adminor/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
 import '../AdeversitingPages/AdvertisingPage.dart';
 import '../api/Functions.dart';
-
+final cache = GetStorage();
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -17,15 +17,52 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController mobileController=TextEditingController();
+@override
+  void initState() {
+  getUsers();
+  super.initState();
+  }
+  TextEditingController mobileController=TextEditingController(text: cache.read('telephone') ?? '');
   bool showLoading = false;
   Future<void> submitPhoneNumber () async {
   if(mobileController.text.length>=11){
-    getInfo(mobileController.value.text);
+    cache.write('telephone', mobileController.value.text);
+    cache.write('city', 'تهران');
+    cache.read('telephone')!=null?submitHistory(cache.read('telephone'), 'login',users[0]):null;
     setState(() {
       showLoading = true;
     });
-    final cache=GetStorage();
+
+    Future.delayed(const Duration(seconds: 5), () => setState(() {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const OTPScreen(),
+          ));
+      showLoading = false;
+    }));
+    loginUser(mobileController.value.text);
+   /* showDialog(context: context, builder: (context) {
+*//*      return  AlertDialog(
+        title: const Text('آیا شماره تلفن درست است؟',style: TextStyle(fontFamily: 'Vazir',fontSize: 17),),content: Text(mobileController.text,style: const TextStyle(fontFamily: 'Vazir',fontSize: 16,color: Colors.blue)),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            TextButton(onPressed: (){
+
+            }, child: const Text('بله',style: TextStyle(fontFamily: 'Shabnam',fontSize: 14,color: Colors.green))),
+            TextButton(onPressed: (){Navigator.pop(context);}, child: const Text('ویرایش',style: TextStyle(fontFamily: 'Shabnam',fontSize: 14,color: Colors.green))),
+          ],)
+        ],);*//*
+    },);*/
+    /* getInfo(mobileController.value.text);
+    getUsers();
+    cache.read('telephone')!=null?submitHistory(cache.read('telephone'), 'login',users[0]):null;
+    setState(() {
+      showLoading = true;
+    });
+
     cache.writeIfNull('telephone', mobileController.value.text);
 
     Future.delayed(const Duration(seconds: 5), () => setState(() {
@@ -37,7 +74,7 @@ class _LoginState extends State<Login> {
       showLoading = false;
     })
     );
-loginUser(mobileController.value.text);
+loginUser(mobileController.value.text);*/
   }
   else if (mobileController.text.length<11){
     ScaffoldMessenger.of(context).showSnackBar(

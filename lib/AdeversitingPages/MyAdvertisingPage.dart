@@ -48,7 +48,7 @@ class MyAdvertisingPage extends StatelessWidget {
                     children: [Padding(
                       padding: const EdgeInsets.only(right: 15.0),
                       child: ClipRRect(borderRadius:BorderRadius.circular(50) ,
-                        child: Image.network(myUsers[index].image,width: 70,height: 70,),),
+                        child: Image.network('$baseUrl/uploads/${myUsers[index].image}',width: 70,height: 70,),),
                     ),const SizedBox(width:15),
                       Expanded(
                         child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,children: [

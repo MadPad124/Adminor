@@ -5,6 +5,7 @@ import 'package:adminor/Settings/settingsPage.dart';
 import 'package:adminor/api/Functions.dart';
 import 'package:adminor/chat/displayChatPage.dart';
 import 'package:flutter/painting.dart';
+import 'package:get_storage/get_storage.dart';
 /*
 import 'package:liquid_swipe/liquid_swipe.dart';
 */
@@ -13,6 +14,7 @@ import 'NewAdversitingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:adminor/cities.dart';
+final cache = GetStorage();
 //import 'package:flutter/scheduler.dart';
 
 //-----------------------------------------------------------------------------//
@@ -46,7 +48,14 @@ class _AdvertisingState extends State<Advertising> {
       for(int i=0;i<users.length;i++){
         allData.add(users[i].name);
       }}
-    if(checkedList.length==1){
+    favorites.isEmpty?getFavorites():null;
+    checkRating();
+    isChecked=cities.values.toList();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+/*    if(checkedList.length==1){
       users=[];
       for(var i in userResponse){
         if(i['city']==cache.read('city')){
@@ -57,14 +66,7 @@ class _AdvertisingState extends State<Advertising> {
       setState(() {
 
       });
-    }
-    favorites.isEmpty?getFavorites():null;
-    checkRating();
-    isChecked=cities.values.toList();
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
+    }*/
   var w=MediaQuery.of(context).size.width;
     TextEditingController searchBoxController=TextEditingController();
     return Scaffold(
@@ -577,7 +579,7 @@ class _AdvertisingState extends State<Advertising> {
 
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
-                          child: Image.network('$baseUrl/uploads/${users[index].image}',width: 80,height: 80,fit: BoxFit.fill,),
+                          child: ClipRRect(borderRadius:BorderRadius.circular(50),child: Image.network('$baseUrl/uploads/${users[index].image}',width: 80,height: 80,fit: BoxFit.fill,)),
                         )
                       ],)
                 ),
