@@ -167,7 +167,7 @@ void getUsers() async {
 //Favorites
 //Add Admin
   Future<void> addNewAdmin(String name, String phone, String adminType,
-      String email, String email2, String price, String city, String dealType,
+      String email, String phone2, String price, String city, String dealType,
       String paymentMethod,
       int startTime, int endTime, String specialConditions, var history,
       var status, [XFile? image]) async {
@@ -186,7 +186,7 @@ void getUsers() async {
           'name': name,
           'adminType': adminType,
           'email': email,
-          'email2': email2,
+          'phone2': phone2,
           'price': price,
           'city': city,
           'dealType': dealType,
@@ -201,6 +201,7 @@ void getUsers() async {
         if (registerResponse.statusCode == 200) {
           print('new admin added');
           print(registerResponse.body);
+          sendOtp(phone2.toString(), 'message',name);
         }
         else {
           print('failed to add new admin');
@@ -218,7 +219,7 @@ void getUsers() async {
         'name': name,
         'adminType': adminType,
         'email': email,
-        'email2': email2,
+        'phone2': phone2,
         'price': price,
         'city': city,
         'dealType': dealType,
@@ -232,6 +233,7 @@ void getUsers() async {
       });
       if (registerResponse.statusCode == 200) {
         print('new admin added');
+        sendOtp(phone2.toString(), 'message',name);
       }
       else {
         print('failed to add new admin');
@@ -430,14 +432,15 @@ void getUsers() async {
       print('there is problem to connection');
     }
   }
-void sendOtp(var tell,var type)async{
+void sendOtp(var tell,var type,String user)async{
   var url=Uri.parse('$baseUrl/sendMessage.php?action=$type');
-  var response=await http.post(url,body: {'tell':tell});
+  var response=await http.post(url,body: {'tell':tell,'user':user});
   if(response.statusCode==200){
-    print(response.body);
+    if(response.body.isNotEmpty){
     var code=convert.jsonDecode(response.body);
     cache.write('otp',code.toString().substring(7,13));
-  }
+    print(response.body);
+  }}
 }
 //Pro user or Basic
 /*

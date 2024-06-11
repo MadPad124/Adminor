@@ -15,9 +15,16 @@ class StartAppSplash extends StatefulWidget {
 
   @override
   State<StartAppSplash> createState() => _StartAppSplashState();
+
 }
 
 class _StartAppSplashState extends State<StartAppSplash> {
+  @override
+  void initState() {
+   getUsers();
+   getInfo(cache.read('telephone'));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
        return Scaffold(

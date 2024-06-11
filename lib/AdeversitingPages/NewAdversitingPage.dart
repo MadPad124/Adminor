@@ -372,7 +372,7 @@ class _NewAdvertisingState extends State<NewAdvertising> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(style: const TextStyle(fontFamily: 'Vazir'),keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (phoneBox2.isNotEmpty) {
+                          if (phoneBox2.isEmpty) {
                             return 'موبایل کارفرما را به درستی وارد کنید';
                           }
                           return null;

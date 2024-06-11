@@ -15,7 +15,10 @@ class _OTPScreenState extends State<OTPScreen> {
   final cache=GetStorage();
   @override
   void initState() {
-    sendOtp(cache.read('telephone'), 'otp');
+    sendOtp(cache.read('telephone'), 'otp','');
+    getInfo(cache.read('telephone'));
+    getHistory(cache.read('telephone'));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Advertising(),));
     super.initState();
   }
   TextEditingController pin1Controller=TextEditingController();
