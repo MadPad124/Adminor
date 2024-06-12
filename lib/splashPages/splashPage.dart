@@ -1,12 +1,10 @@
 
 import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/LoginPages/otp_Screen.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:adminor/api/Functions.dart';
 
 import '../LoginPages/LoginPage.dart';
 final cache = GetStorage();
@@ -19,12 +17,6 @@ class StartAppSplash extends StatefulWidget {
 }
 
 class _StartAppSplashState extends State<StartAppSplash> {
-  @override
-  void initState() {
-   getUsers();
-   getInfo(cache.read('telephone'));
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
        return Scaffold(

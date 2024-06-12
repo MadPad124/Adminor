@@ -38,6 +38,9 @@ class Advertising extends StatefulWidget {
 class _AdvertisingState extends State<Advertising> {
   @override
   void initState(){
+    if(history.isEmpty){
+      getHistory(cache.read('telephone'));
+    }
     if(cache.read('city')!='تهران'){
       if(checkedList.contains('تهران')==false){
         cities.update('تهران', (value) => false);

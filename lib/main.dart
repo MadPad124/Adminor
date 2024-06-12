@@ -1,6 +1,5 @@
 
-import 'package:adminor/AdeversitingPages/AdvertisingPage.dart';
-import 'package:adminor/LoginPages/otp_Screen.dart';
+
 import 'package:adminor/splashPages/splashPage.dart';
 /*import 'package:firebase_core/firebase_core.dart';*/
 //import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -53,7 +52,7 @@ class MyApp extends StatelessWidget {
         appBarTheme:
             const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
       ),
-      home:  StartAppSplash()
+      home:  const StartAppSplash()
     );
   }
 }
