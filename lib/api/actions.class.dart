@@ -22,8 +22,7 @@ class Acts{
   static const _userWallet = 'userWallet';
   static const _url = "https://sandoqdar.ir/connections/api/";
 
-*/
-/*  static Future init() async => _pref = await SharedPreferences.getInstance();*//*
+  static Future init() async => _pref = await SharedPreferences.getInstance();
 
 
   // Use On StarterPage
@@ -1329,4 +1328,5 @@ class Acts{
   }
   // End Shop Action
 
-}*/
+}
+*/
